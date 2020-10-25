@@ -211,7 +211,6 @@ class MessagesModel: ObservableObject, Identifiable {
                 if let documents = snapshot {
                     
                     var results = [SearchResult]()
-                    
                     for document in documents.documents {
                         
                         let data = document.data()
