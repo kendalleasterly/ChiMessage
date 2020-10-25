@@ -106,8 +106,8 @@ struct NewRoomView: View {
             convoModel.addConvo(title: title) {
                 
                 convoModel.getNewestConversation { (conversation) in
-                    let mesModel = conversation
-                    mesModel.addMessage(message: message)
+                    let messagesModel = MessagesModel(room: conversation)
+                    messagesModel.addMessage(message: message)
                     
                     presentationMode.wrappedValue.dismiss()
                 }

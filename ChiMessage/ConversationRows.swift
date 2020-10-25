@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConversationRows: View {
     
-    var convo: MessagesModel
+    var convo: Conversation
     
     var body: some View {
         

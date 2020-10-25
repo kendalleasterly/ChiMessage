@@ -18,7 +18,7 @@ struct ConversationsView: View {
         List {
             ForEach(model.conversations) {conversation in
                 
-                NavigationLink(destination: MessageView(model: model, id: conversation.id), label: {ConversationRows(convo: conversation)})
+                NavigationLink(destination: MessageView(model: MessagesModel(room: conversation), id: conversation.id), label: {ConversationRows(convo: conversation)})
                 
             }
         }.sheet(isPresented: $isShowingNewMessageView) {

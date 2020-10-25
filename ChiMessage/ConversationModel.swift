@@ -15,7 +15,7 @@ class ConversationModel: ObservableObject {
     
     var db: Firestore!
     @ObservedObject var userModel: UserModel
-    @Published var conversations = [MessagesModel]()
+    @Published var conversations = [Conversation]()
     var mc = ColorStrings()
     
     init(userModel: UserModel) {
@@ -41,7 +41,7 @@ class ConversationModel: ObservableObject {
                 return
             }
             
-            var conversationArray = [MessagesModel]()
+            var conversationArray = [Conversation]()
             
             for document in conversatons.documents {
                 
@@ -92,7 +92,7 @@ class ConversationModel: ObservableObject {
         GIDSignIn.sharedInstance()?.signOut()
     }
     
-    func getNewestConversation(handler: @escaping (MessagesModel) -> Void) {
+    func getNewestConversation(handler: @escaping (Conversation) -> Void) {
         
         db.collection("rooms").order(by: "created", descending: true).getDocuments { (snapshot, error) in
             if let documents = snapshot {
@@ -108,7 +108,7 @@ class ConversationModel: ObservableObject {
         }
     }
     
-    func getConversationFrom(document: QueryDocumentSnapshot) -> MessagesModel  {
+    func getConversationFrom(document: QueryDocumentSnapshot) -> Conversation  {
         
         let messagesPath = document.reference.collection("messages")
         let name = document.data()["name"] as! String
@@ -116,14 +116,11 @@ class ConversationModel: ObservableObject {
         let names = document.data()["names"] as! [String : String]
         let userIDs = document.data()["users"] as! [String]
         
-        let conversation = MessagesModel(id: document.documentID,
-                                          messagesPath: messagesPath,
-                                          name: name,
-                                          people: [ChiUser](),
-                                          nameSummary: "")
-        
-//        var conversation = Conversation(id: document.documentID, mm: messagesModel)
-        
+        var conversation = Conversation(id: document.documentID,
+                                        messagesPath: messagesPath,
+                                        name: name,
+                                        people: [ChiUser](),
+                                        nameSummary: "")
         
         for id in userIDs {
             
@@ -207,24 +204,26 @@ class ConversationModel: ObservableObject {
         
     }
     
-    func getConversationFromId(id: String) ->  MessagesModel! {
-        
-        for convo in self.conversations {
-            
-            if convo.id == id {
-                return convo
-            }
-            
-        }
-        
-        return nil
-    }
+//    func getConversationFromId(id: String) ->  Conversation {
+//
+//        for convo in self.conversations {
+//
+//            if convo.id == id {
+//                return convo
+//            }
+//
+//        }
+//
+//        return nil
+//    }
     
 }
 
 struct Conversation: Identifiable {
     
     var id: String
-    var mm: MessagesModel
-    
+    var messagesPath: CollectionReference
+    var name: String
+    var people: [ChiUser]
+    var nameSummary: String
 }

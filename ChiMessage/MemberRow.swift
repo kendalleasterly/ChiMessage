@@ -47,7 +47,7 @@ struct MemberRow: View {
                         .foregroundColor(user.getColorFrom(color: color))
                 }
                 NavigationLink(destination: EditContactView(user: user,
-                                                            convoID:self.model.id,
+                                                            convoID:self.model.room.id,
                                                             model: self.model, selection: color,
                                                             name: user.name),
                                isActive: $isShowingEditContact,

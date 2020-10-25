@@ -16,28 +16,19 @@ class MessagesModel: ObservableObject, Identifiable {
     @Published var searchResults = [SearchResult]()
     var mc = ColorStrings()
     var db: Firestore!
+    @Published var room: Conversation
     
-    //Conversation Properties
-    var id: String
-    var messagesPath: CollectionReference
-    var name: String
-    @Published var people: [ChiUser]
-    var nameSummary: String
     
-    init(id: String, messagesPath: CollectionReference, name: String, people: [ChiUser], nameSummary: String) {
+    init(room: Conversation) {
         
-        self.id = id
-        self.messagesPath = messagesPath
-        self.name = name
-        self.people = people
-        self.nameSummary = nameSummary
+        self.room = room
         
         let settings = FirestoreSettings()
         Firestore.firestore().settings = settings
         
         db = Firestore.firestore()
         
-        self.addListener(collection: self.messagesPath)
+        self.addListener(collection: room.messagesPath)
         
     }
     
@@ -71,7 +62,7 @@ class MessagesModel: ObservableObject, Identifiable {
                 self.getChiUserFromID(id: senderID) { (user) in
                     
                     if let colors = user.colors {
-                        if let color = colors[self.id] {
+                        if let color = colors[self.room.id] {
                             messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.first, color: user.getColorFrom(color: color), isUsers: isUsers, index: messageArray.count))
                         } else {
                             //this one and the next one do the same, they are repeated because there can be rooms but this one may not be included
@@ -112,7 +103,7 @@ class MessagesModel: ObservableObject, Identifiable {
     
     func getChiUserFromID(id: String, handler: (ChiUser) -> Void) {
         
-        for user in people {
+        for user in room.people {
             
             if user.id == id {
                 handler(user)
@@ -135,12 +126,12 @@ class MessagesModel: ObservableObject, Identifiable {
     func addMessage(message: String) {
         print("add message being called")
         if message != "" {
-            let dbRef = self.messagesPath
+            let dbRef = self.room.messagesPath
             let date = Date().description
             
             if let currentUser = Auth.auth().currentUser {
                 dbRef.document(date).setData(["message": message, "sender ID": currentUser.uid])
-                db.collection("rooms").document(self.id).setData(["lastMessage":Date().timeIntervalSince1970], merge: true)
+                db.collection("rooms").document(self.room.id).setData(["lastMessage":Date().timeIntervalSince1970], merge: true)
                 
             } else {
                 print("current user couldn't be used")
@@ -151,7 +142,7 @@ class MessagesModel: ObservableObject, Identifiable {
     
     func addUser(userID: String, name: String) {
         
-        let roomPath = db.collection("rooms").document(id)
+        let roomPath = db.collection("rooms").document(room.id)
         
         roomPath.getDocument(completion: { (snapshot, error) in
             if let document = snapshot {
@@ -171,13 +162,13 @@ class MessagesModel: ObservableObject, Identifiable {
     
     func removeUser(user: ChiUser) {
         
-        db.collection("rooms").document(id).updateData(["users":FieldValue.arrayRemove([user.id])])
+        db.collection("rooms").document(room.id).updateData(["users":FieldValue.arrayRemove([user.id])])
         
     }
     
     func changeName(to name: String) {
         
-        db.collection("rooms").document(id).updateData(["name":name])
+        db.collection("rooms").document(room.id).updateData(["name":name])
         
     }
     
@@ -211,6 +202,7 @@ class MessagesModel: ObservableObject, Identifiable {
                 if let documents = snapshot {
                     
                     var results = [SearchResult]()
+                    
                     for document in documents.documents {
                         
                         let data = document.data()

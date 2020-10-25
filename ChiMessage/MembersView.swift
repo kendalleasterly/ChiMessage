@@ -20,8 +20,8 @@ struct MembersView: View {
             ScrollView {
                 
                 VStack{
-                    TextField("Room Name", text: $model.name) { (changing) in} onCommit: {
-                        model.changeName(to: model.name)
+                    TextField("Room Name", text: $model.room.name) { (changing) in} onCommit: {
+                        model.changeName(to: model.room.name)
                     }
                     .font(.system(size: 34, weight: .bold))
                     .multilineTextAlignment(.center)
@@ -29,7 +29,7 @@ struct MembersView: View {
                     
                     Divider()
                     
-                    ForEach(model.people) {user in
+                    ForEach(model.room.people) {user in
                         
                         MemberRow(user: user, color: getUserColorFromUser(user: user), model: model)
                             .padding(.vertical, 15)
@@ -75,7 +75,7 @@ struct MembersView: View {
                                 
                                 var groupIDs = [String]()
                                 
-                                for person in model.people {
+                                for person in model.room.people {
                                     groupIDs.append(person.id)
                                 }
                                 model.searchForUser(user: value, groupIDs: groupIDs)
@@ -104,7 +104,7 @@ struct MembersView: View {
                     
                 }.padding(.horizontal)
                 
-            }.onChange(of: model.people, perform: { (value) in
+            }.onChange(of: model.room.people, perform: { (value) in
                 print(value)
             })
             .navigationBarHidden(true)
@@ -116,7 +116,7 @@ struct MembersView: View {
     func getUserColorFromUser(user: ChiUser) -> String {
         
         if let colors = user.colors {
-            if let color = colors[self.model.id] {
+            if let color = colors[self.model.room.id] {
                 
                 return color
             } else {

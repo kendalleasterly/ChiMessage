@@ -11,7 +11,7 @@ import SwiftUI
 struct MessageView: View {
     
     @Environment (\.self.presentationMode) var presentationMode
-    @ObservedObject var model: ConversationModel
+    @ObservedObject var model: MessagesModel
     @State var message = ""
     @State var isShowingUsersView = false
     //    @State var updater = 0
@@ -28,7 +28,7 @@ struct MessageView: View {
                         
                         ScrollView{
                             
-                            ForEach(model.getConversationFromId(id: id).messages) {thread in
+                            ForEach(model.messages) {thread in
                                 
                                 if thread.array[0].isUsers {
                                     UserMessageRow(message: thread)
@@ -36,18 +36,18 @@ struct MessageView: View {
                                     RecipientMessageRow(message: thread)
                                 }
                             }
-                        }.onChange(of: model.getConversationFromId(id: id).messages) { (value) in
-                            if !model.getConversationFromId(id: id).messages.isEmpty {
-                                proxy.scrollTo(model.getConversationFromId(id: id).messages.last!.id)
+                        }.onChange(of: model.messages) { (value) in
+                            if !model.messages.isEmpty {
+                                proxy.scrollTo(model.messages.last!.id)
                             } else {
                                 print("messages were empty, so I didn't scroll")
                             }
                         }.padding(.vertical)
                         HStack {
                             TextField("chimessage", text: $message) { (changing) in
-                                withAnimation {proxy.scrollTo(model.getConversationFromId(id: id).messages.last!.id) }
+                                withAnimation {proxy.scrollTo(model.messages.last!.id) }
                             } onCommit: {
-                                model.getConversationFromId(id: id).addMessage(message: message)
+                                model.addMessage(message: message)
                                 message = ""
                                 
                             }.padding(.horizontal, 30)
@@ -57,13 +57,13 @@ struct MessageView: View {
                                 self.hideKeyboard()
                             }))
                             .gesture(TapGesture().onEnded({ nothing in
-                                withAnimation {proxy.scrollTo(model.getConversationFromId(id: id).messages.last!.id) }
+                                withAnimation {proxy.scrollTo(model.messages.last!.id) }
                             }))
                             .accentColor((Color(UIColor(red: 237 / 255, green: 241 / 255, blue: 241 / 255, alpha: 1.0))))
                             
                             Button {
                                 
-                                model.getConversationFromId(id: id).addMessage(message: message)
+                                model.addMessage(message: message)
                                 self.message = ""
                                 
                             } label: {
@@ -78,7 +78,7 @@ struct MessageView: View {
                                         .font(.system(size: 40.0)) }
                                 }
                                 
-                            }.accentColor(getUserColorFromUser(user: model.getConversationFromId(id: id).getMyChiUser()))
+                            }.accentColor(getUserColorFromUser(user: model.getMyChiUser()))
                         }
                         .padding(.bottom, 5)
                     }//end of bottommost vstack for all sending content
@@ -119,13 +119,13 @@ struct MessageView: View {
                                             
                                             //Content
                                             
-                                            Text(model.getConversationFromId(id: id).name[0].uppercased())
+                                            Text(model.room.name[0].uppercased())
                                                 .font(.system(size: 22, weight: .bold))
                                             
                                         }
                                         
                                         //Name
-                                        Text(model.getConversationFromId(id: id).name)
+                                        Text(model.room.name)
                                             .font(.system(size: 28, weight: .bold))
                                             .multilineTextAlignment(.center)
                                         
@@ -151,7 +151,7 @@ struct MessageView: View {
                                 }
                                 //People
                                 
-                                Text(model.getConversationFromId(id: id).nameSummary)
+                                Text(model.room.nameSummary)
                                 
                                 Spacer()
                             }//end of vstack for all the content in top bar
@@ -167,7 +167,7 @@ struct MessageView: View {
                     
                 }//end of main Zstack
                 .onAppear {
-                    proxy.scrollTo(model.getConversationFromId(id: id).messages.last!.id)
+                    proxy.scrollTo(model.messages.last!.id)
                 }
                 //                .onChange(of: model.getConversationFromId(id: id).people) { (value) in
                 //                    self.updater = Int.random(in: 1...100)
@@ -178,7 +178,7 @@ struct MessageView: View {
         .navigationTitle(Text(""))
         .navigationBarHidden(true)
         .sheet(isPresented: $isShowingUsersView) {
-            MembersView(model: model.getConversationFromId(id: id))
+            MembersView(model: model)
         }
         
     }//End of main body
@@ -186,7 +186,7 @@ struct MessageView: View {
     func getUserColorFromUser(user: ChiUser) -> Color {
         
         if let colors = user.colors {
-            if let color = colors[self.model.getConversationFromId(id: id).id] {
+            if let color = colors[self.model.room.id] {
                 
                 return user.getColorFrom(color: color)
             } else {
