@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelagate
         
-        let contentView = AuthView(navModel: googleDelegate.navModel, googleDeleage: googleDelegate)
+        let contentView = AuthView(googleDeleage: googleDelegate).environmentObject(googleDelegate.navModel)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

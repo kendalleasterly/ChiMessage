@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MembersView: View {
     
-    @ObservedObject var model: MessagesModel
-    @State var users = [ChiUser]()
+    @EnvironmentObject var model: MessagesModel
+    @EnvironmentObject var conversationModel: ConversationModel
     @State var isShowingAddUsers = false
     @State var newUser = ""
     
@@ -31,7 +31,7 @@ struct MembersView: View {
                     
                     ForEach(model.room.people) {user in
                         
-                        MemberRow(user: user, color: getUserColorFromUser(user: user), model: model)
+                        MemberRow(user: user, color: getUserColorFromUser(user: user))
                             .padding(.vertical, 15)
                         
                     }
@@ -102,6 +102,8 @@ struct MembersView: View {
                     }
                     Spacer()
                     
+                    
+                    
                 }.padding(.horizontal)
                 
             }.onChange(of: model.room.people, perform: { (value) in
@@ -136,7 +138,7 @@ struct EditContactView:View {
     var user: ChiUser
     var cs = ColorStrings()
     var convoID: String
-    @State var model: MessagesModel
+    @EnvironmentObject var model: MessagesModel
     @State var selection: String
     @State var isChatOnly = true
     @State var name: String

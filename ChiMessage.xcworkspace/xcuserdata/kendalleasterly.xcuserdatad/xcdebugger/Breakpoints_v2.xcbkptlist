@@ -7,59 +7,27 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E2B809CF-A205-4567-9508-2AA3914A4A47"
+            uuid = "20D11C90-4CD8-4525-9523-294ACB010FAD"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ChiMessage/ConversationsView.swift"
+            filePath = "ChiMessage/MembersView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "E2B809CF-A205-4567-9508-2AA3914A4A47 - 2da230109197c72f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (ChiMessage.MessagesModel) -&gt; SwiftUI.NavigationLink&lt;ChiMessage.ConversationRows, ChiMessage.MessageView&gt; in closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;ChiMessage.MessagesModel&gt;, Swift.String, SwiftUI.NavigationLink&lt;ChiMessage.ConversationRows, ChiMessage.MessageView&gt;&gt; in ChiMessage.ConversationsView.body.getter : some"
-                  moduleName = "ChiMessage"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/ConversationsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "472">
-               </Location>
-               <Location
-                  uuid = "E2B809CF-A205-4567-9508-2AA3914A4A47 - 180760da0c3d60f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; ChiMessage.ConversationRows in closure #1 (ChiMessage.MessagesModel) -&gt; SwiftUI.NavigationLink&lt;ChiMessage.ConversationRows, ChiMessage.MessageView&gt; in closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;ChiMessage.MessagesModel&gt;, Swift.String, SwiftUI.NavigationLink&lt;ChiMessage.ConversationRows, ChiMessage.MessageView&gt;&gt; in ChiMessage.ConversationsView.body.getter : some"
-                  moduleName = "ChiMessage"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/ConversationsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "530907D0-8191-4118-A1F7-07046C68E28B"
-            shouldBeEnabled = "No"
+            uuid = "E47F6F51-DADB-45E7-857F-E3E236A5BB65"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ChiMessage/MessageView.swift"
+            filePath = "ChiMessage/ConversationsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
@@ -68,100 +36,51 @@
             landmarkType = "24">
             <Locations>
                <Location
-                  uuid = "530907D0-8191-4118-A1F7-07046C68E28B - c8bc0b10d4fb0565"
+                  uuid = "E47F6F51-DADB-45E7-857F-E3E236A5BB65 - 4332d1ecbc838b05"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (SwiftUI.ScrollViewProxy) -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.onChange&lt;A where A1: Swift.Equatable&gt;(of: A1, perform: (A1) -&gt; ()) -&gt; some&gt;&gt;.0 in closure #1 (SwiftUI.GeometryProxy) -&gt; SwiftUI.ScrollViewReader&lt;&lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.onChange&lt;A where A1: Swift.Equatable&gt;(of: A1, perform: (A1) -&gt; ()) -&gt; some&gt;&gt;.0&gt; in ChiMessage.MessageView.body.getter : some"
+                  symbolName = "ChiMessage.ConversationsView.body.getter : some"
                   moduleName = "ChiMessage"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/MessageView.swift"
+                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/ConversationsView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "24"
-                  endingLineNumber = "24"
-                  offsetFromSymbolStart = "1004">
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "1252">
                </Location>
                <Location
-                  uuid = "530907D0-8191-4118-A1F7-07046C68E28B - 93dd6c8d25a5f591"
+                  uuid = "E47F6F51-DADB-45E7-857F-E3E236A5BB65 - a52e492b2145bed2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(SwiftUI.ZStack&lt;SwiftUI.TupleView&lt;(SwiftUI.VStack&lt;SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.edgesIgnoringSafeArea(SwiftUI.Edge.Set) -&gt; some&gt;&gt;.0, SwiftUI.Spacer)&gt;&gt;, &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.onTapGesture(count: Swift.Int, perform: () -&gt; ()) -&gt; some&gt;&gt;.0)&gt;&gt;, SwiftUI.Spacer)&gt;&gt;)&gt; in closure #1 (SwiftUI.ScrollViewProxy) -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.onChange&lt;A where A1: Swift.Equatable&gt;(of: A1, perform: (A1) -&gt; ()) -&gt; some&gt;&gt;.0 in closure #1 (SwiftUI.GeometryProxy) -&gt; SwiftUI.ScrollViewReader&lt;&lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.onChange&lt;A where A1: Swift.Equatable&gt;(of: A1, perform: (A1) -&gt; ()) -&gt; some&gt;&gt;.0&gt; in ChiMessage.MessageView.body.getter : some"
+                  symbolName = "closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;ChiMessage.Conversation&gt;, Swift.String, SwiftUI.NavigationLink&lt;ChiMessage.ConversationRows, ChiMessage.MessageView&gt;&gt; in ChiMessage.ConversationsView.body.getter : some"
                   moduleName = "ChiMessage"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/MessageView.swift"
+                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/ConversationsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "792">
+               </Location>
+               <Location
+                  uuid = "E47F6F51-DADB-45E7-857F-E3E236A5BB65 - 227d00d9c5a1cedd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; ChiMessage.NewRoomView in ChiMessage.ConversationsView.body.getter : some"
+                  moduleName = "ChiMessage"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/ConversationsView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "26"
                   endingLineNumber = "26"
-                  offsetFromSymbolStart = "1028">
+                  offsetFromSymbolStart = "288">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "02B3521C-BCA4-4130-A8B7-0DADAC366BFC"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChiMessage/MembersView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "02B3521C-BCA4-4130-A8B7-0DADAC366BFC - 7fc5fb450035b28f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ChiMessage.MembersView.body.getter : some"
-                  moduleName = "ChiMessage"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/MembersView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "19"
-                  endingLineNumber = "19"
-                  offsetFromSymbolStart = "656">
-               </Location>
-               <Location
-                  uuid = "02B3521C-BCA4-4130-A8B7-0DADAC366BFC - 3e7defefe5e9431"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; &lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.background&lt;A where A1: SwiftUI.View&gt;(_: A1, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0 in ChiMessage.MembersView.body.getter : some"
-                  moduleName = "ChiMessage"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kendalleasterly/Desktop/ChiMessage/ChiMessage/MembersView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "912">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "20D11C90-4CD8-4525-9523-294ACB010FAD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChiMessage/MembersView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "body"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

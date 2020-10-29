@@ -10,7 +10,7 @@ import GoogleSignIn
 
 struct AuthView: View {
     
-    @ObservedObject var navModel: NavigationModel
+    @EnvironmentObject var navModel: NavigationModel
     @ObservedObject var userModel = UserModel()
     @ObservedObject var googleDeleage: GoogleDelagate
     
@@ -30,7 +30,7 @@ struct AuthView: View {
                     } else {
                         
                         NavigationLink(
-                            destination: ConversationsView(model: ConversationModel(userModel: userModel), navModel: navModel),
+                            destination: ConversationsView().environmentObject(ConversationModel(userModel: userModel)),
                             isActive: $navModel.conversationLinkActive,
                             label: { EmptyView() })
                     }

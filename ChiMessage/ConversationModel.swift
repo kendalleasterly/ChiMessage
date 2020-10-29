@@ -17,6 +17,8 @@ class ConversationModel: ObservableObject {
     @ObservedObject var userModel: UserModel
     @Published var conversations = [Conversation]()
     var mc = ColorStrings()
+    var listenerModel = ListenerModel()
+    var conversationListener: ListenerRegistration?
     
     init(userModel: UserModel) {
         
@@ -27,39 +29,53 @@ class ConversationModel: ObservableObject {
         
         db = Firestore.firestore()
         
-        conversationListeners()
+        self.conversationListener = listenerModel.conversationsListener(handler: { (conversations) in
+            self.conversations = conversations
+            self.useContacts()
+            
+            print("there are \(conversations.count) conversations")
+        })
+        
+        print("conversation model has been initialized")
     }
     
-    func conversationListeners() {
+    func useContacts() {
         
-        let conversationsRef = db.collection("rooms").order(by: "lastMessage", descending: true)
-        
-        conversationsRef.whereField("users", arrayContains: Auth.auth().currentUser?.uid).addSnapshotListener { (snapshot, error) in
-            print("conversation listener is running")
-            guard let conversatons = snapshot else {
-                print("no current conversations \(error?.localizedDescription)")
-                return
-            }
+        var conversationArray = self.conversations
+        print("there are onlly \(conversationArray.count) conversations here)")
+        for conversation in conversationArray {
+            var count = 0
+            var funcConversation = conversation
             
-            var conversationArray = [Conversation]()
-            
-            for document in conversatons.documents {
+            for user in conversation.people {
+                var funcUser = user
                 
-                let conversation = self.getConversationFrom(document: document)
+                let contact = getContactFromID(id: funcUser.id)
                 
-                for convo in conversationArray {
-                    if convo.id == conversation.id {
-                        return
+                if contact.id != "" {
+                    //we already have a contact for the user we're loading
+                    funcConversation.people.removeLast()
+                    
+                    funcUser.colors = contact.colors
+                    funcUser.name = contact.name
+                    if let color = contact.defaultColor {
+                        funcUser.color = color
+                        
                     }
+                    
+                    funcUser.cColor = funcUser.getColorFrom(color: user.color)
+                    funcUser.first = funcUser.getFirst(from: user.name) + ""
+                    funcConversation.people.append(user)
                 }
                 
-                conversationArray.append(conversation)
             }
-            
-            self.conversations = conversationArray
-            print("conversation model published to conversations")
-            
+            if !conversationArray.contains(funcConversation) {
+                conversationArray.append(funcConversation)
+            }
         }
+        print("before appending, conversations array has \(conversationArray.count)")
+        self.conversations = conversationArray
+        print("after appending, conversations array has \(conversationArray.count)")
     }
     
     func addConvo(title: String, handler: @escaping () -> Void) {
@@ -203,23 +219,9 @@ class ConversationModel: ObservableObject {
         return contact
         
     }
-    
-//    func getConversationFromId(id: String) ->  Conversation {
-//
-//        for convo in self.conversations {
-//
-//            if convo.id == id {
-//                return convo
-//            }
-//
-//        }
-//
-//        return nil
-//    }
-    
 }
 
-struct Conversation: Identifiable {
+struct Conversation: Identifiable, Equatable {
     
     var id: String
     var messagesPath: CollectionReference

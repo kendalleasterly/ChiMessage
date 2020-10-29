@@ -17,11 +17,12 @@ class MessagesModel: ObservableObject, Identifiable {
     var mc = ColorStrings()
     var db: Firestore!
     @Published var room: Conversation
+    @ObservedObject var convoModel: ConversationModel
     
-    
-    init(room: Conversation) {
+    init(room: Conversation, convoModel: ConversationModel) {
         
         self.room = room
+        self.convoModel = convoModel
         
         let settings = FirestoreSettings()
         Firestore.firestore().settings = settings
@@ -29,16 +30,15 @@ class MessagesModel: ObservableObject, Identifiable {
         db = Firestore.firestore()
         
         self.addListener(collection: room.messagesPath)
-        
+        print("messages model was initialized")
     }
     
     func addListener(collection: CollectionReference) {
         
-        
         let ref = collection
         
         ref.addSnapshotListener { (snapshot, error) in
-            
+            print("messages listener was triggered")
             guard let documents = snapshot?.documents else {
                 
                 print("documents couldn't be fetched \(error!)")
@@ -82,7 +82,7 @@ class MessagesModel: ObservableObject, Identifiable {
                 //find out if the last value in the thread array has the same senderID as this message
                 if threadArray.last?.senderID == message.userID {
                     //If it does, just append this message to the array in the last thread
-                    //                    threadArray.last?.array.append(message)
+                    
                     if var last = threadArray.last {
                         
                         last.array.append(message)
@@ -97,18 +97,33 @@ class MessagesModel: ObservableObject, Identifiable {
             }
             
             self.messages = threadArray
-            print("messages model published to messages")
+            print("messages model caputured data")
+//            print(threadArray)
+            
+        }
+    }
+    
+    func getUpdatedConversation(handler: (Conversation) -> Void) {
+        
+        for conversation in convoModel.conversations {
+            
+            if conversation.id == self.room.id {
+                handler(conversation)
+            }
         }
     }
     
     func getChiUserFromID(id: String, handler: (ChiUser) -> Void) {
         
-        for user in room.people {
-            
-            if user.id == id {
-                handler(user)
+        getUpdatedConversation { (conversation) in
+            for user in conversation.people {
+                
+                if user.id == id {
+                    handler(user)
+                }
             }
         }
+        
     }
     
     func getMyChiUser() -> ChiUser {

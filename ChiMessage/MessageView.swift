@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
-//import GoogleSignIn
 
 struct MessageView: View {
     
     @Environment (\.self.presentationMode) var presentationMode
     @ObservedObject var model: MessagesModel
+    @ObservedObject var conversationModel: ConversationModel
     @State var message = ""
     @State var isShowingUsersView = false
-    //    @State var updater = 0
-    var id: String
+    
+    init(convo: Conversation, conversationModel: ConversationModel) {
+        let model = MessagesModel(room: convo, convoModel: conversationModel)
+        self.model = model
+        self.conversationModel = conversationModel
+        print("message view being initialized")
+    }
     
     //TODO: make an option how to sort. Right now its automatically by the last message, but I've also creted a property in each room that tells when it was created.
     var body: some View {
@@ -79,11 +84,20 @@ struct MessageView: View {
                                 }
                                 
                             }.accentColor(getUserColorFromUser(user: model.getMyChiUser()))
+                            
                         }
                         .padding(.bottom, 5)
+                        
+                        NavigationLink(destination: MembersView().environmentObject(model), isActive: $isShowingUsersView) {
+                            EmptyView()
+                        }
+                        
+                        Text(conversationModel.conversations.description).hidden()
+                        
                     }//end of bottommost vstack for all sending content
                     .padding(.horizontal)
                     .padding(.top, 80)
+                    
                     
                     //Top Bar, vstack for spacing
                     VStack {
@@ -177,9 +191,6 @@ struct MessageView: View {
         }//End of geometry reader
         .navigationTitle(Text(""))
         .navigationBarHidden(true)
-        .sheet(isPresented: $isShowingUsersView) {
-            MembersView(model: model)
-        }
         
     }//End of main body
     
