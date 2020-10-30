@@ -6,19 +6,17 @@
 //
 
 import SwiftUI
-import Firebase
 import FirebaseFirestore
 import GoogleSignIn
 import FirebaseAuth
 
 class ConversationModel: ObservableObject {
     
-    var db: Firestore!
     @ObservedObject var userModel: UserModel
     @Published var conversations = [Conversation]()
+    
+    var db: Firestore!
     var mc = ColorStrings()
-    var listenerModel = ListenerModel()
-    var conversationListener: ListenerRegistration?
     
     init(userModel: UserModel) {
         
@@ -29,55 +27,61 @@ class ConversationModel: ObservableObject {
         
         db = Firestore.firestore()
         
-        self.conversationListener = listenerModel.conversationsListener(handler: { (conversations) in
-            self.conversations = conversations
-            self.useContacts()
-            
-            print("there are \(conversations.count) conversations")
-        })
+        listen()
         
-        print("conversation model has been initialized")
     }
     
-    func useContacts() {
+    //MARK: -Getting Conversations
+    private func listen() {
         
-        var conversationArray = self.conversations
-        print("there are onlly \(conversationArray.count) conversations here)")
-        for conversation in conversationArray {
-            var count = 0
-            var funcConversation = conversation
-            
-            for user in conversation.people {
-                var funcUser = user
+        let conversationsRef = db.collection("rooms").order(by: "lastMessage", descending: true)
+        
+        if let profile = Auth.auth().currentUser {
+            conversationsRef.whereField("users", arrayContains: profile.uid).addSnapshotListener { (snapshot, error) in
                 
-                let contact = getContactFromID(id: funcUser.id)
-                
-                if contact.id != "" {
-                    //we already have a contact for the user we're loading
-                    funcConversation.people.removeLast()
-                    
-                    funcUser.colors = contact.colors
-                    funcUser.name = contact.name
-                    if let color = contact.defaultColor {
-                        funcUser.color = color
-                        
-                    }
-                    
-                    funcUser.cColor = funcUser.getColorFrom(color: user.color)
-                    funcUser.first = funcUser.getFirst(from: user.name) + ""
-                    funcConversation.people.append(user)
+                guard let conversatons = snapshot else {
+                    print("no current conversations ")
+                    return
                 }
                 
-            }
-            if !conversationArray.contains(funcConversation) {
-                conversationArray.append(funcConversation)
+                var conversationArray = [Conversation]()
+                
+                for document in conversatons.documents {
+                    
+                    let conversation = self.getConversationFrom(document: document)
+                    
+                    for convo in conversationArray {
+                        if convo.id == conversation.id {
+                            return
+                        }
+                    }
+                    
+                    conversationArray.append(conversation)
+                }
+                
+                self.conversations = conversationArray
+                
             }
         }
-        print("before appending, conversations array has \(conversationArray.count)")
-        self.conversations = conversationArray
-        print("after appending, conversations array has \(conversationArray.count)")
     }
     
+    func getNewestConversation(handler: @escaping (Conversation) -> Void) {
+        
+        db.collection("rooms").order(by: "created", descending: true).getDocuments { (snapshot, error) in
+            if let documents = snapshot {
+                
+                for document in documents.documents {
+                    
+                    handler(self.getConversationFrom(document: document))
+                    
+                }
+            } else {
+                print("error getting newestconversation")
+            }
+        }
+    }
+    
+    //MARK: -Creating Conversations
     func addConvo(title: String, handler: @escaping () -> Void) {
         
         guard let profile = GIDSignIn.sharedInstance().currentUser.profile else {
@@ -98,33 +102,19 @@ class ConversationModel: ObservableObject {
                 
                 handler()
             } else {
-                print("there was an error adding conversation \(error)")
+                print("there was an error adding conversation")
             }
         }
     }
     
+    //MARK: -Misc.
     func signOut() {
         
         GIDSignIn.sharedInstance()?.signOut()
     }
     
-    func getNewestConversation(handler: @escaping (Conversation) -> Void) {
-        
-        db.collection("rooms").order(by: "created", descending: true).getDocuments { (snapshot, error) in
-            if let documents = snapshot {
-                
-                for document in documents.documents {
-                    
-                    handler(self.getConversationFrom(document: document))
-                    
-                }
-            } else {
-                print("error getting newestconversation")
-            }
-        }
-    }
-    
-    func getConversationFrom(document: QueryDocumentSnapshot) -> Conversation  {
+    //MARK: -Helper Functions
+    private func getConversationFrom(document: QueryDocumentSnapshot) -> Conversation  {
         
         let messagesPath = document.reference.collection("messages")
         let name = document.data()["name"] as! String
@@ -132,11 +122,12 @@ class ConversationModel: ObservableObject {
         let names = document.data()["names"] as! [String : String]
         let userIDs = document.data()["users"] as! [String]
         
-        var conversation = Conversation(id: document.documentID,
+        let conversation = Conversation(id: document.documentID,
                                         messagesPath: messagesPath,
                                         name: name,
                                         people: [ChiUser](),
-                                        nameSummary: "")
+                                        nameSummary: "",
+                                        date: Date())
         
         for id in userIDs {
             
@@ -170,6 +161,7 @@ class ConversationModel: ObservableObject {
             
             if contact.id != "" {
                 //we already have a contact for the user we're loading
+                
                 conversation.people.removeLast()
                 
                 user.colors = contact.colors
@@ -205,7 +197,7 @@ class ConversationModel: ObservableObject {
         return conversation
     }
     
-    func getContactFromID(id: String) -> Contact {
+    private func getContactFromID(id: String) -> Contact {
         
         let contact = Contact(id: "", name: "", defaultColor: "", colors: [String:String]())
         
@@ -221,11 +213,112 @@ class ConversationModel: ObservableObject {
     }
 }
 
-struct Conversation: Identifiable, Equatable {
+class Conversation: Identifiable {
     
     var id: String
     var messagesPath: CollectionReference
     var name: String
     var people: [ChiUser]
     var nameSummary: String
+    var date: Date
+    
+    init(id: String, messagesPath: CollectionReference, name: String, people: [ChiUser], nameSummary: String, date: Date) {
+        
+        self.id = id
+        self.messagesPath = messagesPath
+        self.name = name
+        self.people = people
+        self.nameSummary = nameSummary
+        self.date = date
+        
+    }
+    
+}
+
+struct ChiUser: Identifiable, Hashable {
+    
+    var id: String
+    var name: String
+    var color: String
+    var colors: [String:String]?
+    var cColor = Color.white
+    var first = ""
+    
+    init(id: String, color: String, name: String, colors: [String:String]?) {
+        
+        self.id = id
+        self.color = color
+        self.name = name
+        self.colors = colors
+        
+        self.cColor = getColorFrom(color: color)
+    }
+    
+    func getFirst(from name: String) -> String.SubSequence {
+        
+        if name != "" {
+            let funcFirst = name.split(separator: " ")[0]
+            return funcFirst
+        } else {
+            return "?"
+        }
+    }
+    
+    func getColorFrom(color: String) -> Color {
+        
+        let cf = ContentView().cf()
+        let cs = ColorStrings()
+        
+        switch color {
+        
+        case cs.maroon:
+            return cf.maroon
+        case cs.red:
+            return cf.red
+        case cs.orange:
+            return cf.orange
+        case cs.yellow:
+            return cf.yellow
+        case cs.lime:
+            return cf.lime
+        case cs.forestGreen:
+            return cf.forestGreen
+        case cs.green:
+            return cf.green
+        case cs.mint:
+            return cf.mint
+        case cs.skyBlue:
+            return cf.skyBlue
+        case cs.ice:
+            return cf.ice
+        case cs.teal:
+            return cf.teal
+        case cs.navyBlue:
+            return cf.navyBlue
+        case cs.blue:
+            return cf.blue
+        case cs.purple:
+            return cf.purple
+        case cs.magenta:
+            return cf.magenta
+        case cs.pink:
+            return cf.pink
+        case cs.plum:
+            return cf.plum
+        case cs.brown:
+            return cf.brown
+        case cs.coffe:
+            return cf.coffe
+        case cs.sand:
+            return cf.sand
+        case cs.grey:
+            return cf.grey
+        case cs.darkGrey:
+            return cf.darkGrey
+        case cs.black:
+            return cf.black
+        default:
+            return cf.black
+        }
+    }
 }

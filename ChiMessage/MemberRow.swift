@@ -9,10 +9,11 @@ import SwiftUI
 
 struct MemberRow: View {
     
+    @ObservedObject var model: MessagesModel
     @State var isShowingEditContact = false
     @State var user: ChiUser
+    
     let color: String
-    @EnvironmentObject var model: MessagesModel
     
     var body: some View {
         
@@ -48,7 +49,7 @@ struct MemberRow: View {
                 }
                 NavigationLink(destination: EditContactView(user: user,
                                                             convoID:self.model.room.id,
-                                                            selection: color,
+                                                            model: self.model, selection: color,
                                                             name: user.name),
                                isActive: $isShowingEditContact,
                                label: {EmptyView()})

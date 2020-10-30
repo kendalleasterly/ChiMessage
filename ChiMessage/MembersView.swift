@@ -9,39 +9,57 @@ import SwiftUI
 
 struct MembersView: View {
     
+    @Environment (\.self.presentationMode) var presentationMode
     @EnvironmentObject var model: MessagesModel
-    @EnvironmentObject var conversationModel: ConversationModel
-    @State var isShowingAddUsers = false
+    @State var users = [ChiUser]()
+    @State var isShowingAddUsers: Double = 0
     @State var newUser = ""
     
     var body: some View {
-        
-        NavigationView{
+        ScrollViewReader{ reader in
             ScrollView {
                 
                 VStack{
-                    TextField("Room Name", text: $model.room.name) { (changing) in} onCommit: {
-                        model.changeName(to: model.room.name)
+                    ZStack{
+                        TextField("Room Name", text: $model.room.name) { (changing) in} onCommit: {
+                            model.changeName(to: model.room.name)
+                        }
+                        .font(.system(size: 34, weight: .bold))
+                        .multilineTextAlignment(.center)
+                        .padding(40)
+                        
+                        HStack{
+                            Button {
+                                self.presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Text("back")
+                            }
+                            
+                            
+                            Spacer()
+                        }
+                        
                     }
-                    .font(.system(size: 34, weight: .bold))
-                    .multilineTextAlignment(.center)
-                    .padding(40)
-                    
                     Divider()
                     
                     ForEach(model.room.people) {user in
                         
-                        MemberRow(user: user, color: getUserColorFromUser(user: user))
+                        MemberRow(user: user, color: getUserColorFromUser(user: user), model: model)
                             .padding(.vertical, 15)
                         
                     }
                     
                     //TODO: make the function of saving stuff to the contact happen in one of these buttons rather than the exit button
                     Button {
-                        if !isShowingAddUsers {
-                            self.isShowingAddUsers = true
+                        if isShowingAddUsers == 0{
+                            withAnimation (Animation.easeIn(duration: 0.2)) {
+                            self.isShowingAddUsers = 45
+                            }
                         } else {
-                            self.isShowingAddUsers = false
+                            withAnimation (Animation.easeIn(duration: 0.2)) {
+                                self.isShowingAddUsers = 0
+                            }
+                            
                         }
                     } label: {
                         
@@ -59,42 +77,63 @@ struct MembersView: View {
                             
                             Image(systemName: "plus.circle")
                                 .foregroundColor(self.cf().white)
+                                .rotationEffect(.init(degrees: self.isShowingAddUsers))
                         }
                         .font(.system(size: 28, weight: .bold))
                         .padding(.vertical, 15)
                         
                     }
                     
-                    if isShowingAddUsers {
-                        TextField("timcook", text: $newUser) {changing in} onCommit: {
-                            self.newUser = ""
+                    if isShowingAddUsers == 45 {
+                        HStack{
                             
-                        }.onChange(of: self.newUser) { (value) in
-                            if value != "" {
-                                print(value)
-                                
-                                var groupIDs = [String]()
-                                
-                                for person in model.room.people {
-                                    groupIDs.append(person.id)
+                            Text("@")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            
+                            TextField("timcook", text: $newUser).onChange(of: self.newUser) { (value) in
+                                if value != "" {
+                                    reader.scrollTo(model.searchResults.last!.id)
+                                    
+                                    var groupIDs = [String]()
+                                    
+                                    for person in model.room.people {
+                                        groupIDs.append(person.id)
+                                    }
+                                    model.searchForUser(user: value, groupIDs: groupIDs)
+                                } else {
+                                    model.searchResults = [SearchResult(id: "1", name: "", userName: "")]
                                 }
-                                model.searchForUser(user: value, groupIDs: groupIDs)
-                            } else {
-                                model.searchResults = [SearchResult]()
-                            }
-                           
-                            
+                            }.font(.system(size: 28, weight: .bold))
                         }
-                        
-                        if !model.searchResults.isEmpty {
-                            ForEach(model.searchResults) {result in
+                        if !model.searchResults.isEmpty && self.newUser != "" {
+                            ForEach(model.searchResults.reversed()) {result in
                                 
-                                Button {
-                                    model.addUser(userID: result.id, name: result.name)
-                                } label: {
-                                    VStack{
-                                        Text(result.name)
-                                        Text(result.userName)
+                                if result.id == "1" {
+                                    
+                                    Text("")
+                                    
+                                } else {
+                                    
+                                    Button {
+                                        model.addUser(userID: result.id, name: result.name)
+                                        self.newUser = ""
+                                    } label: {
+                                        HStack{
+                                            VStack(alignment: .leading){
+                                                Text(result.name)
+                                                    .font(.title3)
+                                                    .fontWeight(.semibold)
+                                                    .foregroundColor(.white)
+                                                Text("@" + result.userName)
+                                                    .font(.subheadline)
+                                                    .fontWeight(.semibold)
+                                                    .foregroundColor(Color(UIColor.tertiaryLabel))
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                        }
                                     }
                                 }
                             }
@@ -102,17 +141,12 @@ struct MembersView: View {
                     }
                     Spacer()
                     
-                    
-                    
                 }.padding(.horizontal)
+                .navigationBarHidden(true)
+                .background(Color.black.edgesIgnoringSafeArea(.all))
                 
-            }.onChange(of: model.room.people, perform: { (value) in
-                print(value)
-            })
-            .navigationBarHidden(true)
-            .background(Color.black.edgesIgnoringSafeArea(.all))
+            }
         }
-        
     }
     
     func getUserColorFromUser(user: ChiUser) -> String {
@@ -138,7 +172,7 @@ struct EditContactView:View {
     var user: ChiUser
     var cs = ColorStrings()
     var convoID: String
-    @EnvironmentObject var model: MessagesModel
+    @State var model: MessagesModel
     @State var selection: String
     @State var isChatOnly = true
     @State var name: String

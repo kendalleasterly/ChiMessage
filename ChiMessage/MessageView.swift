@@ -7,19 +7,21 @@
 
 import SwiftUI
 
-struct MessageView: View {
+struct MessageView: View, Equatable {
     
+    @EnvironmentObject var convoModel: ConversationModel
     @Environment (\.self.presentationMode) var presentationMode
-    @ObservedObject var model: MessagesModel
-    @ObservedObject var conversationModel: ConversationModel
     @State var message = ""
     @State var isShowingUsersView = false
     
-    init(convo: Conversation, conversationModel: ConversationModel) {
-        let model = MessagesModel(room: convo, convoModel: conversationModel)
+    var model: MessagesModel
+
+    init(convo: Conversation) {
+        
+        let model = MessagesModel(room: convo)
         self.model = model
-        self.conversationModel = conversationModel
-        print("message view being initialized")
+        
+        
     }
     
     //TODO: make an option how to sort. Right now its automatically by the last message, but I've also creted a property in each room that tells when it was created.
@@ -84,20 +86,11 @@ struct MessageView: View {
                                 }
                                 
                             }.accentColor(getUserColorFromUser(user: model.getMyChiUser()))
-                            
                         }
                         .padding(.bottom, 5)
-                        
-                        NavigationLink(destination: MembersView().environmentObject(model), isActive: $isShowingUsersView) {
-                            EmptyView()
-                        }
-                        
-                        Text(conversationModel.conversations.description).hidden()
-                        
                     }//end of bottommost vstack for all sending content
                     .padding(.horizontal)
                     .padding(.top, 80)
-                    
                     
                     //Top Bar, vstack for spacing
                     VStack {
@@ -171,21 +164,23 @@ struct MessageView: View {
                             }//end of vstack for all the content in top bar
                             .padding(.top, 5)
                             .onTapGesture {
+                                
                                 self.isShowingUsersView = true
                             }
                             
                         }//End of topmost ZStack for the top bar
-                        
+                        NavigationLink(destination: MembersView().environmentObject(model), isActive: $isShowingUsersView) {
+                            EmptyView()
+                        }
                         Spacer()
                     }//end of topmost Vstack, for the top bar
                     
                 }//end of main Zstack
                 .onAppear {
                     proxy.scrollTo(model.messages.last!.id)
+                    
+
                 }
-                //                .onChange(of: model.getConversationFromId(id: id).people) { (value) in
-                //                    self.updater = Int.random(in: 1...100)
-                //                }
                 
             }//End of scrollviewreader
         }//End of geometry reader
@@ -210,16 +205,8 @@ struct MessageView: View {
         }
     }
     
-}
-
-//when you create the edit view, you can have images for the google users.
-//you should also try to change the user's color using a nice color picker view
-
-
-struct MessageThread:Identifiable, Hashable {
-    
-    var id: Int
-    var senderID: String
-    var array: [Message]
+    static func == (lhs: MessageView, rhs: MessageView) -> Bool {
+        return true
+    }
     
 }

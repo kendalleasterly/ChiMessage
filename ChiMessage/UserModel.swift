@@ -9,12 +9,15 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 
+//In here, we get the user's document. Say for instance that we are unable to get the document because they never completed the sign up flow. Add functionality somewhere here that says that if we don't have a document and or it dosen't have the nesecarry information, then we instruct them to go through the process.
+
+//TODO: add a way for the user to search for people. Make sure you include search results for results based on names and usernames, but only show one result once (i.e. showing a a result for tim cook from the username and timcook
+
 class UserModel: ObservableObject  {
-    //In here, we get the user's document. Say for instance that we are unable to get the document because they never completed the sign up flow. Add functionality somewhere here that says that if we don't have a document and or it dosen't have the nesecarry information, then we instruct them to go through the process.
-    let db: Firestore!
+    
     @Published var contacts = [Contact]()
-    var listenerModel = ListenerModel()
-    var contactListener: ListenerRegistration?
+    
+    let db: Firestore!
     
     init() {
         
@@ -23,9 +26,42 @@ class UserModel: ObservableObject  {
         
         db = Firestore.firestore()
         
-        self.contactListener = listenerModel.contactsListener(handler: { (contacts) in
-            self.contacts = contacts
-        })
+        listen()
+    }
+    
+    func listen() {
+        
+        if let profile = Auth.auth().currentUser {
+            
+            db.collection("users").document(profile.uid).collection("contacts").addSnapshotListener { (snapshot, error) in
+                
+                if let documents = snapshot {
+                    
+                    var contactsArray = [Contact]()
+                    
+                    for document in documents.documents {
+                        
+                        let data = document.data()
+                        
+                        let name = data["name"] as! String
+                        let defaultColor = data["color"] as? String
+                        let colors = data["colors"] as? [String : String]
+                        
+                        let contact = Contact(id: document.documentID, name: name, defaultColor: defaultColor, colors: colors)
+                        contactsArray.append(contact)
+                        
+                        
+                    }
+                    
+                    self.contacts = contactsArray
+                    
+                } else {
+                    print("documents could not be retrieved in contact listeners")
+                }
+            }
+        } else {
+            print("could not load profile")
+        }
     }
 }
 
@@ -62,8 +98,3 @@ struct Contact: Identifiable {
     
 }
 
-struct SearchResult: Identifiable {
-    var id: String
-    var name: String
-    var userName: String
-}

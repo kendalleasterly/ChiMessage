@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
 
 struct NewRoomView: View {
+    
+    @ObservedObject var convoModel = ConversationModel(userModel: UserModel())
+    @Environment(\.presentationMode) var presentationMode
     
     @State var title = ""
     @State var people = ""
     @State var message = ""
-    @ObservedObject var convoModel = ConversationModel(userModel: UserModel())
-    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         GeometryReader { reader in
@@ -59,7 +59,7 @@ struct NewRoomView: View {
                         HStack {
                             
                             TextField("Add People", text: $people) { (changing) in } onCommit: {
-                                print("\(people) were added")
+                                
                             }.padding(.leading, 50)
                         }
                     }.padding(.leading, 20)
@@ -106,7 +106,7 @@ struct NewRoomView: View {
             convoModel.addConvo(title: title) {
                 
                 convoModel.getNewestConversation { (conversation) in
-                    let messagesModel = MessagesModel(room: conversation, convoModel: convoModel)
+                    let messagesModel = MessagesModel(room: conversation)
                     messagesModel.addMessage(message: message)
                     
                     presentationMode.wrappedValue.dismiss()

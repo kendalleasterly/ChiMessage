@@ -10,7 +10,7 @@ import GoogleSignIn
 
 struct AuthView: View {
     
-    @EnvironmentObject var navModel: NavigationModel
+    @ObservedObject var navModel: NavigationModel
     @ObservedObject var userModel = UserModel()
     @ObservedObject var googleDeleage: GoogleDelagate
     
@@ -29,18 +29,17 @@ struct AuthView: View {
 
                     } else {
                         
-                        NavigationLink(
-                            destination: ConversationsView().environmentObject(ConversationModel(userModel: userModel)),
-                            isActive: $navModel.conversationLinkActive,
-                            label: { EmptyView() })
+                        ConversationsView(navModel: navModel).environmentObject(ConversationModel(userModel: userModel))
                     }
                 }
             }
         }
         .onAppear() {
-            print("I appeared, restoring sign in")
+            
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-            print("I appeared, restored sign in")
+            
+            
+            userModel.listen()
             
         }.navigationTitle(Text("ChiMessage"))
     }

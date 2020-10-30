@@ -12,6 +12,7 @@ struct NameStepView: View {
     @State var firstName = ""
     @State var lastName = ""
     @State var linkIsActive = false
+    
     var model: UserModel
     var navModel: NavigationModel
     var body: some View {
@@ -22,7 +23,7 @@ struct NameStepView: View {
             TextField("Jobs", text: $lastName)
             
             Button {
-                print("send name was pressed")
+                
                 model.sendName(firstName: firstName, lastName: lastName)
                 self.linkIsActive = true
             } label: {
@@ -75,7 +76,7 @@ struct UserNameStep: View {
                 }
             }
             
-            NavigationLink(destination: ConversationsView().environmentObject(ConversationModel(userModel: model)), isActive: $linkIsActive, label: {EmptyView()})
+            NavigationLink(destination: ConversationsView(navModel: navModel).environmentObject(ConversationModel(userModel: model)), isActive: $linkIsActive, label: {EmptyView()})
             
         }
     }
