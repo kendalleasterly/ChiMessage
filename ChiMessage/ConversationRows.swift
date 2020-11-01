@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ConversationRows: View {
     
@@ -15,10 +16,18 @@ struct ConversationRows: View {
         
         HStack{
             
-            Circle().strokeBorder()
-                .frame(width: 35, height: 35)
-                .padding(.trailing, 20)
-                .foregroundColor(self.cf().white)
+            if getRead() {
+                Circle().strokeBorder(lineWidth: 2.5)
+                    .frame(width: 35, height: 35)
+                    .padding(.trailing, 20)
+                    .foregroundColor(self.cf().white)
+            } else {
+                Circle()
+                    .frame(width: 35, height: 35)
+                    .padding(.trailing, 20)
+                    .foregroundColor(self.cf().white)
+            }
+            
             
             VStack(alignment: .leading){
                 
@@ -48,7 +57,7 @@ struct ConversationRows: View {
                 
                 Spacer()
             }
-        }
+        }.accentColor(.white)
     }
     
     func getUserColorFromUser(user: ChiUser) -> Color {
@@ -65,6 +74,23 @@ struct ConversationRows: View {
             //this is if there are no rooms at all
             return user.cColor
         }
+    }
+    
+    func getRead() -> Bool {
+        
+        if let profile = Auth.auth().currentUser {
+            if let lastReadDate = convo.lastReadDates[profile.uid] {
+                if lastReadDate < convo.lastMessage  {
+                    
+                    return false
+                    
+                } else {
+                    return true
+                }
+            }
+        }
+        return false
+        
     }
 }
 

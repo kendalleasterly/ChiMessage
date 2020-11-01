@@ -25,8 +25,9 @@
 		C6594148253A68FA00AF29E5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6594147253A68FA00AF29E5 /* AudioToolbox.framework */; };
 		C659414A253A7B3D00AF29E5 /* MessageRosViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */; };
 		C659414C253A87F300AF29E5 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C659414B253A87F300AF29E5 /* AuthView.swift */; };
-		C665E0EC25479C0B0057ED35 /* ListenerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C665E0EB25479C0B0057ED35 /* ListenerModel.swift */; };
 		C66E3E17253A03FE00F580CE /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E3E16253A03FE00F580CE /* ConversationModel.swift */; };
+		C68BE468254CB0F5009437C1 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE467254CB0F5009437C1 /* UserView.swift */; };
+		C68BE46B254CB4B3009437C1 /* Searcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE46A254CB4B3009437C1 /* Searcher.swift */; };
 		C68E3C0A2540E3E5006187F4 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E3C092540E3E5006187F4 /* UserModel.swift */; };
 		C6BCFFCE253FF227008842B3 /* ConversationRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BCFFCD253FF227008842B3 /* ConversationRows.swift */; };
 		C6D2539C2544AC0A0044EDA5 /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D2539B2544AC090044EDA5 /* SignUpFlow.swift */; };
@@ -60,8 +61,9 @@
 		C6594147253A68FA00AF29E5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRosViews.swift; sourceTree = "<group>"; };
 		C659414B253A87F300AF29E5 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		C665E0EB25479C0B0057ED35 /* ListenerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerModel.swift; sourceTree = "<group>"; };
 		C66E3E16253A03FE00F580CE /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
+		C68BE467254CB0F5009437C1 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		C68BE46A254CB4B3009437C1 /* Searcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searcher.swift; sourceTree = "<group>"; };
 		C68E3C092540E3E5006187F4 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		C6BCFFCD253FF227008842B3 /* ConversationRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRows.swift; sourceTree = "<group>"; };
 		C6D2539B2544AC090044EDA5 /* SignUpFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlow.swift; sourceTree = "<group>"; };
@@ -110,12 +112,12 @@
 		C611A8C5253B73D800E417F2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C665E0EB25479C0B0057ED35 /* ListenerModel.swift */,
 				C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */,
 				C68E3C092540E3E5006187F4 /* UserModel.swift */,
 				C66E3E16253A03FE00F580CE /* ConversationModel.swift */,
 				C611A8C8253B747000E417F2 /* MessagesModel.swift */,
 				C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */,
+				C68BE46A254CB4B3009437C1 /* Searcher.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -127,6 +129,7 @@
 				C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */,
 				C63B51DE2543CBDE00FA9574 /* MemberRow.swift */,
 				C63B51E62543E04E00FA9574 /* ColorDot.swift */,
+				C68BE467254CB0F5009437C1 /* UserView.swift */,
 			);
 			name = "Sub Views";
 			sourceTree = "<group>";
@@ -138,8 +141,8 @@
 				C6D2539B2544AC090044EDA5 /* SignUpFlow.swift */,
 				C611A8C0253B639000E417F2 /* ConversationsView.swift */,
 				C6F740CC253B81190047247E /* MessageView.swift */,
-				C63B51E32543D49C00FA9574 /* MembersView.swift */,
 				C6F740DB253BE16D0047247E /* NewRoomView.swift */,
+				C63B51E32543D49C00FA9574 /* MembersView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -335,10 +338,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C68BE46B254CB4B3009437C1 /* Searcher.swift in Sources */,
 				C66E3E17253A03FE00F580CE /* ConversationModel.swift in Sources */,
 				C659414A253A7B3D00AF29E5 /* MessageRosViews.swift in Sources */,
 				C63B51DF2543CBDE00FA9574 /* MemberRow.swift in Sources */,
-				C665E0EC25479C0B0057ED35 /* ListenerModel.swift in Sources */,
 				C6427C2F253A95A700DC0A81 /* GoogleDelagate.swift in Sources */,
 				C659414C253A87F300AF29E5 /* AuthView.swift in Sources */,
 				C6D2539C2544AC0A0044EDA5 /* SignUpFlow.swift in Sources */,
@@ -349,6 +352,7 @@
 				C6F2D90B253EAF7D00B909D7 /* String+Extension.swift in Sources */,
 				C63B51E72543E04E00FA9574 /* ColorDot.swift in Sources */,
 				C638A1A02539F6380047F80C /* SceneDelegate.swift in Sources */,
+				C68BE468254CB0F5009437C1 /* UserView.swift in Sources */,
 				C68E3C0A2540E3E5006187F4 /* UserModel.swift in Sources */,
 				C638A1A22539F6380047F80C /* ContentView.swift in Sources */,
 				C61B5D6D253CCC9200FFECEC /* NavigationModel.swift in Sources */,
@@ -507,6 +511,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kendalleasterly.ChiMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -530,6 +535,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kendalleasterly.ChiMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

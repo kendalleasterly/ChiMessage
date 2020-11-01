@@ -21,7 +21,6 @@ struct MessageView: View, Equatable {
         let model = MessagesModel(room: convo)
         self.model = model
         
-        
     }
     
     //TODO: make an option how to sort. Right now its automatically by the last message, but I've also creted a property in each room that tells when it was created.
@@ -34,22 +33,34 @@ struct MessageView: View, Equatable {
                     VStack(spacing: 0) {
                         
                         ScrollView{
+                            //put these two in a vstack
                             
+                            Rectangle()
+                                .frame(width: reader.size.width / 2, height: 70)
+                                .foregroundColor(Color(UIColor.systemBackground))
+                                
                             ForEach(model.messages) {thread in
                                 
                                 if thread.array[0].isUsers {
                                     UserMessageRow(message: thread)
+                                        .padding(.bottom)
                                 } else {
                                     RecipientMessageRow(message: thread)
+                                        .padding(.bottom)
                                 }
                             }
+                            
                         }.onChange(of: model.messages) { (value) in
                             if !model.messages.isEmpty {
-                                proxy.scrollTo(model.messages.last!.id)
+                                withAnimation(Animation.easeIn(duration: 0.15)) {
+                                    proxy.scrollTo(model.messages.last!.id)
+                                    
+                                }
                             } else {
                                 print("messages were empty, so I didn't scroll")
                             }
-                        }.padding(.vertical)
+                        }.padding(.top)
+                        
                         HStack {
                             TextField("chimessage", text: $message) { (changing) in
                                 withAnimation {proxy.scrollTo(model.messages.last!.id) }
@@ -57,16 +68,8 @@ struct MessageView: View, Equatable {
                                 model.addMessage(message: message)
                                 message = ""
                                 
-                            }.padding(.horizontal, 30)
-                            .padding(.vertical, 10)
-                            .overlay(RoundedRectangle(cornerRadius: 50).strokeBorder(lineWidth: 2.5))
-                            .gesture(DragGesture().onEnded({ (value) in
-                                self.hideKeyboard()
-                            }))
-                            .gesture(TapGesture().onEnded({ nothing in
-                                withAnimation {proxy.scrollTo(model.messages.last!.id) }
-                            }))
-                            .accentColor((Color(UIColor(red: 237 / 255, green: 241 / 255, blue: 241 / 255, alpha: 1.0))))
+                            }.accentColor((Color(UIColor(red: 237 / 255, green: 241 / 255, blue: 241 / 255, alpha: 1.0))))
+                            Spacer()
                             
                             Button {
                                 
@@ -78,19 +81,29 @@ struct MessageView: View, Equatable {
                                 if message != "" {
                                     withAnimation {
                                         Image(systemName: "arrow.up.circle.fill")
-                                            .font(.system(size: 40.0))
+                                            .font(.system(size: 25.0, weight: .bold))
                                     }
                                 } else {
                                     withAnimation { Image(systemName: "arrow.up.circle")
-                                        .font(.system(size: 40.0)) }
+                                        .font(.system(size: 25.0, weight: .bold))
+                                        
+                                    }
                                 }
                                 
                             }.accentColor(getUserColorFromUser(user: model.getMyChiUser()))
                         }
-                        .padding(.bottom, 5)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal)
+                        .background(RoundedRectangle(cornerRadius: 15).foregroundColor(self.cf().black))
+                        .gesture(DragGesture().onEnded({ (value) in
+                            self.hideKeyboard()
+                        }))
+                        
+                        .padding(.bottom)
+                        
                     }//end of bottommost vstack for all sending content
                     .padding(.horizontal)
-                    .padding(.top, 80)
+//                    .padding(.top, 80)
                     
                     //Top Bar, vstack for spacing
                     VStack {
@@ -175,11 +188,13 @@ struct MessageView: View, Equatable {
                         Spacer()
                     }//end of topmost Vstack, for the top bar
                     
-                }//end of main Zstack
+                }//end of main so you didn't have to be there I will finish my show face Zstack
                 .onAppear {
                     proxy.scrollTo(model.messages.last!.id)
                     
-
+                }
+                .onDisappear {
+                    model.updateReadStatus()
                 }
                 
             }//End of scrollviewreader

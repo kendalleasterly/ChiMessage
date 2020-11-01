@@ -10,12 +10,11 @@ import FirebaseFirestore
 import GoogleSignIn
 import FirebaseAuth
 
-class ConversationModel: ObservableObject {
+class ConversationModel: Searcher, ObservableObject {
     
     @ObservedObject var userModel: UserModel
     @Published var conversations = [Conversation]()
     
-    var db: Firestore!
     var mc = ColorStrings()
     
     init(userModel: UserModel) {
@@ -25,8 +24,8 @@ class ConversationModel: ObservableObject {
         let settings = FirestoreSettings()
         Firestore.firestore().settings = settings
         
-        db = Firestore.firestore()
-        
+        let db = Firestore.firestore()
+        super.init(db: db)
         listen()
         
     }
@@ -96,7 +95,9 @@ class ConversationModel: ObservableObject {
                                              "name":title,
                                              "created":Date().timeIntervalSince1970,
                                              "defaultColors":[currentID : mc.blue],
-                                             "names":[currentID:sender]]) { (error) in
+                                             "names":[currentID:sender],
+                                             "lastMessage":Date().timeIntervalSince1970,
+                                             "lastReadDates":[currentID:0]]) { (error) in
             
             if error == nil {
                 
@@ -115,19 +116,22 @@ class ConversationModel: ObservableObject {
     
     //MARK: -Helper Functions
     private func getConversationFrom(document: QueryDocumentSnapshot) -> Conversation  {
-        
+        //TODO: Initialize new users with the value of 0 in the lastReadDates map
         let messagesPath = document.reference.collection("messages")
         let name = document.data()["name"] as! String
         let colors = document.data()["defaultColors"] as! [String: String]
         let names = document.data()["names"] as! [String : String]
         let userIDs = document.data()["users"] as! [String]
+        let lastReadDates = document.data()["lastReadDates"] as! [String: Double]
+        let lastMessage = document.data()["lastMessage"] as! Double
         
         let conversation = Conversation(id: document.documentID,
                                         messagesPath: messagesPath,
                                         name: name,
                                         people: [ChiUser](),
                                         nameSummary: "",
-                                        date: Date())
+                                        lastReadDates: lastReadDates,
+                                        lastMessage: lastMessage)
         
         for id in userIDs {
             
@@ -220,16 +224,24 @@ class Conversation: Identifiable {
     var name: String
     var people: [ChiUser]
     var nameSummary: String
-    var date: Date
+    var lastReadDates: [String:Double]
+    var lastMessage: Double
     
-    init(id: String, messagesPath: CollectionReference, name: String, people: [ChiUser], nameSummary: String, date: Date) {
+    init(id: String,
+         messagesPath: CollectionReference,
+         name: String,
+         people: [ChiUser],
+         nameSummary: String,
+         lastReadDates: [String:Double],
+         lastMessage: Double) {
         
         self.id = id
         self.messagesPath = messagesPath
         self.name = name
         self.people = people
         self.nameSummary = nameSummary
-        self.date = date
+        self.lastReadDates = lastReadDates
+        self.lastMessage = lastMessage
         
     }
     
@@ -271,52 +283,59 @@ struct ChiUser: Identifiable, Hashable {
         
         switch color {
         
+        case cs.black:
+            return cf.black
+        case cs.darkGrey:
+            return cf.darkGrey
+        case cs.grey:
+            return cf.grey
+        case cs.sand:
+            return cf.sand
+            
+        case cs.red :
+            return cf.red
         case cs.maroon:
             return cf.maroon
-        case cs.red:
-            return cf.red
+        case cs.brown:
+            return cf.brown
+        case cs.coffe:
+            return cf.coffe
+            
+        case cs.watermelon:
+            return cf.watermelon
         case cs.orange:
             return cf.orange
         case cs.yellow:
             return cf.yellow
         case cs.lime:
             return cf.lime
-        case cs.forestGreen:
-            return cf.forestGreen
-        case cs.green:
-            return cf.green
+            
+        case cs.teal:
+            return cf.teal
         case cs.mint:
             return cf.mint
+        case cs.green:
+            return cf.green
+        case cs.forestGreen:
+            return cf.forestGreen
+            
+        case cs.navyBlue:
+            return cf.navyBlue
         case cs.skyBlue:
             return cf.skyBlue
         case cs.ice:
             return cf.ice
-        case cs.teal:
-            return cf.teal
-        case cs.navyBlue:
-            return cf.navyBlue
+        case cs.pink:
+            return cf.pink
+            
+        case cs.plum:
+            return cf.plum
         case cs.blue:
             return cf.blue
         case cs.purple:
             return cf.purple
         case cs.magenta:
             return cf.magenta
-        case cs.pink:
-            return cf.pink
-        case cs.plum:
-            return cf.plum
-        case cs.brown:
-            return cf.brown
-        case cs.coffe:
-            return cf.coffe
-        case cs.sand:
-            return cf.sand
-        case cs.grey:
-            return cf.grey
-        case cs.darkGrey:
-            return cf.darkGrey
-        case cs.black:
-            return cf.black
         default:
             return cf.black
         }

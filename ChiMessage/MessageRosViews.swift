@@ -13,33 +13,73 @@ struct RecipientMessageRow: View {
     
     var body: some View {
         
-        VStack(spacing: 0){
+        VStack(spacing: 5) {
             
-            HStack{
-                Text(message.array[0].name)
+            //contact photo and name
+            HStack {
+                
+                ZStack {
+                    Circle()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(self.cf().black)
+                    
+                    Text(getInitials())
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .foregroundColor(message.array.first!.color.opacity(0.8))
+                    
+                }
+                
+                Text(message.array.first!.name.split(separator: " ").first!.description)
                     .font(.body)
                     .fontWeight(.semibold)
                 
-                
                 Spacer()
-            }.padding(.vertical, 5)
-            
-            ForEach(message.array) {message in
                 
-                HStack{
+            }
+            
+            // each message paired with a black circle
+            
+            ForEach(message.array) { item in
+                HStack {
+                    Circle()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(Color(UIColor.systemBackground))
                     
-                    RoundedRectangle(cornerRadius: 15)
-                        .frame(width: 3, height: 30)
-                        .foregroundColor(message.color)
-                    
-                    Text(message.message)
-                        .font(.body)
+                    Text(item.message)
+                        .padding(10)
+                        .background(RoundedRectangle(cornerRadius: 15)
+                                        .foregroundColor(message.array.first!.color))
                     
                     Spacer()
+                    
                 }
             }
         }
     }
+    
+    func getInitials() -> String {
+        
+        let words = message.array.first!.name.split(separator: " ")
+        var initials = ""
+        print(words)
+        
+        var i = 0
+        for word in words {
+            print(word.description)
+            if i <= 1 {
+                var funcWord = word.description
+                
+                initials = initials + funcWord[0]
+            }
+            
+            i = i + 1
+        }
+        
+        return initials.uppercased()
+        
+    }
+    
 }
 
 struct UserMessageRow: View {
@@ -48,29 +88,34 @@ struct UserMessageRow: View {
     
     var body: some View {
         
-        VStack(spacing: 0) {
+        VStack(spacing: 5) {
             
+            //contact photo and name
             HStack {
+                
                 Spacer()
-                Text(message.array[0].name)
+                
+                Text(message.array.first!.name.split(separator: " ").first!.description)
                     .font(.body)
                     .fontWeight(.semibold)
-            }.padding(.vertical, 5)
-            
-            ForEach(message.array) {message in
                 
-                HStack{
+            }
+            
+            // each message paired with a black circle
+            
+            ForEach(message.array) { item in
+                HStack {
+                    
                     Spacer()
                     
-                    Text(message.message)
-                        .font(.body)
-                        .multilineTextAlignment(.trailing)
+                    Text(item.message)
+                        .padding(10)
+                        .background(RoundedRectangle(cornerRadius: 15)
+                                        .foregroundColor(message.array.first!.color))
                     
-                    RoundedRectangle(cornerRadius: 15)
-                        .frame(width: 3, height: 30)
-                        .foregroundColor(message.color)
                 }
             }
         }
+        
     }
 }

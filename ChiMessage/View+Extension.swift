@@ -54,7 +54,7 @@ class Colors {
     let magenta = Color(#colorLiteral(red: 0.6078431606292725, green: 0.364705890417099, blue: 0.7098039388656616, alpha: 1))
     
     let white = Color(#colorLiteral(red: 0.929411768913269, green: 0.9450980424880981, blue: 0.9490196108818054, alpha: 1))
-    let background = Color(UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6))
+    let background = Color(UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.1))
     let card = Color(red: 142 / 255, green: 142 / 255, blue: 147 / 255)
     
 }
@@ -95,22 +95,27 @@ struct ColorStrings {
     "darkGrey",
     "grey",
     "sand",
+    
     "red",
     "maroon",
     "brown",
     "coffe",
+    
     "watermelon",
     "orange",
     "yellow",
     "lime",
+    
     "teal",
     "mint",
     "green",
     "forestGreen",
+    
     "navyBlue",
     "skyBlue",
     "ice",
     "pink",
+    
     "plum",
     "blue",
     "purple",
@@ -119,7 +124,7 @@ struct ColorStrings {
 }
 
 struct Blur: UIViewRepresentable {
-    var style: UIBlurEffect.Style = .systemChromeMaterial
+    var style: UIBlurEffect.Style = .systemThinMaterial
     
     func makeUIView(context: Context) -> UIVisualEffectView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))

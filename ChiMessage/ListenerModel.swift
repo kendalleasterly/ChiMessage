@@ -182,7 +182,8 @@ class ListenerModel {
                                         messagesPath: messagesPath,
                                         name: name,
                                         people: [ChiUser](),
-                                        nameSummary: "")
+                                        nameSummary: "",
+                                        date: Date())
         
         for id in userIDs {
             

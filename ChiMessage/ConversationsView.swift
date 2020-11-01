@@ -16,37 +16,42 @@ struct ConversationsView: View {
     
     var body: some View {
         List {
-            
             ForEach(model.conversations) {conversation in
                 
-                NavigationLink(destination: MessageView(convo: conversation).environmentObject(model), label: {ConversationRows(convo: conversation)})
+//                HStack{
+                    NavigationLink(destination: MessageView(convo: conversation).environmentObject(model), label: {ConversationRows(convo: conversation)})
+//                    Spacer()
+//                }
+                
                 
             }
-        }.sheet(isPresented: $isShowingNewMessageView) {
+        }.listStyle(PlainListStyle())
+        .padding(.horizontal)
+        .sheet(isPresented: $isShowingNewMessageView) {
             NewRoomView()
         }.navigationBarTitle(Text("ChiMessage"))
         .navigationBarItems(leading:
-            Button(action: {
-                
-                isshowingSignOutAlert = true
-                
-            }, label: {
-                Image(systemName: "chevron.left.circle")
-                    .frame(width: 35, height: 35)
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(.white)
-            })
-        , trailing:
-            Button(action: {
-
-                self.isShowingNewMessageView = true
-
-            }, label: {
-                Image(systemName: "plus.circle")
-                    .frame(width: 35, height: 35)
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(.white)
-            })
+                                Button(action: {
+                                    
+                                    isshowingSignOutAlert = true
+                                    
+                                }, label: {
+                                    Image(systemName: "chevron.left.circle")
+                                        .frame(width: 35, height: 35)
+                                        .font(.system(size: 28, weight: .bold))
+                                        .foregroundColor(.white)
+                                })
+                            , trailing:
+                                Button(action: {
+                                    
+                                    self.isShowingNewMessageView = true
+                                    
+                                }, label: {
+                                    Image(systemName: "plus.circle")
+                                        .frame(width: 35, height: 35)
+                                        .font(.system(size: 28, weight: .bold))
+                                        .foregroundColor(.white)
+                                })
         )
         .alert(isPresented: $isshowingSignOutAlert, content: {
             
@@ -58,9 +63,5 @@ struct ConversationsView: View {
             
             return Alert(title: Text("Are you sure you want to sign out?"), primaryButton: noButton, secondaryButton: yesButton)
         }).navigationBarBackButtonHidden(true)
-        .onAppear {
-            
-            
-        }
     }
 }

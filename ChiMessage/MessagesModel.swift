@@ -9,10 +9,9 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 
-class MessagesModel: ObservableObject, Identifiable {
+class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     @Published var messages = [MessageThread]()
-    @Published var searchResults = [SearchResult(id: "1", name: "", userName: "")]
     @Published var room: Conversation {
         didSet {
             
@@ -21,7 +20,6 @@ class MessagesModel: ObservableObject, Identifiable {
     }
     
     var mc = ColorStrings()
-    var db: Firestore!
     
     init(room: Conversation) {
         
@@ -30,8 +28,8 @@ class MessagesModel: ObservableObject, Identifiable {
         let settings = FirestoreSettings()
         Firestore.firestore().settings = settings
         
-        db = Firestore.firestore()
-        
+        let db = Firestore.firestore()
+        super.init(db: db)
         listen()
         
     }
@@ -43,55 +41,55 @@ class MessagesModel: ObservableObject, Identifiable {
         let ref = room.messagesPath
         
         ref.addSnapshotListener { (snapshot, error) in
-            
+
             guard let documents = snapshot?.documents else {
-                
+
                 print("documents couldn't be fetched \(error!)")
                 return
             }
-            
+
             var messageArray = [Message]()
-            
+
             for document in documents {
-                
+
                 let message = document.data()["message"] as! String
                 let senderID = document.data()["sender ID"] as! String
-                
+
                 let isUsers: Bool
                 if senderID == Auth.auth().currentUser?.uid {
                     isUsers = true
                 } else {
                     isUsers = false
                 }
-                
+
                 self.getChiUserFromID(id: senderID) { (user) in
-                    
+
                     if let colors = user.colors {
                         if let color = colors[self.room.id] {
-                            messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.first, color: user.getColorFrom(color: color), isUsers: isUsers, index: messageArray.count))
+                            messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.name, color: user.getColorFrom(color: color), isUsers: isUsers, index: messageArray.count))
                         } else {
                             //this one and the next one do the same, they are repeated because there can be rooms but this one may not be included
-                            messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.first, color: user.cColor, isUsers: isUsers, index: messageArray.count))
+                            messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.name, color: user.cColor, isUsers: isUsers, index: messageArray.count))
                         }
                     } else {
                         //this is if there are no rooms at all
-                        messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.first, color: user.cColor, isUsers: isUsers, index: messageArray.count))
+                        messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.name, color: user.cColor, isUsers: isUsers, index: messageArray.count))
                     }
                 }
             }
-            
+
             var threadArray = [MessageThread]()
-            
+
             for message in messageArray {
-                
+
                 //find out if the last value in the thread array has the same senderID as this message
                 if threadArray.last?.senderID == message.userID {
                     //If it does, just append this message to the array in the last thread
                     if var last = threadArray.last {
-                        
+
                         last.array.append(message)
                         threadArray[last.id] = last
-                        
+
                     }
                 } else {
                     //If it doesnt't, create a new thread with this message and message id, and append it to our array here
@@ -99,38 +97,8 @@ class MessagesModel: ObservableObject, Identifiable {
                     threadArray.append(newThread)
                 }
             }
-            
+
             self.messages = threadArray
-        }
-    }
-    
-    func searchForUser(user: String, groupIDs: [String]) {
-        
-        if user != "" {
-            //add something here that asks for the list of user ids that we already have, and add that to the search querey as a IS NOT Any
-            db.collection("users").whereField("username", isGreaterThanOrEqualTo: user).whereField("username", notIn: groupIDs) .getDocuments { (snapshot, error) in
-                
-                if let documents = snapshot {
-                    
-                    var results = [SearchResult]()
-                    
-                    for document in documents.documents {
-                        
-                        let data = document.data()
-                        let name = data["name"] as! String
-                        let username = data["username"] as! String
-                        
-                        if user >= username[0] {
-                            results.append(SearchResult(id: document.documentID, name: name, userName: username))
-                        }
-                    }
-                    
-                    self.searchResults = results
-                    
-                } else {
-                    print("there was in error in search for user ")
-                }
-            }
         }
     }
     
@@ -147,7 +115,8 @@ class MessagesModel: ObservableObject, Identifiable {
                 if !users.contains(userID) {
                     roomPath.setData(["users": FieldValue.arrayUnion([userID]),
                                       "defaultColors": [userID: self.mc.array.randomElement() ?? "blue"],
-                                      "names":[userID:name]],//I need to just add a dictionary entry with the person who we're about to add's id as the field and their name that we grab from the database as the value. I have not completed this code because I need to figure out how and where to grab their name, since its not the current user.
+                                      "names":[userID:name],
+                                      "lastReadDates":[userID: 0]],//I need to just add a dictionary entry with the person who we're about to add's id as the field and their name that we grab from the database as the value. I have not completed this code because I need to figure out how and where to grab their name, since its not the current user.
                                      merge: true)
                 } else {
                     print("didn't add cause user is already in group")
@@ -194,7 +163,7 @@ class MessagesModel: ObservableObject, Identifiable {
             if let currentUser = Auth.auth().currentUser {
                 dbRef.document(date).setData(["message": message, "sender ID": currentUser.uid])
                 db.collection("rooms").document(self.room.id).setData(["lastMessage":Date().timeIntervalSince1970], merge: true)
-                
+//                db.collection("rooms").document(self.room.id).setData(["lastReadDates":[currentUser.uid: Date().timeIntervalSince1970 + 1]])
             } else {
                 print("current user couldn't be used")
                 
@@ -206,6 +175,17 @@ class MessagesModel: ObservableObject, Identifiable {
         
         db.collection("rooms").document(room.id).updateData(["name":name])
         
+    }
+    
+    func updateReadStatus() {
+        
+
+            if let profile = Auth.auth().currentUser {
+                self.db.collection("rooms").document(self.room.id).setData(["lastReadDates":[profile.uid: Date().timeIntervalSince1970]], merge: true)
+            } else {
+                print("didn't update read status cause profile wasn't available")
+            }
+       
     }
     
     //MARK: -Helper Functions
@@ -254,10 +234,4 @@ struct MessageThread:Identifiable, Hashable {
     var senderID: String
     var array: [Message]
     
-}
-
-struct SearchResult: Identifiable, Hashable {
-    var id: String
-    var name: String
-    var userName: String
 }

@@ -44,7 +44,7 @@ struct MembersView: View {
                     
                     ForEach(model.room.people) {user in
                         
-                        MemberRow(user: user, color: getUserColorFromUser(user: user), model: model)
+                        MemberRow(model: model, user: user, color: getUserColorFromUser(user: user))
                             .padding(.vertical, 15)
                         
                     }
@@ -93,14 +93,8 @@ struct MembersView: View {
                             
                             TextField("timcook", text: $newUser).onChange(of: self.newUser) { (value) in
                                 if value != "" {
-                                    reader.scrollTo(model.searchResults.last!.id)
                                     
-                                    var groupIDs = [String]()
-                                    
-                                    for person in model.room.people {
-                                        groupIDs.append(person.id)
-                                    }
-                                    model.searchForUser(user: value, groupIDs: groupIDs)
+                                    model.searchForUser(user: value)
                                 } else {
                                     model.searchResults = [SearchResult(id: "1", name: "", userName: "")]
                                 }
@@ -119,23 +113,12 @@ struct MembersView: View {
                                         model.addUser(userID: result.id, name: result.name)
                                         self.newUser = ""
                                     } label: {
-                                        HStack{
-                                            VStack(alignment: .leading){
-                                                Text(result.name)
-                                                    .font(.title3)
-                                                    .fontWeight(.semibold)
-                                                    .foregroundColor(.white)
-                                                Text("@" + result.userName)
-                                                    .font(.subheadline)
-                                                    .fontWeight(.semibold)
-                                                    .foregroundColor(Color(UIColor.tertiaryLabel))
-                                            }
-                                            
-                                            Spacer()
-                                            
-                                        }
+                                        UserView(result: result)
                                     }
                                 }
+                                
+                                Divider()
+                                
                             }
                         }
                     }

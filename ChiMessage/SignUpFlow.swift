@@ -45,7 +45,7 @@ struct NameStepView: View {
         let funcFirstName = self.firstName.lowercased()
         let funcLastName = self.lastName.lowercased()
         
-        let suggestedUserName = funcFirstName + funcLastName
+        let suggestedUserName = funcFirstName + "_" + funcLastName
         return suggestedUserName.replacingOccurrences(of: " ", with: "")
         
     }
