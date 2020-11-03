@@ -53,7 +53,8 @@ struct MessageView: View, Equatable {
                         }.onChange(of: model.messages) { (value) in
                             if !model.messages.isEmpty {
                                 withAnimation(Animation.easeIn(duration: 0.15)) {
-                                    proxy.scrollTo(model.messages.last!.id)
+                                    proxy.scrollTo(model.messages.last!.id, anchor: .bottom)
+                                    
                                     
                                 }
                             } else {
@@ -63,7 +64,7 @@ struct MessageView: View, Equatable {
                         
                         HStack {
                             TextField("chimessage", text: $message) { (changing) in
-                                withAnimation {proxy.scrollTo(model.messages.last!.id) }
+                                withAnimation {proxy.scrollTo(model.messages.last!.id, anchor: .bottom) }
                             } onCommit: {
                                 model.addMessage(message: message)
                                 message = ""
@@ -134,13 +135,15 @@ struct MessageView: View, Equatable {
                                         ZStack {
                                             //Background
                                             Circle()
-                                                .foregroundColor(self.cf().card)
+                                                .foregroundColor(self.cf().black)
                                                 .frame(width: 40, height: 40)
                                             
                                             //Content
                                             
-                                            Text(model.room.name[0].uppercased())
-                                                .font(.system(size: 22, weight: .bold))
+                                            Text(getInitials())
+                                                .font(.callout)
+                                                .fontWeight(.semibold)
+                                                
                                             
                                         }
                                         
@@ -148,6 +151,7 @@ struct MessageView: View, Equatable {
                                         Text(model.room.name)
                                             .font(.system(size: 28, weight: .bold))
                                             .multilineTextAlignment(.center)
+                                            .lineLimit(1)
                                         
                                         
                                     }//end of name and card hstack
@@ -190,11 +194,13 @@ struct MessageView: View, Equatable {
                     
                 }//end of main so you didn't have to be there I will finish my show face Zstack
                 .onAppear {
-                    proxy.scrollTo(model.messages.last!.id)
+                    proxy.scrollTo(model.messages.last!.id, anchor: .bottom)
                     
                 }
                 .onDisappear {
+                    
                     model.updateReadStatus()
+                    model.room.unreadMessages = 0
                 }
                 
             }//End of scrollviewreader
@@ -218,6 +224,27 @@ struct MessageView: View, Equatable {
             //this is if there are no rooms at all
             return user.cColor
         }
+    }
+    
+    func getInitials() -> String {
+        
+        let words = model.room.name.split(separator: " ")
+        var initials = ""
+        
+        var i = 0
+        for word in words {
+            
+            if i <= 1 {
+                let funcWord = word.description
+                
+                initials = initials + funcWord[0]
+            }
+            
+            i = i + 1
+        }
+        
+        return initials.uppercased()
+        
     }
     
     static func == (lhs: MessageView, rhs: MessageView) -> Bool {

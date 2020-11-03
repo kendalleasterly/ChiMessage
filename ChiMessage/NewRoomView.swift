@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewRoomView: View {
     
-    @ObservedObject var model = ConversationModel(userModel: UserModel())
+    @ObservedObject var model: ConversationModel
     @Environment(\.presentationMode) var presentationMode
     
     @State var title = ""
@@ -19,160 +19,191 @@ struct NewRoomView: View {
     
     var body: some View {
         GeometryReader { reader in
-                
-                VStack{
-                    ZStack {
-                        
-                        //Background bar
-                        Rectangle()
-                            .foregroundColor(self.cf().background)
-                            .background(Blur())
-                            .frame(width: reader.size.width, height: 120)
-                            .clipShape(RoundedRectangle(cornerRadius: 30))
-                        
-                        //Main content
-                        VStack {
-                            
-                            //Group Photo and Name
-                            HStack {
-                                
-                                //Card
-                                ZStack {
-                                    //Background
-                                    Circle()
-                                        .foregroundColor(self.cf().card)
-                                        .frame(width: 40, height: 40)
-                                    
-                                    //Content
-                                    
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 22, weight: .bold))
-                                    
-                                }
-                                
-                                //Name
-                                TextField("New Group", text: $title) { (changing) in } onCommit: { }
-                                    .font(.system(size: 28, weight: .bold))
-                                
-                            }
-                            
-                            //People
-                            
-                            HStack {
-                                
-                                TextField("Add People", text: $person).onChange(of: self.person) { (value) in
-                                    
-                                    if value != "" {
-                                       
-                                        model.searchForUser(user: value)
-                                        print(model.searchResults)
-                                    }
-                                    
-                                }.padding(.leading, 50)
-                            }
-                        }.padding(.leading, 20)
-                        
-                    }
+            
+            VStack{
+                ZStack {
                     
-                    ScrollView{
+                    //Background bar
+                    Rectangle()
+                        .foregroundColor(self.cf().background)
+                        .background(Blur())
+                        .frame(width: reader.size.width, height: 120)
+                        .clipShape(RoundedRectangle(cornerRadius: 30))
+                    
+                    //Main content
+                    VStack {
                         
-                        VStack{
+                        //Group Photo and Name
+                        HStack {
                             
-                            if !model.searchResults.isEmpty && self.person != ""{
-                                ForEach(model.searchResults) {result in
-                                    Button {
-                                        self.people.append(result)
-                                    } label: {
-                                        UserView(result: result)
-                                    }
+                            //Card
+                            ZStack {
+                                //Background
+                                Circle()
+                                    .foregroundColor(self.cf().black)
+                                    .frame(width: 40, height: 40)
+                                
+                                //Content
+                                
+                                
+                                Image(systemName: "plus")
+                                    .font(.system(size: 16, weight: .semibold))
+                                
+                                
+                                
+                            }
+                            
+                            //Name
+                            TextField("New Group", text: $title) { (changing) in } onCommit: { }
+                                .font(.system(size: 28, weight: .bold))
+                            
+                        }
+                        
+                        //People
+                        
+                        HStack {
+                            
+                            TextField("Add People", text: $person).onChange(of: self.person) { (value) in
+                                
+                                if value != "" {
+                                    
+                                    model.searchForUser(user: value)
+                                    print(model.searchResults)
                                 }
+                                
+                            }.padding(.leading, 50)
+                        }
+                    }.padding(.leading, 20)
+                    
+                }
+                
+                ScrollView{
+                    
+                    VStack{
+                        
+                        if !model.searchResults.isEmpty && self.person != ""{
+                            ForEach(model.searchResults) {result in
+                                Button {
+                                    if !self.people.contains(result) {
+                                        self.people.append(result)
+                                    }
+                                    
+                                } label: {
+                                    UserView(result: result)
+                                }
+                                
+                                Divider()
+                                
                             }
                         }
-                    }.padding(.horizontal)
-                    .padding(.top)
+                    }
+                }.padding(.horizontal)
+                .padding(.top)
+                
+                Spacer()
+                
+                //Bottm row, Textfield and send button
+                
+                HStack {
                     
-                    Spacer()
+                    TextField("chimessage", text: $message) { (changing) in } onCommit: {
+                        createRoomAndSend()
+                    }.gesture(DragGesture().onEnded({ (value) in
+                        self.hideKeyboard()
+                    }))
                     
-                    //Bottm row, Textfield and send button
-                    
-                    HStack {
+                    Button(action: {
                         
-                        TextField("chimessage", text: $message) { (changing) in } onCommit: {
-                            createRoomAndSend()
-                        }.gesture(DragGesture().onEnded({ (value) in
-                            self.hideKeyboard()
-                        }))
+                        createRoomAndSend()
                         
-                        Button(action: {
-                            
-                            createRoomAndSend()
-                            
-                        }, label: {
-                            if message != "" {
-                                Image(systemName: "arrow.up.circle.fill")
-                                    .font(.system(size: 25.0, weight: .bold))
-                            } else {
-                                Image(systemName: "arrow.up.circle")
-                                    .font(.system(size: 25.0, weight: .bold))
-                            }
-                        }).foregroundColor(self.cf().skyBlue)
-                        
-                    }.padding(.vertical, 10)
-                    .padding(.horizontal)
-                    .background(RoundedRectangle(cornerRadius: 15).foregroundColor(self.cf().black))
-                    .padding()
+                    }, label: {
+                        if conditionsMet(){
+                            Image(systemName: "arrow.up.circle.fill")
+                                .font(.system(size: 25.0, weight: .bold))
+                        } else {
+                            Image(systemName: "arrow.up.circle")
+                                .font(.system(size: 25.0, weight: .bold))
+                        }
+                    }).foregroundColor(self.cf().skyBlue)
+                    .disabled(!conditionsMet())
                     
-//                    HStack {
-//
-//                        TextField("chimessage", text: $message) { (changing) in } onCommit: {
-//                            createRoomAndSend()
-//                        }.padding(.horizontal, 30)
-//                        .padding(.vertical, 10)
-//                        .overlay(RoundedRectangle(cornerRadius: 50).strokeBorder(lineWidth: 2.5))
-//                        .gesture(DragGesture().onEnded({ (value) in
-//                            self.hideKeyboard()
-//                        }))
-//                        .accentColor(Color.white)
-//
-//                        Button {
-//
-//                            createRoomAndSend()
-//
-//                        } label: {
-//                            if message != "" {
-//                                Image(systemName: "arrow.up.circle.fill")
-//                                    .font(.system(size: 40.0))
-//                            } else {
-//                                Image(systemName: "arrow.up.circle")
-//                                    .font(.system(size: 40.0))
-//                            }
-//
-//                        }.accentColor(self.cf().skyBlue)
-//                    }.padding(.bottom, 5)
-//                    .padding(.horizontal)
-                }.background(Color.black.edgesIgnoringSafeArea(.all))
+                }.padding(.vertical, 10)
+                .padding(.horizontal)
+                .background(RoundedRectangle(cornerRadius: 15).foregroundColor(self.cf().black))
+                .padding()
+            }.background(Color.black.edgesIgnoringSafeArea(.all))
             
             
             
         }
     }
     
-    func createRoomAndSend() {
+    func conditionsMet() -> Bool {
         
-        //TODO: add code here that makes sure that there is a group name and recipients
+        if message != "" && !people.isEmpty && title != ""{
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func createRoomAndSend() {
+        print("create room an send is running")
+        
+        //go through each conversation
+        for conversation in model.conversations {
+            //go through each peerson in each conversaton
+            
+            var peopleIDs = [String]()
+            
+            var allowedPeople = [ChiUser]()
+            for person in conversation.people {
+                if person.allowed {
+                    allowedPeople.append(person)
+                }
+            }
+            print(allowedPeople)
+            //convert my array of chiusers to an array of their ids
+            for person in allowedPeople {
+                
+                peopleIDs.append(person.id)
+            }
+            print(peopleIDs)
+            //we start at 1 because we need to include myself.
+            var samePeople = 1
+            print(people)
+            for member in people {
+                
+                if peopleIDs.contains(member.id) {
+                    samePeople = samePeople + 1
+                }
+                
+            }
+            print(samePeople)
+            
+            if samePeople == conversation.people.count {
+                presentationMode.wrappedValue.dismiss()
+                return
+            }
+        }
+        
         if title != "" {
             model.addConvo(title: title) {
+                print("created a conversation with title \(title)")
                 
                 model.getNewestConversation { (conversation) in
+                    print("the newest conversation was \(conversation.name)")
                     let messagesModel = MessagesModel(room: conversation)
                     messagesModel.addMessage(message: message)
-                    
+                    print("added message")
                     for person in self.people {
                         messagesModel.addUser(userID: person.id, name: person.name)
+                        print("added \(person.name) to \(conversation.name)")
                     }
                     presentationMode.wrappedValue.dismiss()
                 }
             }
         }
+        
     }
 }

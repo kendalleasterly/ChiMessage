@@ -17,43 +17,42 @@ struct MemberRow: View {
     
     var body: some View {
         
-            HStack{
+        HStack{
+            
+            Button {
                 
-                Button {
-                    
-                    self.isShowingEditContact = true
-                    
-                } label: {
-                    Image(systemName: "pencil.tip.crop.circle")
-                        .foregroundColor(user.getColorFrom(color: color))
-                }
-                
-                Text(user.name)
-                    .foregroundColor(.white)
-                
-                Spacer()
-                
-                Button {
-                    
-                    model.removeUser(user: user)
-                    
-                } label: {
-                    Image(systemName: "person.badge.minus")
-                        .padding(.trailing, 20)
-                        .foregroundColor(user.getColorFrom(color: color))
-                }
-                
-                NavigationLink(destination: EditContactView(user: user,
-                                                            convoID:self.model.room.id,
-                                                            model: self.model, selection: color,
-                                                            name: user.name),
-                               isActive: $isShowingEditContact,
-                               label: {EmptyView()})
-            }.onTapGesture {
                 self.isShowingEditContact = true
+                
+            } label: {
+                Image(systemName: "pencil.tip.crop.circle")
+                    .foregroundColor(user.getColorFrom(color: color))
             }
-            .font(.system(size: 28, weight: .bold))
-        
+            
+            Text(user.name)
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            Button {
+                
+                model.removeUser(user: user)
+                
+            } label: {
+                Image(systemName: "person.badge.minus")
+                    //                        .padding(.trailing, 20)
+                    .foregroundColor(user.getColorFrom(color: color))
+            }
+            
+        }.onTapGesture {
+            self.isShowingEditContact = true
+        }
+        .font(.system(size: 28, weight: .bold))
+        .sheet(isPresented: $isShowingEditContact) {
+            EditContactView(user: user,
+                            convoID:self.model.room.id,
+                            model: self.model, selection: color,
+                            name: user.name)
+        }
     }
 }
 

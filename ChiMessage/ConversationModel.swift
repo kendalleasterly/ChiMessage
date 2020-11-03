@@ -26,17 +26,19 @@ class ConversationModel: Searcher, ObservableObject {
         
         let db = Firestore.firestore()
         super.init(db: db)
-        listen()
+//        listen()
         
     }
     
     //MARK: -Getting Conversations
-    private func listen() {
-        
+    func listen() {
+        print("snapshot listener being setup in conversation model")
         let conversationsRef = db.collection("rooms").order(by: "lastMessage", descending: true)
         
         if let profile = Auth.auth().currentUser {
-            conversationsRef.whereField("users", arrayContains: profile.uid).addSnapshotListener { (snapshot, error) in
+            conversationsRef.whereField("allowedUsers", arrayContains: profile.uid).addSnapshotListener { (snapshot, error) in
+                
+                
                 
                 guard let conversatons = snapshot else {
                     print("no current conversations ")
@@ -59,7 +61,7 @@ class ConversationModel: Searcher, ObservableObject {
                 }
                 
                 self.conversations = conversationArray
-                
+                print(self.conversations)
             }
         }
     }
@@ -72,7 +74,7 @@ class ConversationModel: Searcher, ObservableObject {
                 for document in documents.documents {
                     
                     handler(self.getConversationFrom(document: document))
-                    
+                    return
                 }
             } else {
                 print("error getting newestconversation")
@@ -92,12 +94,13 @@ class ConversationModel: Searcher, ObservableObject {
         let currentID = Auth.auth().currentUser?.uid
         db.collection("rooms").addDocument(data:
                                             ["users":[currentID],
+                                             "allowedUsers":[currentID],
                                              "name":title,
                                              "created":Date().timeIntervalSince1970,
-                                             "defaultColors":[currentID : mc.blue],
-                                             "names":[currentID:sender],
                                              "lastMessage":Date().timeIntervalSince1970,
-                                             "lastReadDates":[currentID:0]]) { (error) in
+                                             "usersData":["defaultColors":[currentID:mc.blue],
+                                                          "names":[currentID:sender],
+                                                          "lastReadDates":[currentID:Date().timeIntervalSince1970]]]) { (error) in
             
             if error == nil {
                 
@@ -116,14 +119,19 @@ class ConversationModel: Searcher, ObservableObject {
     
     //MARK: -Helper Functions
     private func getConversationFrom(document: QueryDocumentSnapshot) -> Conversation  {
-        //TODO: Initialize new users with the value of 0 in the lastReadDates map
+        
         let messagesPath = document.reference.collection("messages")
         let name = document.data()["name"] as! String
-        let colors = document.data()["defaultColors"] as! [String: String]
-        let names = document.data()["names"] as! [String : String]
-        let userIDs = document.data()["users"] as! [String]
-        let lastReadDates = document.data()["lastReadDates"] as! [String: Double]
         let lastMessage = document.data()["lastMessage"] as! Double
+        let users = document.data()["users"] as! [String]
+        let allowedUsers = document.data()["allowedUsers"] as! [String]
+        let usersData = document.data()["usersData"] as! [String: [String:Any]]
+        
+        let names = usersData["names"] as! [String: String]
+        let defaultColors = usersData["defaultColors"] as! [String: String]
+        let lastReadDates = usersData["lastReadDates"] as! [String: Double]
+        
+        
         
         let conversation = Conversation(id: document.documentID,
                                         messagesPath: messagesPath,
@@ -131,42 +139,38 @@ class ConversationModel: Searcher, ObservableObject {
                                         people: [ChiUser](),
                                         nameSummary: "",
                                         lastReadDates: lastReadDates,
-                                        lastMessage: lastMessage)
+                                        lastMessage: lastMessage,
+                                        unreadMessages: 0,
+                                        previewMessage: "",
+                                        lastSenderColor: .black)
         
-        for id in userIDs {
+        for id in users {
             
-            var user = ChiUser(id: id, color: "", name: "", colors: nil)
+            var user = ChiUser(id: id, color: "", name: "", colors: nil, allowed: true)
+            let userName = names[id]!
+            let userDefaultColor = defaultColors[id]!
+            let userAllowed = allowedUsers.contains(id)
             
-            if let color = colors[id] {
-                if let userName = names[id] {
-                    if id == Auth.auth().currentUser?.uid {
-                        
-                        user.name = "Me"
-                        
-                    } else {
-                        
-                        user.name = userName
-                        
-                    }
-                    
-                    user.color = color
-                    user.cColor = user.getColorFrom(color: color)
-                    user.first = user.getFirst(from: user.name) + ""
-                    conversation.people.append(user)
-                    
-                } else {
-                    print("there was no name for that id")
-                }
+            if id == Auth.auth().currentUser?.uid {
+                
+                user.name = "Me"
+                
             } else {
-                print("there was no color for that id")
+                
+                user.name = userName
+                
             }
+            
+            user.first = user.getFirst(from: user.name).description
+            user.color = userDefaultColor
+            user.cColor = user.getColorFrom(color: userDefaultColor)
+            user.allowed = userAllowed
+            
             
             let contact = getContactFromID(id: id)
             
             if contact.id != "" {
                 //we already have a contact for the user we're loading
-                
-                conversation.people.removeLast()
                 
                 user.colors = contact.colors
                 user.name = contact.name
@@ -177,23 +181,34 @@ class ConversationModel: Searcher, ObservableObject {
                 
                 user.cColor = user.getColorFrom(color: user.color)
                 user.first = user.getFirst(from: user.name) + ""
-                conversation.people.append(user)
             }
+            
+            conversation.people.append(user)
+            
         }
+        
+        conversation.name = self.decideName(name: conversation.name, people: conversation.people)
         
         var nameSummary = ""
         
-        for user in conversation.people {
-            if user.id == conversation.people.first?.id {
-                
-                nameSummary = user.first + ""
-            } else if user.id != conversation.people.last?.id {
-                
-                nameSummary = nameSummary + ", " + user.first
-            } else {
-                
-                nameSummary = nameSummary + " & " + user.first
+        var allowedPeople = [ChiUser]()
+        for person in conversation.people {
+            if person.allowed {
+                allowedPeople.append(person)
             }
+        }
+        
+        for user in allowedPeople {
+                if user.id == allowedPeople.first?.id {
+                    
+                    nameSummary = user.first + ""
+                } else if user.id != allowedPeople.last?.id {
+                    
+                    nameSummary = nameSummary + ", " + user.first
+                } else {
+                    
+                    nameSummary = nameSummary + " & " + user.first
+                }
         }
         
         conversation.nameSummary = nameSummary
@@ -215,17 +230,70 @@ class ConversationModel: Searcher, ObservableObject {
         return contact
         
     }
+    
+    private func decideName(name: String, people: [ChiUser]) -> String {
+        //TODO: make sure this is called after we get all the contacts
+        
+        var funcName = name
+        
+        //a check to make sure the people that we are considering are only the allowed people
+        var allowedPeople = [ChiUser]()
+        for person in people {
+            if person.allowed {
+                allowedPeople.append(person)
+            }
+        }
+        
+        if allowedPeople.count == 2 {
+            
+            if let profile = Auth.auth().currentUser {
+                
+                for user in allowedPeople {
+                    
+                    if user.id != profile.uid {
+                        funcName = user.name
+                    }
+                }
+            }
+        }
+        
+        return funcName
+    }
+    
 }
 
-class Conversation: Identifiable {
+class Conversation: Identifiable, Equatable, ObservableObject {
+    static func == (lhs: Conversation, rhs: Conversation) -> Bool {
+        
+        
+        
+        //only check values that can change
+        if lhs.id == rhs.id &&
+            lhs.name == rhs.id &&
+            lhs.people == rhs.people &&
+            lhs.lastReadDates == rhs.lastReadDates &&
+            lhs.lastMessage == rhs.lastMessage &&
+            lhs.unreadMessages == rhs.unreadMessages &&
+            lhs.previewMessage == rhs.previewMessage &&
+            lhs.lastSenderColor == rhs.lastSenderColor {
+            print("all listed values were the same")
+            return true
+        }
+        
+        return false
+    }
+    
     
     var id: String
     var messagesPath: CollectionReference
-    var name: String
+    @Published var name: String
     var people: [ChiUser]
     var nameSummary: String
     var lastReadDates: [String:Double]
     var lastMessage: Double
+    @Published var unreadMessages: Int
+    @Published var previewMessage: String
+    @Published var lastSenderColor: Color
     
     init(id: String,
          messagesPath: CollectionReference,
@@ -233,7 +301,10 @@ class Conversation: Identifiable {
          people: [ChiUser],
          nameSummary: String,
          lastReadDates: [String:Double],
-         lastMessage: Double) {
+         lastMessage: Double,
+         unreadMessages: Int,
+         previewMessage: String,
+         lastSenderColor: Color) {
         
         self.id = id
         self.messagesPath = messagesPath
@@ -242,6 +313,9 @@ class Conversation: Identifiable {
         self.nameSummary = nameSummary
         self.lastReadDates = lastReadDates
         self.lastMessage = lastMessage
+        self.unreadMessages = unreadMessages
+        self.previewMessage = previewMessage
+        self.lastSenderColor = lastSenderColor
         
     }
     
@@ -255,13 +329,15 @@ struct ChiUser: Identifiable, Hashable {
     var colors: [String:String]?
     var cColor = Color.white
     var first = ""
+    var allowed: Bool
     
-    init(id: String, color: String, name: String, colors: [String:String]?) {
+    init(id: String, color: String, name: String, colors: [String:String]?, allowed: Bool) {
         
         self.id = id
         self.color = color
         self.name = name
         self.colors = colors
+        self.allowed = allowed
         
         self.cColor = getColorFrom(color: color)
     }

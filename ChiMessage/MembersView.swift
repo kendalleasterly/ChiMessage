@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-
+//TODO: figure out why the conversation rows keep stuttering
+//TODO: figure out what to do with the sand color and how light it is in the messsage view
 struct MembersView: View {
     
     @Environment (\.self.presentationMode) var presentationMode
@@ -14,14 +15,19 @@ struct MembersView: View {
     @State var users = [ChiUser]()
     @State var isShowingAddUsers: Double = 0
     @State var newUser = ""
-    
+    //TODO: manually update information in the members view, since at this level of heirarchy we don't get access to real updates
     var body: some View {
         ScrollViewReader{ reader in
             ScrollView {
                 
                 VStack{
                     ZStack{
-                        TextField("Room Name", text: $model.room.name) { (changing) in} onCommit: {
+                        TextField("Room Name", text: $model.room.name) { (changing) in
+                            if !changing {
+                                
+                                model.changeName(to: model.room.name)
+                            }
+                        } onCommit: {
                             model.changeName(to: model.room.name)
                         }
                         .font(.system(size: 34, weight: .bold))
@@ -32,9 +38,12 @@ struct MembersView: View {
                             Button {
                                 self.presentationMode.wrappedValue.dismiss()
                             } label: {
-                                Text("back")
+                                
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 15, weight: .light))
+                                    .frame(width: 15, height: 15)
+                                    .foregroundColor(.white)
                             }
-                            
                             
                             Spacer()
                         }
@@ -43,10 +52,10 @@ struct MembersView: View {
                     Divider()
                     
                     ForEach(model.room.people) {user in
-                        
+                        if user.allowed {
                         MemberRow(model: model, user: user, color: getUserColorFromUser(user: user))
                             .padding(.vertical, 15)
-                        
+                        }
                     }
                     
                     //TODO: make the function of saving stuff to the contact happen in one of these buttons rather than the exit button
@@ -65,19 +74,16 @@ struct MembersView: View {
                         
                         HStack{
                             
-                            RoundedRectangle(cornerRadius: 15)
-                                .frame(width: 3, height: 30)
-                                .padding(.trailing, 10)
+                            Image(systemName: "plus.circle")
                                 .foregroundColor(self.cf().white)
+                                .rotationEffect(.init(degrees: self.isShowingAddUsers))
                             
                             Text("Add User")
                                 .foregroundColor(.white)
                             
                             Spacer()
                             
-                            Image(systemName: "plus.circle")
-                                .foregroundColor(self.cf().white)
-                                .rotationEffect(.init(degrees: self.isShowingAddUsers))
+                            
                         }
                         .font(.system(size: 28, weight: .bold))
                         .padding(.vertical, 15)
@@ -191,7 +197,7 @@ struct EditContactView:View {
                             //TODO: use this only way of leaving as a chance to save changes and update the contact
                         } label: {
                             
-                            Image(systemName: "chevron.left")
+                            Image(systemName: "xmark")
                                 .font(.system(size: 15, weight: .light))
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(.white)

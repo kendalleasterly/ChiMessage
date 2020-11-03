@@ -29,13 +29,13 @@ struct AuthView: View {
 
                     } else {
                         
-                        ConversationsView(navModel: navModel).environmentObject(ConversationModel(userModel: userModel))
+                        ConversationsView(model: ConversationModel(userModel: userModel), navModel: navModel)
                     }
                 }
             }
         }
-        .onAppear() {
-            
+        .onAppear {
+            print("user model appeared")
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             
             

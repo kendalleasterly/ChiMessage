@@ -76,7 +76,7 @@ struct UserNameStep: View {
                 }
             }
             
-            NavigationLink(destination: ConversationsView(navModel: navModel).environmentObject(ConversationModel(userModel: model)), isActive: $linkIsActive, label: {EmptyView()})
+            NavigationLink(destination: ConversationsView(model: ConversationModel(userModel: model), navModel: navModel), isActive: $linkIsActive, label: {EmptyView()})
             
         }
     }

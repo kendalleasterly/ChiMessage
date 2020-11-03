@@ -12,7 +12,7 @@ import FirebaseAuth
 class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     @Published var messages = [MessageThread]()
-    @Published var room: Conversation {
+    @ObservedObject var room: Conversation {
         didSet {
             
             listen()
@@ -35,69 +35,71 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     }
     
     //MARK: -Reading
-    private func listen() {
-        
+    func listen() {
+        print("snapshot listener being setup in \(room.name) model")
         
         let ref = room.messagesPath
         
         ref.addSnapshotListener { (snapshot, error) in
-
+            
             guard let documents = snapshot?.documents else {
-
+                
                 print("documents couldn't be fetched \(error!)")
                 return
             }
-
+            
             var messageArray = [Message]()
-
+            
             for document in documents {
-
+                
                 let message = document.data()["message"] as! String
                 let senderID = document.data()["sender ID"] as! String
-
+                
                 let isUsers: Bool
                 if senderID == Auth.auth().currentUser?.uid {
                     isUsers = true
                 } else {
                     isUsers = false
                 }
-
+                
                 self.getChiUserFromID(id: senderID) { (user) in
-
+                    
                     if let colors = user.colors {
                         if let color = colors[self.room.id] {
-                            messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.name, color: user.getColorFrom(color: color), isUsers: isUsers, index: messageArray.count))
+                            messageArray.append(Message(id: document.documentID, message: message, senderID: user.id, name: user.name, color: user.getColorFrom(color: color), isUsers: isUsers, index: messageArray.count))
                         } else {
                             //this one and the next one do the same, they are repeated because there can be rooms but this one may not be included
-                            messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.name, color: user.cColor, isUsers: isUsers, index: messageArray.count))
+                            messageArray.append(Message(id: document.documentID, message: message, senderID: user.id, name: user.name, color: user.cColor, isUsers: isUsers, index: messageArray.count))
                         }
                     } else {
                         //this is if there are no rooms at all
-                        messageArray.append(Message(id: document.documentID, message: message, userID: user.id, name: user.name, color: user.cColor, isUsers: isUsers, index: messageArray.count))
+                        messageArray.append(Message(id: document.documentID, message: message, senderID: user.id, name: user.name, color: user.cColor, isUsers: isUsers, index: messageArray.count))
                     }
                 }
             }
-
+            
+            self.updateConversation(messages: messageArray)
+            
             var threadArray = [MessageThread]()
-
+            
             for message in messageArray {
-
+                
                 //find out if the last value in the thread array has the same senderID as this message
-                if threadArray.last?.senderID == message.userID {
+                if threadArray.last?.senderID == message.senderID {
                     //If it does, just append this message to the array in the last thread
                     if var last = threadArray.last {
-
+                        
                         last.array.append(message)
                         threadArray[last.id] = last
-
+                        
                     }
                 } else {
                     //If it doesnt't, create a new thread with this message and message id, and append it to our array here
-                    let newThread = MessageThread(id: threadArray.count, senderID: message.userID, array: [message])
+                    let newThread = MessageThread(id: threadArray.count, senderID: message.senderID, array: [message])
                     threadArray.append(newThread)
                 }
             }
-
+            
             self.messages = threadArray
         }
     }
@@ -114,9 +116,10 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
                 
                 if !users.contains(userID) {
                     roomPath.setData(["users": FieldValue.arrayUnion([userID]),
-                                      "defaultColors": [userID: self.mc.array.randomElement() ?? "blue"],
-                                      "names":[userID:name],
-                                      "lastReadDates":[userID: 0]],//I need to just add a dictionary entry with the person who we're about to add's id as the field and their name that we grab from the database as the value. I have not completed this code because I need to figure out how and where to grab their name, since its not the current user.
+                                      "allowedUsers":FieldValue.arrayUnion([userID]),
+                                      "usersData":["defaultColors": [userID: self.mc.array.randomElement() ?? "skyBlue"],
+                                                   "names":[userID:name],
+                                                   "lastReadDates":[userID: 0]]],//I need to just add a dictionary entry with the person who we're about to add's id as the field and their name that we grab from the database as the value. I have not completed this code because I need to figure out how and where to grab their name, since its not the current user.
                                      merge: true)
                 } else {
                     print("didn't add cause user is already in group")
@@ -127,8 +130,9 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     func removeUser(user: ChiUser) {
         
-        db.collection("rooms").document(room.id).updateData(["users":FieldValue.arrayRemove([user.id])])
-        
+        db.collection("rooms").document(room.id).setData(["allowedUsers":FieldValue.arrayRemove([user.id])], merge: true)
+        //setData(["usersData":["allowedUsers":[user.id]]], merge: true)
+        //we find the users data object, we find the removed object, we find the users object, and we set their removed value to true
     }
     
     func updateContact(with contact: Contact) {
@@ -158,12 +162,12 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
         
         if message != "" {
             let dbRef = self.room.messagesPath
-            let date = Date().description
+            let date = Date().timeIntervalSince1970.description
             
             if let currentUser = Auth.auth().currentUser {
                 dbRef.document(date).setData(["message": message, "sender ID": currentUser.uid])
                 db.collection("rooms").document(self.room.id).setData(["lastMessage":Date().timeIntervalSince1970], merge: true)
-//                db.collection("rooms").document(self.room.id).setData(["lastReadDates":[currentUser.uid: Date().timeIntervalSince1970 + 1]])
+                
             } else {
                 print("current user couldn't be used")
                 
@@ -172,20 +176,20 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     }
     
     func changeName(to name: String) {
-        
-        db.collection("rooms").document(room.id).updateData(["name":name])
+        print("change name being called with \(name)")
+        db.collection("rooms").document(room.id).setData(["name":name], merge: true)
         
     }
     
     func updateReadStatus() {
         
-
-            if let profile = Auth.auth().currentUser {
-                self.db.collection("rooms").document(self.room.id).setData(["lastReadDates":[profile.uid: Date().timeIntervalSince1970]], merge: true)
-            } else {
-                print("didn't update read status cause profile wasn't available")
-            }
-       
+        
+        if let profile = Auth.auth().currentUser {
+            self.db.collection("rooms").document(self.room.id).setData(["usersData":["lastReadDates":[profile.uid: Date().timeIntervalSince1970]]], merge: true)
+        } else {
+            print("didn't update read status cause profile wasn't available")
+        }
+        
     }
     
     //MARK: -Helper Functions
@@ -203,7 +207,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     func getMyChiUser() -> ChiUser {
         
         let id = Auth.auth().currentUser!.uid
-        var funcUser = ChiUser(id: id, color: "", name: "", colors: nil)
+        var funcUser = ChiUser(id: id, color: "", name: "", colors: nil, allowed: true)
         
         self.getChiUserFromID(id: id) { (user) in
             funcUser = user
@@ -211,13 +215,37 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
         
         return funcUser
     }
+    //TODO: fix the two-person contact color for message view
+    private func updateConversation(messages: [Message]) {
+        var amount = 0
+        
+        if let profile = Auth.auth().currentUser {
+            let lastReadDate = self.room.lastReadDates[profile.uid]
+            
+            for message in messages {
+                
+                if String(lastReadDate!) < message.id  {
+                    if !message.isUsers {
+                        amount = amount + 1
+                    }
+                }
+            }
+        }
+        
+        self.room.unreadMessages = amount
+        if let lastMessage = messages.last {
+            self.room.previewMessage = lastMessage.message
+            self.room.lastSenderColor = lastMessage.color
+        }
+        
+    }
 }
 
 struct Message: Identifiable, Hashable {
     
     var id: String
     var message: String
-    var userID: String
+    var senderID: String
     var name: String
     var color: Color
     var isUsers: Bool

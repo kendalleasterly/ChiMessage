@@ -18,6 +18,7 @@ class UserModel: ObservableObject  {
     @Published var contacts = [Contact]()
     
     let db: Firestore!
+//    let listener = ListenerRegistration()
     
     init() {
         
@@ -26,11 +27,11 @@ class UserModel: ObservableObject  {
         
         db = Firestore.firestore()
         
-        listen()
+//        listen()
     }
     
     func listen() {
-        
+        print("snapshot listener being setup in user model")
         if let profile = Auth.auth().currentUser {
             
             db.collection("users").document(profile.uid).collection("contacts").addSnapshotListener { (snapshot, error) in

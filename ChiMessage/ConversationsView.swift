@@ -9,26 +9,33 @@ import SwiftUI
 
 struct ConversationsView: View {
     
-    @EnvironmentObject var model: ConversationModel
+    @ObservedObject var model: ConversationModel
     @ObservedObject var navModel: NavigationModel
     @State var isShowingNewMessageView = false
     @State var isshowingSignOutAlert = false
     
+    init(model: ConversationModel, navModel: NavigationModel) {
+        self.model = model
+        self.navModel = navModel
+        print("conov view init")
+        model.listen()
+    }
+    
     var body: some View {
-        List {
-            ForEach(model.conversations) {conversation in
-                
-//                HStack{
+        ScrollView {
+            VStack {
+                ForEach(model.conversations) {conversation in
+                    
                     NavigationLink(destination: MessageView(convo: conversation).environmentObject(model), label: {ConversationRows(convo: conversation)})
-//                    Spacer()
-//                }
-                
-                
+                   
+                    Divider().padding(.vertical, 5)
+                    
+                }
             }
-        }.listStyle(PlainListStyle())
+        }
         .padding(.horizontal)
         .sheet(isPresented: $isShowingNewMessageView) {
-            NewRoomView()
+            NewRoomView(model: model)
         }.navigationBarTitle(Text("ChiMessage"))
         .navigationBarItems(leading:
                                 Button(action: {
@@ -52,7 +59,10 @@ struct ConversationsView: View {
                                         .font(.system(size: 28, weight: .bold))
                                         .foregroundColor(.white)
                                 })
-        )
+        ).onAppear(perform: {
+            print("conversations view appeared")
+            model.listen()
+        })
         .alert(isPresented: $isshowingSignOutAlert, content: {
             
             let noButton = Alert.Button.default(Text("No"))
