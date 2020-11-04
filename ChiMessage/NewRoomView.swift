@@ -67,7 +67,7 @@ struct NewRoomView: View {
                                 
                                 if value != "" {
                                     
-                                    model.searchForUser(user: value)
+                                    model.searchForUser(user: value.lowercased())
                                     print(model.searchResults)
                                 }
                                 

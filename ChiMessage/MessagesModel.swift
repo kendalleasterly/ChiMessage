@@ -36,7 +36,6 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     //MARK: -Reading
     func listen() {
-        print("snapshot listener being setup in \(room.name) model")
         
         let ref = room.messagesPath
         
@@ -182,7 +181,6 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     }
     
     func updateReadStatus() {
-        
         
         if let profile = Auth.auth().currentUser {
             self.db.collection("rooms").document(self.room.id).setData(["usersData":["lastReadDates":[profile.uid: Date().timeIntervalSince1970]]], merge: true)

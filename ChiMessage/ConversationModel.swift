@@ -26,44 +26,55 @@ class ConversationModel: Searcher, ObservableObject {
         
         let db = Firestore.firestore()
         super.init(db: db)
-//        listen()
+        
+        listen()
         
     }
-    
+    //you can choose if you want that dispatch async after for the entire function or just updating that value
+    //TODO: make an animating rectangle for the waiting of values to come in for the conversation array
     //MARK: -Getting Conversations
     func listen() {
-        print("snapshot listener being setup in conversation model")
-        let conversationsRef = db.collection("rooms").order(by: "lastMessage", descending: true)
-        
-        if let profile = Auth.auth().currentUser {
-            conversationsRef.whereField("allowedUsers", arrayContains: profile.uid).addSnapshotListener { (snapshot, error) in
-                
-                
-                
-                guard let conversatons = snapshot else {
-                    print("no current conversations ")
-                    return
-                }
-                
-                var conversationArray = [Conversation]()
-                
-                for document in conversatons.documents {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            print("snapshot listener being setup in conversation model")
+            let conversationsRef = self.db.collection("rooms").order(by: "lastMessage", descending: true)
+            
+            if let profile = Auth.auth().currentUser {
+                conversationsRef.whereField("allowedUsers", arrayContains: profile.uid).addSnapshotListener { (snapshot, error) in
                     
-                    let conversation = self.getConversationFrom(document: document)
                     
-                    for convo in conversationArray {
-                        if convo.id == conversation.id {
-                            return
-                        }
+                    
+                    guard let conversatons = snapshot else {
+                        print("no current conversations ")
+                        return
                     }
                     
-                    conversationArray.append(conversation)
+                    var conversationArray = [Conversation]()
+                    
+                    for document in conversatons.documents {
+                        
+                        let conversation = self.getConversationFrom(document: document)
+                        
+                        for convo in conversationArray {
+                            if convo.id == conversation.id {
+                                return
+                            }
+                        }
+                        
+                        
+                        conversationArray.append(conversation)
+                    }
+                    withAnimation {
+                        self.conversations = conversationArray
+                    }
+                    
+                    print("gave conversation array new value")
+                    
+                    
+                    
                 }
-                
-                self.conversations = conversationArray
-                print(self.conversations)
             }
         }
+        
     }
     
     func getNewestConversation(handler: @escaping (Conversation) -> Void) {
@@ -131,7 +142,14 @@ class ConversationModel: Searcher, ObservableObject {
         let defaultColors = usersData["defaultColors"] as! [String: String]
         let lastReadDates = usersData["lastReadDates"] as! [String: Double]
         
+        var lastPreviewMessage = ""
+        var lastUnreadMessages = 0
         
+        getLastUnreadAndPreivew(for: document.documentID) { (previewMessage, unreadMessage) in
+            lastPreviewMessage = previewMessage
+            lastUnreadMessages = unreadMessage
+            print(previewMessage)
+        }
         
         let conversation = Conversation(id: document.documentID,
                                         messagesPath: messagesPath,
@@ -140,8 +158,8 @@ class ConversationModel: Searcher, ObservableObject {
                                         nameSummary: "",
                                         lastReadDates: lastReadDates,
                                         lastMessage: lastMessage,
-                                        unreadMessages: 0,
-                                        previewMessage: "",
+                                        unreadMessages: lastUnreadMessages,
+                                        previewMessage: lastPreviewMessage,
                                         lastSenderColor: .black)
         
         for id in users {
@@ -199,16 +217,16 @@ class ConversationModel: Searcher, ObservableObject {
         }
         
         for user in allowedPeople {
-                if user.id == allowedPeople.first?.id {
-                    
-                    nameSummary = user.first + ""
-                } else if user.id != allowedPeople.last?.id {
-                    
-                    nameSummary = nameSummary + ", " + user.first
-                } else {
-                    
-                    nameSummary = nameSummary + " & " + user.first
-                }
+            if user.id == allowedPeople.first?.id {
+                
+                nameSummary = user.first + ""
+            } else if user.id != allowedPeople.last?.id {
+                
+                nameSummary = nameSummary + ", " + user.first
+            } else {
+                
+                nameSummary = nameSummary + " & " + user.first
+            }
         }
         
         conversation.nameSummary = nameSummary
@@ -260,6 +278,16 @@ class ConversationModel: Searcher, ObservableObject {
         return funcName
     }
     
+    func getLastUnreadAndPreivew(for id: String, previewHandler: (String, Int) -> Void)  {
+        //the first will be the amount of unread messages, and the second will be the preview
+        for conversation in self.conversations {
+            
+            if conversation.id == id {
+                previewHandler(conversation.previewMessage, conversation.unreadMessages)
+                
+            }
+        }
+    }
 }
 
 class Conversation: Identifiable, Equatable, ObservableObject {

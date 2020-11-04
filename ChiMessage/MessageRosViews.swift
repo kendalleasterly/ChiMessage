@@ -42,15 +42,13 @@ struct RecipientMessageRow: View {
             
             ForEach(message.array) { item in
                 HStack {
-                    Circle()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(Color(UIColor.systemBackground))
                     
                     Text(item.message)
-                        .padding(10)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, messageLessThanTen(message: item) ? 15 : 10)
                         .background(RoundedRectangle(cornerRadius: 15)
                                         .foregroundColor(message.array.first!.color))
-                    
+                        .padding(.leading, 50)
                     Spacer()
                     
                 }
@@ -62,11 +60,11 @@ struct RecipientMessageRow: View {
         
         let words = message.array.first!.name.split(separator: " ")
         var initials = ""
-        print(words)
+        
         
         var i = 0
         for word in words {
-            print(word.description)
+            
             if i <= 1 {
                 var funcWord = word.description
                 
@@ -78,6 +76,16 @@ struct RecipientMessageRow: View {
         
         return initials.uppercased()
         
+    }
+    
+    func messageLessThanTen(message: Message) -> Bool {
+        print("\(message.message) \(message.message.count)")
+        if message.message.count == 1 {
+            
+            return true
+        } else {
+            return false
+        }
     }
     
 }

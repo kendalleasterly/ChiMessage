@@ -35,7 +35,7 @@ struct AuthView: View {
             }
         }
         .onAppear {
-            print("user model appeared")
+            print("auth view appeared")
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             
             

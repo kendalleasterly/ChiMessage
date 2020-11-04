@@ -18,21 +18,37 @@ struct ConversationsView: View {
         self.model = model
         self.navModel = navModel
         print("conov view init")
-        model.listen()
+        
     }
     
     var body: some View {
+        GeometryReader { reader in
         ScrollView {
             VStack {
-                ForEach(model.conversations) {conversation in
+                
+                if !model.conversations.isEmpty {
                     
-                    NavigationLink(destination: MessageView(convo: conversation).environmentObject(model), label: {ConversationRows(convo: conversation)})
-                   
-                    Divider().padding(.vertical, 5)
+                    ForEach(model.conversations) {conversation in
+                        NavigationLink(destination: MessageView(convo: conversation).environmentObject(model), label: {ConversationRows(convo: conversation)})
+                        
+                        Divider().padding(.vertical, 5)
+                        
+                    }
                     
+                } else {
+                    ForEach(1..<10, id: \.self) {i in
+                        
+                        getPlaceholder(i: i, proxy: reader)
+                        
+                        Divider().padding(.vertical, 5)
+                        
+                    }
                 }
+                
+                
             }
         }
+    }
         .padding(.horizontal)
         .sheet(isPresented: $isShowingNewMessageView) {
             NewRoomView(model: model)
@@ -74,4 +90,14 @@ struct ConversationsView: View {
             return Alert(title: Text("Are you sure you want to sign out?"), primaryButton: noButton, secondaryButton: yesButton)
         }).navigationBarBackButtonHidden(true)
     }
+    
+    func getPlaceholder(i: Int, proxy: GeometryProxy) -> PlaceholderConversationRow {
+        
+        let funcI = 10 - i
+        let opacity = Double(funcI) / 10
+        
+        return PlaceholderConversationRow(opacity: opacity, proxy: proxy)
+        
+    }
+    
 }

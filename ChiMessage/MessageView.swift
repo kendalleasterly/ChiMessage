@@ -196,11 +196,10 @@ struct MessageView: View, Equatable {
                 .onAppear {
                     proxy.scrollTo(model.messages.last!.id, anchor: .bottom)
                     
-                }
-                .onDisappear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        model.updateReadStatus()
+                    }
                     
-                    model.updateReadStatus()
-                    model.room.unreadMessages = 0
                 }
                 
             }//End of scrollviewreader

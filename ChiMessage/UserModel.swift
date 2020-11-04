@@ -38,24 +38,37 @@ class UserModel: ObservableObject  {
                 
                 if let documents = snapshot {
                     
-                    var contactsArray = [Contact]()
-                    
-                    for document in documents.documents {
+                    documents.documentChanges.forEach { (change) in
                         
-                        let data = document.data()
-                        
+                        let data = change.document.data()
+
                         let name = data["name"] as! String
                         let defaultColor = data["color"] as? String
                         let colors = data["colors"] as? [String : String]
-                        
-                        let contact = Contact(id: document.documentID, name: name, defaultColor: defaultColor, colors: colors)
-                        contactsArray.append(contact)
-                        
+
+                        let contact = Contact(id: change.document.documentID, name: name, defaultColor: defaultColor, colors: colors)
+                        print("change in usermodel was \(change.type.rawValue)")
+                        print(contact)
                         
                     }
                     
+                    var contactsArray = [Contact]()
+
+                    for document in documents.documents {
+
+                        let data = document.data()
+
+                        let name = data["name"] as! String
+                        let defaultColor = data["color"] as? String
+                        let colors = data["colors"] as? [String : String]
+
+                        let contact = Contact(id: document.documentID, name: name, defaultColor: defaultColor, colors: colors)
+                        contactsArray.append(contact)
+
+                    }
+
                     self.contacts = contactsArray
-                    
+                    print("updated user model")
                 } else {
                     print("documents could not be retrieved in contact listeners")
                 }

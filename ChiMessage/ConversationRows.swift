@@ -14,68 +14,62 @@ struct ConversationRows: View {
     
     var body: some View {
         
-        if convo.previewMessage != "" {
-            HStack {
+        
+        HStack {
+            
+            //Contact photo
+            ZStack {
                 
-                //Contact photo
-                ZStack {
-                    
-                    Circle()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(self.cf().black)
-                    
-                    Text(getInitials())
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .foregroundColor(decideColor()[0].opacity(0.8))
-
-                    
-                }
+                Circle()
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(self.cf().black)
                 
+                Text(getInitials())
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .foregroundColor(decideColor()[0].opacity(0.8))
                 
-                //Name and last message
-                VStack {
-                    HStack {
-                        Text(convo.name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        Spacer()
-                        
-                    }
-                    HStack {
-                        Text(convo.previewMessage)
-                            .font(.body)
-                            .foregroundColor(Color(UIColor.secondaryLabel))
-                            .lineLimit(1)
-                            //TODO: add line limits to all texts where needed (eg. conversation names in all places)
-                        //TODO: figure out what happens when a user logs in and what happens with the contacts. I think auth's user id might be outdatated, and might not be recognizing the fact that a user just
-                        Spacer()
-                        
-                    }
-                }
-                //amount of unread memssages
-                
-                Spacer()
-                
-                if convo.unreadMessages != 0 {
-                    Text("\(convo.unreadMessages)")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(width: unreadLessThanTen() ? 21 : nil, height: 21)
-                        .padding(.horizontal, !unreadLessThanTen() ? 5 : 0 )
-                        .background(RoundedRectangle(cornerRadius: 30).foregroundColor(decideColor()[1]))
-                }
                 
             }
-        } else {
-            EmptyView()
+            
+            
+            //Name and last message
+            VStack {
+                HStack {
+                    Text(convo.name)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                }
+                HStack {
+                    Text(convo.previewMessage)
+                        .font(.body)
+                        .foregroundColor(Color(UIColor.secondaryLabel))
+                        .lineLimit(1)
+                    //TODO: add line limits to all texts where needed (eg. conversation names in all places)
+                    //TODO: figure out what happens when a user logs in and what happens with the contacts. I think auth's user id might be outdatated, and might not be recognizing the fact that a user just
+                    Spacer()
+                    
+                }
+            }
+            //amount of unread memssages
+            
+            Spacer()
+            
+            if convo.unreadMessages != 0 {
+                Text("\(convo.unreadMessages)")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(width: unreadLessThanTen() ? 21 : nil, height: 21)
+                    .padding(.horizontal, !unreadLessThanTen() ? 5 : 0 )
+                    .background(RoundedRectangle(cornerRadius: 30).foregroundColor(decideColor()[1]))
+            }
+            
         }
-        
-        
-       
     }
     
     //TODO: ALSO, remove the ability to edit the name of the convo if its only you and another person
@@ -155,4 +149,54 @@ struct ConversationRows: View {
     
 }
 
-
+struct PlaceholderConversationRow: View {
+    
+    var opacity: Double = 1.0
+    var proxy: GeometryProxy
+    
+    var body: some View {
+        
+        HStack {
+            
+            //Contact photo
+            ZStack {
+                
+                Circle()
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(self.cf().black)
+                
+                RoundedRectangle(cornerRadius: 5)
+                    .foregroundColor(Color(.white).opacity(opacity))
+                    .frame(width: 21, height: 21)
+                
+            }
+            
+            //Name and last message
+            VStack {
+                HStack {
+                    RoundedRectangle(cornerRadius: 5)
+                        .foregroundColor(Color(.white).opacity(opacity))
+                        .frame(width: proxy.size.width * 0.65, height: 33)
+                    
+                    Spacer()
+                    
+                }
+                HStack {
+                    RoundedRectangle(cornerRadius: 5)
+                        .foregroundColor(Color(UIColor.secondaryLabel).opacity(opacity))
+                        .frame(width: proxy.size.width * 0.7, height: 20)
+                    
+                    //TODO: add line limits to all texts where needed (eg. conversation names in all places)
+                    //TODO: figure out what happens when a user logs in and what happens with the contacts. I think auth's user id might be outdatated, and might not be recognizing the fact that a user just
+                    Spacer()
+                    
+                }
+            }
+            //amount of unread memssages
+            
+            Spacer()
+            
+        }
+        
+    }
+}
