@@ -77,7 +77,7 @@ struct ConversationsView: View {
                                 })
         ).onAppear(perform: {
             print("conversations view appeared")
-            model.listen()
+//            model.listen()
         })
         .alert(isPresented: $isshowingSignOutAlert, content: {
             

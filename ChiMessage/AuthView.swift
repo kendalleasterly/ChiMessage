@@ -11,8 +11,20 @@ import GoogleSignIn
 struct AuthView: View {
     
     @ObservedObject var navModel: NavigationModel
-    @ObservedObject var userModel = UserModel()
+    @ObservedObject var userModel: UserModel
     @ObservedObject var googleDeleage: GoogleDelagate
+    var conversationModel: ConversationModel
+    
+    init(navModel: NavigationModel, googleDeleage: GoogleDelagate) {
+        
+        self.navModel = navModel
+        self.googleDeleage = googleDeleage
+        
+        let userModel = UserModel()
+        self.userModel = userModel
+        self.conversationModel = ConversationModel(userModel: userModel)
+        
+    }
     
     var body: some View {
         
@@ -29,7 +41,7 @@ struct AuthView: View {
 
                     } else {
                         
-                        ConversationsView(model: ConversationModel(userModel: userModel), navModel: navModel)
+                        ConversationsView(model: conversationModel, navModel: navModel)
                     }
                 }
             }
@@ -39,7 +51,7 @@ struct AuthView: View {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             
             
-            userModel.listen()
+//            userModel.listen()
             
         }.navigationTitle(Text("ChiMessage"))
     }

@@ -161,7 +161,7 @@ struct EditContactView:View {
     var user: ChiUser
     var cs = ColorStrings()
     var convoID: String
-    @State var model: MessagesModel
+    var model: MessagesModel
     @State var selection: String
     @State var isChatOnly = true
     @State var name: String

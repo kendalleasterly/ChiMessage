@@ -26,8 +26,8 @@ class UserModel: ObservableObject  {
         Firestore.firestore().settings = settings
         
         db = Firestore.firestore()
-        
-//        listen()
+        print("user model init")
+        listen()
     }
     
     func listen() {

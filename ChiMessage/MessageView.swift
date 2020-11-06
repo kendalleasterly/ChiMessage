@@ -14,7 +14,7 @@ struct MessageView: View, Equatable {
     @State var message = ""
     @State var isShowingUsersView = false
     
-    var model: MessagesModel
+    @ObservedObject var model: MessagesModel
 
     init(convo: Conversation) {
         

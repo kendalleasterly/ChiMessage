@@ -15,6 +15,7 @@ class ConversationModel: Searcher, ObservableObject {
     @ObservedObject var userModel: UserModel
     @Published var conversations = [Conversation]()
     
+    
     var mc = ColorStrings()
     
     init(userModel: UserModel) {
@@ -28,6 +29,7 @@ class ConversationModel: Searcher, ObservableObject {
         super.init(db: db)
         
         listen()
+        print("conversation model init")
         
     }
     //you can choose if you want that dispatch async after for the entire function or just updating that value
@@ -63,18 +65,16 @@ class ConversationModel: Searcher, ObservableObject {
                         
                         conversationArray.append(conversation)
                     }
+                    
                     withAnimation {
                         self.conversations = conversationArray
                     }
                     
                     print("gave conversation array new value")
                     
-                    
-                    
                 }
             }
         }
-        
     }
     
     func getNewestConversation(handler: @escaping (Conversation) -> Void) {
