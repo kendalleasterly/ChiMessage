@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-struct MessageView: View, Equatable {
+struct MessageView: View {
     
     @EnvironmentObject var convoModel: ConversationModel
     @Environment (\.self.presentationMode) var presentationMode
     @State var message = ""
     @State var isShowingUsersView = false
-    
     @ObservedObject var model: MessagesModel
 
     init(convo: Conversation) {
@@ -246,8 +245,6 @@ struct MessageView: View, Equatable {
         
     }
     
-    static func == (lhs: MessageView, rhs: MessageView) -> Bool {
-        return true
-    }
+    
     
 }
