@@ -51,7 +51,6 @@ class GoogleDelagate: NSObject, GIDSignInDelegate, ObservableObject {
             }
             
             self.navModel.conversationLinkActive = true
-//            self.updateUserStatus()
             
         }
     }

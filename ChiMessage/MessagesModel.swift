@@ -12,7 +12,7 @@ import FirebaseAuth
 class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     @Published var messages = [MessageThread]()
-    @ObservedObject var room: Conversation {
+    @ObservedObject var convo: Conversation {
         didSet {
             
             listen()
@@ -23,7 +23,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     init(room: Conversation) {
         
-        self.room = room
+        self.convo = room
         
         let settings = FirestoreSettings()
         Firestore.firestore().settings = settings
@@ -37,7 +37,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     //MARK: -Reading
     func listen() {
         
-        let ref = room.messagesPath
+        let ref = convo.messagesPath
         
         ref.addSnapshotListener { (snapshot, error) in
             
@@ -64,7 +64,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
                 self.getChiUserFromID(id: senderID) { (user) in
                     
                     if let colors = user.colors {
-                        if let color = colors[self.room.id] {
+                        if let color = colors[self.convo.id] {
                             messageArray.append(Message(id: document.documentID, message: message, senderID: user.id, name: user.name, color: user.getColorFrom(color: color), isUsers: isUsers, index: messageArray.count))
                         } else {
                             //this one and the next one do the same, they are repeated because there can be rooms but this one may not be included
@@ -107,7 +107,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     func addUser(userID: String, name: String) {
         
-        let roomPath = db.collection("rooms").document(room.id)
+        let roomPath = db.collection("rooms").document(convo.id)
         
         roomPath.getDocument(completion: { (snapshot, error) in
             if let document = snapshot {
@@ -129,7 +129,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     func removeUser(user: ChiUser) {
         
-        db.collection("rooms").document(room.id).setData(["allowedUsers":FieldValue.arrayRemove([user.id])], merge: true)
+        db.collection("rooms").document(convo.id).setData(["allowedUsers":FieldValue.arrayRemove([user.id])], merge: true)
         //setData(["usersData":["allowedUsers":[user.id]]], merge: true)
         //we find the users data object, we find the removed object, we find the users object, and we set their removed value to true
     }
@@ -150,6 +150,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
             
             db.collection("users").document(profile.uid).collection("contacts").document(contact.id).setData(data, merge: true)
             
+            
         } else {
             print("couldn't load profile in update contact")
         }
@@ -160,12 +161,12 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     func addMessage(message: String) {
         
         if message != "" {
-            let dbRef = self.room.messagesPath
+            let dbRef = self.convo.messagesPath
             let date = Date().timeIntervalSince1970.description
             
             if let currentUser = Auth.auth().currentUser {
                 dbRef.document(date).setData(["message": message, "sender ID": currentUser.uid])
-                db.collection("rooms").document(self.room.id).setData(["lastMessage":Date().timeIntervalSince1970], merge: true)
+                db.collection("rooms").document(self.convo.id).setData(["lastMessage":Date().timeIntervalSince1970], merge: true)
                 
             } else {
                 print("current user couldn't be used")
@@ -176,14 +177,14 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     func changeName(to name: String) {
         print("change name being called with \(name)")
-        db.collection("rooms").document(room.id).setData(["name":name], merge: true)
+        db.collection("rooms").document(convo.id).setData(["name":name], merge: true)
         
     }
     
     func updateReadStatus() {
         
         if let profile = Auth.auth().currentUser {
-            self.db.collection("rooms").document(self.room.id).setData(["usersData":["lastReadDates":[profile.uid: Date().timeIntervalSince1970]]], merge: true)
+            self.db.collection("rooms").document(self.convo.id).setData(["usersData":["lastReadDates":[profile.uid: Date().timeIntervalSince1970]]], merge: true)
         } else {
             print("didn't update read status cause profile wasn't available")
         }
@@ -194,7 +195,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     private func getChiUserFromID(id: String, handler: (ChiUser) -> Void) {
         
-        for user in room.people {
+        for user in convo.people {
             
             if user.id == id {
                 handler(user)
@@ -218,7 +219,7 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
         var amount = 0
         
         if let profile = Auth.auth().currentUser {
-            let lastReadDate = self.room.lastReadDates[profile.uid]
+            let lastReadDate = self.convo.lastReadDates[profile.uid]
             
             for message in messages {
                 
@@ -230,13 +231,39 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
             }
         }
         
-        self.room.unreadMessages = amount
+        self.convo.unreadMessages = amount
         if let lastMessage = messages.last {
-            self.room.previewMessage = lastMessage.message
-            self.room.lastSenderColor = lastMessage.color
+            self.convo.previewMessage = lastMessage.message
+            self.convo.lastSenderColor = lastMessage.color
         }
         
     }
+    
+    
+//    func updateThread(contact: Contact) {
+//        
+//        var i = 0
+//        
+//        var people = convo.people
+//        
+//        for user in people {
+//            
+//            
+//            if user.id == contact.id {
+//                
+//                people.remove(at: i)
+//                user.
+//                
+//            }
+//            
+//            i = i + 1
+//        }
+//        
+//        
+//    }
+    
+    
+    
 }
 
 struct Message: Identifiable, Hashable {

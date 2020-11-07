@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppKit
 
 struct UserView: View {
     
@@ -16,13 +17,13 @@ struct UserView: View {
         HStack{
             VStack(alignment: .leading){
                 Text(result.name)
-                    .font(.title3)
+                    .font(.system(size: 20))
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                 Text("@" + result.userName)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundColor(Color(UIColor.tertiaryLabel))
+                    .foregroundColor(Color(NSColor.tertiaryLabelColor))
             }
             
             Spacer()

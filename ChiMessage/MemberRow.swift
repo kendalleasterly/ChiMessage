@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct MemberRow: View {
-    
+                    
     @ObservedObject var model: MessagesModel
     @State var isShowingEditContact = false
-    @State var user: ChiUser
-    
-    let color: String
-    
+    @State var user:ChiUser
+                
     var body: some View {
         
         HStack{
@@ -25,7 +23,7 @@ struct MemberRow: View {
                 
             } label: {
                 Image(systemName: "pencil.tip.crop.circle")
-                    .foregroundColor(user.getColorFrom(color: color))
+                    .foregroundColor(user.getColorFrom(color: getUserColorFromUser()))
             }
             
             Text(user.name)
@@ -39,8 +37,7 @@ struct MemberRow: View {
                 
             } label: {
                 Image(systemName: "person.badge.minus")
-                    //                        .padding(.trailing, 20)
-                    .foregroundColor(user.getColorFrom(color: color))
+                    .foregroundColor(user.getColorFrom(color: getUserColorFromUser()))
             }
             
         }.onTapGesture {
@@ -49,10 +46,55 @@ struct MemberRow: View {
         .font(.system(size: 28, weight: .bold))
         .sheet(isPresented: $isShowingEditContact) {
             EditContactView(user: user,
-                            convoID:self.model.room.id,
-                            model: self.model, selection: color,
+                            convoID:self.model.convo.id,
+                            model: self.model, selection: getUserColorFromUser(),
                             name: user.name)
+        }.onAppear {
+            
+            print(model.convo.people)
+            
         }
     }
+    
+    func getMostRecentUser() -> ChiUser? {
+        
+        for funcUser in model.convo.people {
+            
+            if funcUser.id == user.id {
+                print("found most recent user \(funcUser.name)")
+                return funcUser
+            }
+            
+        }
+        
+        return nil
+        
+    }
+    
+    func getUserColorFromUser() -> String {
+        
+        if let user = getMostRecentUser() {
+            
+            if let colors = user.colors {
+                if let color = colors[self.model.convo.id] {
+                    
+                    return color
+                } else {
+                    //this one and the next one do the same, they are repeated because there can be rooms but this one may not be included
+                    return user.color
+                }
+            } else {
+                //this is if there are no rooms at all
+                return user.color
+            }
+            
+        } else {
+            print("couldn't return user on account of the fact that they are not in the most recent array in member row")
+            return "white"
+        }
+        
+        
+    }
+    
 }
 

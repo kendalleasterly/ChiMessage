@@ -89,7 +89,9 @@ struct NewRoomView: View {
                                     }
                                     
                                 } label: {
+                                    
                                     UserView(result: result)
+                                    
                                 }
                                 
                                 Divider()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48A481EB473ADE5EBBFB9F91 /* Pods_ChiMessage_for_Mac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098582E3AF226CFE3D7B89DE /* Pods_ChiMessage_for_Mac.framework */; };
 		6CA4A1165B92297BB2122159 /* Pods_ChiMessage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17BD670BECF023381C3AD437 /* Pods_ChiMessage.framework */; };
 		C611A8C1253B639000E417F2 /* ConversationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611A8C0253B639000E417F2 /* ConversationsView.swift */; };
 		C611A8C9253B747000E417F2 /* MessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611A8C8253B747000E417F2 /* MessagesModel.swift */; };
@@ -25,11 +26,41 @@
 		C6594148253A68FA00AF29E5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6594147253A68FA00AF29E5 /* AudioToolbox.framework */; };
 		C659414A253A7B3D00AF29E5 /* MessageRosViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */; };
 		C659414C253A87F300AF29E5 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C659414B253A87F300AF29E5 /* AuthView.swift */; };
+		C65A1001255649FB0063F39B /* View+Extenxion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BE059255614F8005AE166 /* View+Extenxion.swift */; };
+		C65A1009255659510063F39B /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A1008255659510063F39B /* SignUpFlow.swift */; };
+		C65A100C25565A370063F39B /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E3C092540E3E5006187F4 /* UserModel.swift */; };
+		C65A100F25565A3C0063F39B /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E3E16253A03FE00F580CE /* ConversationModel.swift */; };
+		C65A101225565A3F0063F39B /* MessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611A8C8253B747000E417F2 /* MessagesModel.swift */; };
+		C65A101625565A790063F39B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A101525565A790063F39B /* Colors.swift */; };
+		C65A101725565A790063F39B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A101525565A790063F39B /* Colors.swift */; };
+		C65A101A25565B330063F39B /* Searcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE46A254CB4B3009437C1 /* Searcher.swift */; };
+		C65A101D25565B450063F39B /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */; };
+		C65A102025565BB00063F39B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */; };
+		C65A102325565CDC0063F39B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C638A1A12539F6380047F80C /* ContentView.swift */; };
+		C65A102625565CF50063F39B /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F740D8253BD8280047247E /* View+Extension.swift */; };
+		C65A104025565FAC0063F39B /* ColorDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B51E62543E04E00FA9574 /* ColorDot.swift */; };
+		C65A104625565FD70063F39B /* MessageRosViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */; };
+		C65A105A255662960063F39B /* PlaceholderConversationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A1059255662960063F39B /* PlaceholderConversationRow.swift */; };
+		C65A105B255662960063F39B /* PlaceholderConversationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A1059255662960063F39B /* PlaceholderConversationRow.swift */; };
+		C65A105E255663100063F39B /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE467254CB0F5009437C1 /* UserView.swift */; };
+		C65A10612556637A0063F39B /* ConversationRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BCFFCD253FF227008842B3 /* ConversationRows.swift */; };
+		C65A1087255667F60063F39B /* EditContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A1086255667F60063F39B /* EditContactView.swift */; };
+		C65A109425566B3E0063F39B /* ConversationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A109325566B3E0063F39B /* ConversationsView.swift */; };
 		C66E3E17253A03FE00F580CE /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E3E16253A03FE00F580CE /* ConversationModel.swift */; };
+		C67BE03725560C3E005AE166 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BE03625560C3E005AE166 /* AppDelegate.swift */; };
+		C67BE03925560C3E005AE166 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BE03825560C3E005AE166 /* AuthView.swift */; };
+		C67BE03B25560C3F005AE166 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03A25560C3F005AE166 /* Assets.xcassets */; };
+		C67BE03E25560C3F005AE166 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03D25560C3F005AE166 /* Preview Assets.xcassets */; };
+		C67BE04125560C3F005AE166 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03F25560C3F005AE166 /* Main.storyboard */; };
+		C67BE05A255614F8005AE166 /* View+Extenxion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BE059255614F8005AE166 /* View+Extenxion.swift */; };
+		C67BE05D25562440005AE166 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C638A1B12539F72E0047F80C /* GoogleService-Info.plist */; };
+		C6834D6E2556FE770078895D /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6834D6D2556FE770078895D /* MessageView.swift */; };
 		C68BE468254CB0F5009437C1 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE467254CB0F5009437C1 /* UserView.swift */; };
 		C68BE46B254CB4B3009437C1 /* Searcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE46A254CB4B3009437C1 /* Searcher.swift */; };
 		C68E3C0A2540E3E5006187F4 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E3C092540E3E5006187F4 /* UserModel.swift */; };
 		C6BCFFCE253FF227008842B3 /* ConversationRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BCFFCD253FF227008842B3 /* ConversationRows.swift */; };
+		C6C2FE13255641DD004CD434 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C2FE12255641DD004CD434 /* AuthModel.swift */; };
+		C6C2FE14255641DD004CD434 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C2FE12255641DD004CD434 /* AuthModel.swift */; };
 		C6D2539C2544AC0A0044EDA5 /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D2539B2544AC090044EDA5 /* SignUpFlow.swift */; };
 		C6F2D90B253EAF7D00B909D7 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */; };
 		C6F740CD253B81190047247E /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F740CC253B81190047247E /* MessageView.swift */; };
@@ -38,12 +69,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		098582E3AF226CFE3D7B89DE /* Pods_ChiMessage_for_Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChiMessage_for_Mac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		17BD670BECF023381C3AD437 /* Pods_ChiMessage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChiMessage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E8EDB5E0F787A2ED2B6C66B /* Pods-ChiMessage for Mac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChiMessage for Mac.release.xcconfig"; path = "Target Support Files/Pods-ChiMessage for Mac/Pods-ChiMessage for Mac.release.xcconfig"; sourceTree = "<group>"; };
 		875D39D1CD1574E468B23A43 /* Pods-ChiMessage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChiMessage.release.xcconfig"; path = "Target Support Files/Pods-ChiMessage/Pods-ChiMessage.release.xcconfig"; sourceTree = "<group>"; };
 		AF7CA03CF7DAE377391FBAAF /* Pods-ChiMessage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChiMessage.debug.xcconfig"; path = "Target Support Files/Pods-ChiMessage/Pods-ChiMessage.debug.xcconfig"; sourceTree = "<group>"; };
 		C611A8C0253B639000E417F2 /* ConversationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsView.swift; sourceTree = "<group>"; };
-		C611A8C8253B747000E417F2 /* MessagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesModel.swift; sourceTree = "<group>"; };
-		C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
+		C611A8C8253B747000E417F2 /* MessagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessagesModel.swift; path = ChiMessage/MessagesModel.swift; sourceTree = "<group>"; };
+		C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavigationModel.swift; path = ChiMessage/NavigationModel.swift; sourceTree = "<group>"; };
 		C638A19A2539F6380047F80C /* ChiMessage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChiMessage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C638A19D2539F6380047F80C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C638A19F2539F6380047F80C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,22 +88,39 @@
 		C638A1B12539F72E0047F80C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C63B51DE2543CBDE00FA9574 /* MemberRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberRow.swift; sourceTree = "<group>"; };
 		C63B51E32543D49C00FA9574 /* MembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersView.swift; sourceTree = "<group>"; };
-		C63B51E62543E04E00FA9574 /* ColorDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDot.swift; sourceTree = "<group>"; };
-		C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDelagate.swift; sourceTree = "<group>"; };
+		C63B51E62543E04E00FA9574 /* ColorDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ColorDot.swift; path = ChiMessage/ColorDot.swift; sourceTree = "<group>"; };
+		C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoogleDelagate.swift; path = ChiMessage/GoogleDelagate.swift; sourceTree = "<group>"; };
 		C6594146253A68FA00AF29E5 /* ChiMessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChiMessage.entitlements; sourceTree = "<group>"; };
 		C6594147253A68FA00AF29E5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRosViews.swift; sourceTree = "<group>"; };
+		C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageRosViews.swift; path = ChiMessage/MessageRosViews.swift; sourceTree = "<group>"; };
 		C659414B253A87F300AF29E5 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		C66E3E16253A03FE00F580CE /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
-		C68BE467254CB0F5009437C1 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
-		C68BE46A254CB4B3009437C1 /* Searcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searcher.swift; sourceTree = "<group>"; };
-		C68E3C092540E3E5006187F4 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		C6BCFFCD253FF227008842B3 /* ConversationRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRows.swift; sourceTree = "<group>"; };
+		C65A1008255659510063F39B /* SignUpFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlow.swift; sourceTree = "<group>"; };
+		C65A101525565A790063F39B /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = ChiMessage/Colors.swift; sourceTree = "<group>"; };
+		C65A1059255662960063F39B /* PlaceholderConversationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderConversationRow.swift; sourceTree = "<group>"; };
+		C65A1086255667F60063F39B /* EditContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContactView.swift; sourceTree = "<group>"; };
+		C65A109325566B3E0063F39B /* ConversationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsView.swift; sourceTree = "<group>"; };
+		C66E3E16253A03FE00F580CE /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConversationModel.swift; path = ChiMessage/ConversationModel.swift; sourceTree = "<group>"; };
+		C67BE03425560C3E005AE166 /* ChiMessage for Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChiMessage for Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C67BE03625560C3E005AE166 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C67BE03825560C3E005AE166 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		C67BE03A25560C3F005AE166 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C67BE03D25560C3F005AE166 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C67BE04025560C3F005AE166 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C67BE04225560C3F005AE166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C67BE04325560C3F005AE166 /* ChiMessage_for_Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChiMessage_for_Mac.entitlements; sourceTree = "<group>"; };
+		C67BE059255614F8005AE166 /* View+Extenxion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extenxion.swift"; sourceTree = "<group>"; };
+		C6834D6D2556FE770078895D /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		C68BE467254CB0F5009437C1 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserView.swift; path = ChiMessage/UserView.swift; sourceTree = "<group>"; };
+		C68BE46A254CB4B3009437C1 /* Searcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Searcher.swift; path = ChiMessage/Searcher.swift; sourceTree = "<group>"; };
+		C68E3C092540E3E5006187F4 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserModel.swift; path = ChiMessage/UserModel.swift; sourceTree = "<group>"; };
+		C6BCFFCD253FF227008842B3 /* ConversationRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConversationRows.swift; path = ChiMessage/ConversationRows.swift; sourceTree = "<group>"; };
+		C6C2FE12255641DD004CD434 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		C6D2539B2544AC090044EDA5 /* SignUpFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlow.swift; sourceTree = "<group>"; };
-		C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+Extension.swift"; path = "ChiMessage/String+Extension.swift"; sourceTree = "<group>"; };
 		C6F740CC253B81190047247E /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		C6F740D8253BD8280047247E /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C6F740DB253BE16D0047247E /* NewRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRoomView.swift; sourceTree = "<group>"; };
+		E8181EA3D9715A468FDCB9FA /* Pods-ChiMessage for Mac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChiMessage for Mac.debug.xcconfig"; path = "Target Support Files/Pods-ChiMessage for Mac/Pods-ChiMessage for Mac.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +133,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C67BE03125560C3E005AE166 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48A481EB473ADE5EBBFB9F91 /* Pods_ChiMessage_for_Mac.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +149,7 @@
 			children = (
 				C6594147253A68FA00AF29E5 /* AudioToolbox.framework */,
 				17BD670BECF023381C3AD437 /* Pods_ChiMessage.framework */,
+				098582E3AF226CFE3D7B89DE /* Pods_ChiMessage_for_Mac.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -109,27 +168,10 @@
 			name = System;
 			sourceTree = "<group>";
 		};
-		C611A8C5253B73D800E417F2 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */,
-				C68E3C092540E3E5006187F4 /* UserModel.swift */,
-				C66E3E16253A03FE00F580CE /* ConversationModel.swift */,
-				C611A8C8253B747000E417F2 /* MessagesModel.swift */,
-				C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */,
-				C68BE46A254CB4B3009437C1 /* Searcher.swift */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
 		C611A8C6253B73F800E417F2 /* Sub Views */ = {
 			isa = PBXGroup;
 			children = (
-				C6BCFFCD253FF227008842B3 /* ConversationRows.swift */,
-				C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */,
 				C63B51DE2543CBDE00FA9574 /* MemberRow.swift */,
-				C63B51E62543E04E00FA9574 /* ColorDot.swift */,
-				C68BE467254CB0F5009437C1 /* UserView.swift */,
 			);
 			name = "Sub Views";
 			sourceTree = "<group>";
@@ -150,7 +192,11 @@
 		C638A1912539F6380047F80C = {
 			isa = PBXGroup;
 			children = (
+				C65A103925565EED0063F39B /* SubViews */,
+				C6C2FE112556405F004CD434 /* Models */,
+				C65A109225566AAF0063F39B /* Extensions */,
 				C638A19C2539F6380047F80C /* ChiMessage */,
+				C67BE03525560C3E005AE166 /* ChiMessage for Mac */,
 				C638A19B2539F6380047F80C /* Products */,
 				E3EC4C9779498977941A97A4 /* Pods */,
 				9E4CAAD4E257B01594619E1F /* Frameworks */,
@@ -161,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				C638A19A2539F6380047F80C /* ChiMessage.app */,
+				C67BE03425560C3E005AE166 /* ChiMessage for Mac.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,7 +217,6 @@
 			children = (
 				C611A8C7253B740A00E417F2 /* Views */,
 				C611A8C6253B73F800E417F2 /* Sub Views */,
-				C611A8C5253B73D800E417F2 /* Models */,
 				C63B51DD2543CB6700FA9574 /* Extensions */,
 				C611A8C3253B739400E417F2 /* System */,
 				C638A1A32539F63A0047F80C /* Assets.xcassets */,
@@ -190,10 +236,95 @@
 		C63B51DD2543CB6700FA9574 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */,
 				C6F740D8253BD8280047247E /* View+Extension.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C65A103925565EED0063F39B /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				C65A1059255662960063F39B /* PlaceholderConversationRow.swift */,
+				C6BCFFCD253FF227008842B3 /* ConversationRows.swift */,
+				C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */,
+				C63B51E62543E04E00FA9574 /* ColorDot.swift */,
+				C68BE467254CB0F5009437C1 /* UserView.swift */,
+			);
+			name = SubViews;
+			sourceTree = "<group>";
+		};
+		C65A109225566AAF0063F39B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */,
+				C65A101525565A790063F39B /* Colors.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C67BE03525560C3E005AE166 /* ChiMessage for Mac */ = {
+			isa = PBXGroup;
+			children = (
+				C6C2FE0C25563E92004CD434 /* Views */,
+				C6C2FE0F25563ED5004CD434 /* Extensions */,
+				C6C2FE0D25563E9F004CD434 /* System */,
+			);
+			path = "ChiMessage for Mac";
+			sourceTree = "<group>";
+		};
+		C67BE03C25560C3F005AE166 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C67BE03D25560C3F005AE166 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C6C2FE0C25563E92004CD434 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C67BE03825560C3E005AE166 /* AuthView.swift */,
+				C65A1008255659510063F39B /* SignUpFlow.swift */,
+				C65A109325566B3E0063F39B /* ConversationsView.swift */,
+				C6834D6D2556FE770078895D /* MessageView.swift */,
+				C65A1086255667F60063F39B /* EditContactView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		C6C2FE0D25563E9F004CD434 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				C67BE03A25560C3F005AE166 /* Assets.xcassets */,
+				C67BE03625560C3E005AE166 /* AppDelegate.swift */,
+				C67BE03F25560C3F005AE166 /* Main.storyboard */,
+				C67BE04225560C3F005AE166 /* Info.plist */,
+				C67BE04325560C3F005AE166 /* ChiMessage_for_Mac.entitlements */,
+				C67BE03C25560C3F005AE166 /* Preview Content */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		C6C2FE0F25563ED5004CD434 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C67BE059255614F8005AE166 /* View+Extenxion.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C6C2FE112556405F004CD434 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */,
+				C68E3C092540E3E5006187F4 /* UserModel.swift */,
+				C66E3E16253A03FE00F580CE /* ConversationModel.swift */,
+				C611A8C8253B747000E417F2 /* MessagesModel.swift */,
+				C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */,
+				C68BE46A254CB4B3009437C1 /* Searcher.swift */,
+				C6C2FE12255641DD004CD434 /* AuthModel.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		E3EC4C9779498977941A97A4 /* Pods */ = {
@@ -201,6 +332,8 @@
 			children = (
 				AF7CA03CF7DAE377391FBAAF /* Pods-ChiMessage.debug.xcconfig */,
 				875D39D1CD1574E468B23A43 /* Pods-ChiMessage.release.xcconfig */,
+				E8181EA3D9715A468FDCB9FA /* Pods-ChiMessage for Mac.debug.xcconfig */,
+				2E8EDB5E0F787A2ED2B6C66B /* Pods-ChiMessage for Mac.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -228,17 +361,39 @@
 			productReference = C638A19A2539F6380047F80C /* ChiMessage.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C67BE03325560C3E005AE166 /* ChiMessage for Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C67BE04625560C3F005AE166 /* Build configuration list for PBXNativeTarget "ChiMessage for Mac" */;
+			buildPhases = (
+				2ACAF9BBD4A8DDA793966068 /* [CP] Check Pods Manifest.lock */,
+				C67BE03025560C3E005AE166 /* Sources */,
+				C67BE03125560C3E005AE166 /* Frameworks */,
+				C67BE03225560C3E005AE166 /* Resources */,
+				E12317051FF40CD67F954D0E /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ChiMessage for Mac";
+			productName = "ChiMessage for Mac";
+			productReference = C67BE03425560C3E005AE166 /* ChiMessage for Mac.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C638A1922539F6380047F80C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1210;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					C638A1992539F6380047F80C = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					C67BE03325560C3E005AE166 = {
+						CreatedOnToolsVersion = 12.1;
 					};
 				};
 			};
@@ -256,6 +411,7 @@
 			projectRoot = "";
 			targets = (
 				C638A1992539F6380047F80C /* ChiMessage */,
+				C67BE03325560C3E005AE166 /* ChiMessage for Mac */,
 			);
 		};
 /* End PBXProject section */
@@ -272,9 +428,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C67BE03225560C3E005AE166 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C67BE04125560C3F005AE166 /* Main.storyboard in Resources */,
+				C67BE05D25562440005AE166 /* GoogleService-Info.plist in Resources */,
+				C67BE03E25560C3F005AE166 /* Preview Assets.xcassets in Resources */,
+				C67BE03B25560C3F005AE166 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2ACAF9BBD4A8DDA793966068 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ChiMessage for Mac-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6591120191661676DDD91283 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,6 +503,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E12317051FF40CD67F954D0E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChiMessage for Mac/Pods-ChiMessage for Mac-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ChiMessage for Mac/Pods-ChiMessage for Mac-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChiMessage for Mac/Pods-ChiMessage for Mac-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EEFAD9F0C162B6120880AC94 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -344,6 +550,7 @@
 				C63B51DF2543CBDE00FA9574 /* MemberRow.swift in Sources */,
 				C6427C2F253A95A700DC0A81 /* GoogleDelagate.swift in Sources */,
 				C659414C253A87F300AF29E5 /* AuthView.swift in Sources */,
+				C65A101625565A790063F39B /* Colors.swift in Sources */,
 				C6D2539C2544AC0A0044EDA5 /* SignUpFlow.swift in Sources */,
 				C6F740CD253B81190047247E /* MessageView.swift in Sources */,
 				C611A8C9253B747000E417F2 /* MessagesModel.swift in Sources */,
@@ -358,8 +565,40 @@
 				C61B5D6D253CCC9200FFECEC /* NavigationModel.swift in Sources */,
 				C63B51E42543D49C00FA9574 /* MembersView.swift in Sources */,
 				C6F740DC253BE16D0047247E /* NewRoomView.swift in Sources */,
+				C6C2FE13255641DD004CD434 /* AuthModel.swift in Sources */,
 				C6BCFFCE253FF227008842B3 /* ConversationRows.swift in Sources */,
 				C611A8C1253B639000E417F2 /* ConversationsView.swift in Sources */,
+				C65A105A255662960063F39B /* PlaceholderConversationRow.swift in Sources */,
+				C65A1001255649FB0063F39B /* View+Extenxion.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C67BE03025560C3E005AE166 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C65A101A25565B330063F39B /* Searcher.swift in Sources */,
+				C65A1009255659510063F39B /* SignUpFlow.swift in Sources */,
+				C65A101725565A790063F39B /* Colors.swift in Sources */,
+				C65A100F25565A3C0063F39B /* ConversationModel.swift in Sources */,
+				C65A102025565BB00063F39B /* String+Extension.swift in Sources */,
+				C65A109425566B3E0063F39B /* ConversationsView.swift in Sources */,
+				C6834D6E2556FE770078895D /* MessageView.swift in Sources */,
+				C65A105B255662960063F39B /* PlaceholderConversationRow.swift in Sources */,
+				C67BE03925560C3E005AE166 /* AuthView.swift in Sources */,
+				C65A104625565FD70063F39B /* MessageRosViews.swift in Sources */,
+				C65A105E255663100063F39B /* UserView.swift in Sources */,
+				C67BE03725560C3E005AE166 /* AppDelegate.swift in Sources */,
+				C65A10612556637A0063F39B /* ConversationRows.swift in Sources */,
+				C65A1087255667F60063F39B /* EditContactView.swift in Sources */,
+				C65A101D25565B450063F39B /* NavigationModel.swift in Sources */,
+				C67BE05A255614F8005AE166 /* View+Extenxion.swift in Sources */,
+				C65A100C25565A370063F39B /* UserModel.swift in Sources */,
+				C65A102325565CDC0063F39B /* ContentView.swift in Sources */,
+				C6C2FE14255641DD004CD434 /* AuthModel.swift in Sources */,
+				C65A102625565CF50063F39B /* View+Extension.swift in Sources */,
+				C65A101225565A3F0063F39B /* MessagesModel.swift in Sources */,
+				C65A104025565FAC0063F39B /* ColorDot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +611,14 @@
 				C638A1A92539F63A0047F80C /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		C67BE03F25560C3F005AE166 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C67BE04025560C3F005AE166 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -541,6 +788,58 @@
 			};
 			name = Release;
 		};
+		C67BE04425560C3F005AE166 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8181EA3D9715A468FDCB9FA /* Pods-ChiMessage for Mac.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ChiMessage for Mac/ChiMessage_for_Mac.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"ChiMessage for Mac/Preview Content\"";
+				DEVELOPMENT_TEAM = CWBTM7Q26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "ChiMessage for Mac/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kendalleasterly.ChiMessage-for-Mac";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C67BE04525560C3F005AE166 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E8EDB5E0F787A2ED2B6C66B /* Pods-ChiMessage for Mac.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ChiMessage for Mac/ChiMessage_for_Mac.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"ChiMessage for Mac/Preview Content\"";
+				DEVELOPMENT_TEAM = CWBTM7Q26F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "ChiMessage for Mac/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kendalleasterly.ChiMessage-for-Mac";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -558,6 +857,15 @@
 			buildConfigurations = (
 				C638A1AF2539F63B0047F80C /* Debug */,
 				C638A1B02539F63B0047F80C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C67BE04625560C3F005AE166 /* Build configuration list for PBXNativeTarget "ChiMessage for Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C67BE04425560C3F005AE166 /* Debug */,
+				C67BE04525560C3F005AE166 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

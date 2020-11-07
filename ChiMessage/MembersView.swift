@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-//TODO: figure out why the conversation rows keep stuttering
+
 //TODO: figure out what to do with the sand color and how light it is in the messsage view
 struct MembersView: View {
     
     @Environment (\.self.presentationMode) var presentationMode
-    @EnvironmentObject var model: MessagesModel
+    @ObservedObject var model: MessagesModel
     @State var users = [ChiUser]()
     @State var isShowingAddUsers: Double = 0
     @State var newUser = ""
@@ -22,13 +22,13 @@ struct MembersView: View {
                 
                 VStack{
                     ZStack{
-                        TextField("Room Name", text: $model.room.name) { (changing) in
+                        TextField("Room Name", text: $model.convo.name) { (changing) in
                             if !changing {
                                 
-                                model.changeName(to: model.room.name)
+                                model.changeName(to: model.convo.name)
                             }
                         } onCommit: {
-                            model.changeName(to: model.room.name)
+                            model.changeName(to: model.convo.name)
                         }
                         .font(.system(size: 34, weight: .bold))
                         .multilineTextAlignment(.center)
@@ -51,9 +51,9 @@ struct MembersView: View {
                     }
                     Divider()
                     
-                    ForEach(model.room.people) {user in
+                    ForEach(model.convo.people) {user in
                         if user.allowed {
-                        MemberRow(model: model, user: user, color: getUserColorFromUser(user: user))
+                        MemberRow(model: model, user: user)
                             .padding(.vertical, 15)
                         }
                     }
@@ -97,7 +97,7 @@ struct MembersView: View {
                                 .font(.title)
                                 .fontWeight(.bold)
                             
-                            TextField("timcook", text: $newUser).onChange(of: self.newUser) { (value) in
+                            TextField("tim_cook", text: $newUser).onChange(of: self.newUser) { (value) in
                                 if value != "" {
                                     
                                     model.searchForUser(user: value)
@@ -119,7 +119,7 @@ struct MembersView: View {
                                         model.addUser(userID: result.id, name: result.name)
                                         self.newUser = ""
                                     } label: {
-                                        UserView(result: result)
+                                        UIUserView(result: result)
                                     }
                                 }
                                 
@@ -135,22 +135,6 @@ struct MembersView: View {
                 .background(Color.black.edgesIgnoringSafeArea(.all))
                 
             }
-        }
-    }
-    
-    func getUserColorFromUser(user: ChiUser) -> String {
-        
-        if let colors = user.colors {
-            if let color = colors[self.model.room.id] {
-                
-                return color
-            } else {
-                //this one and the next one do the same, they are repeated because there can be rooms but this one may not be included
-                return user.color
-            }
-        } else {
-            //this is if there are no rooms at all
-            return user.color
         }
     }
     

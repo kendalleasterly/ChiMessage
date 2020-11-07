@@ -24,6 +24,7 @@ struct MessageView: View {
     
     //TODO: make an option how to sort. Right now its automatically by the last message, but I've also creted a property in each room that tells when it was created.
     var body: some View {
+        
         GeometryReader { reader in
             ScrollViewReader { proxy in
                 
@@ -103,7 +104,7 @@ struct MessageView: View {
                         
                     }//end of bottommost vstack for all sending content
                     .padding(.horizontal)
-//                    .padding(.top, 80)
+
                     
                     //Top Bar, vstack for spacing
                     VStack {
@@ -147,7 +148,7 @@ struct MessageView: View {
                                         }
                                         
                                         //Name
-                                        Text(model.room.name)
+                                        Text(model.convo.name)
                                             .font(.system(size: 28, weight: .bold))
                                             .multilineTextAlignment(.center)
                                             .lineLimit(1)
@@ -174,7 +175,7 @@ struct MessageView: View {
                                 }
                                 //People
                                 
-                                Text(model.room.nameSummary)
+                                Text(model.convo.nameSummary)
                                 
                                 Spacer()
                             }//end of vstack for all the content in top bar
@@ -185,7 +186,7 @@ struct MessageView: View {
                             }
                             
                         }//End of topmost ZStack for the top bar
-                        NavigationLink(destination: MembersView().environmentObject(model), isActive: $isShowingUsersView) {
+                        NavigationLink(destination: UIMembersView(model: model), isActive: $isShowingUsersView) {
                             EmptyView()
                         }
                         Spacer()
@@ -211,7 +212,7 @@ struct MessageView: View {
     func getUserColorFromUser(user: ChiUser) -> Color {
         
         if let colors = user.colors {
-            if let color = colors[self.model.room.id] {
+            if let color = colors[self.model.convo.id] {
                 
                 return user.getColorFrom(color: color)
             } else {
@@ -226,7 +227,7 @@ struct MessageView: View {
     
     func getInitials() -> String {
         
-        let words = model.room.name.split(separator: " ")
+        let words = model.convo.name.split(separator: " ")
         var initials = ""
         
         var i = 0

@@ -7,14 +7,13 @@
 
 import SwiftUI
 import FirebaseFirestore
-import GoogleSignIn
 import FirebaseAuth
-
+//TODO: add code that triggers when we log out, change the listener to listen for our new id or stop listening
 class ConversationModel: Searcher, ObservableObject {
     
     @ObservedObject var userModel: UserModel
     @Published var conversations = [Conversation]()
-    
+    @EnvironmentObject var authModel: AuthModel
     
     var mc = ColorStrings()
     
@@ -49,29 +48,29 @@ class ConversationModel: Searcher, ObservableObject {
                         print("no current conversations ")
                         return
                     }
-                    
+
                     var conversationArray = [Conversation]()
-                    
+
                     for document in conversatons.documents {
-                        
+
                         let conversation = self.getConversationFrom(document: document)
-                        
+
                         for convo in conversationArray {
                             if convo.id == conversation.id {
                                 return
                             }
                         }
-                        
-                        
+
+
                         conversationArray.append(conversation)
                     }
-                    
+
                     withAnimation {
                         self.conversations = conversationArray
                     }
-                    
+
                     print("gave conversation array new value")
-                    
+
                 }
             }
         }
@@ -96,12 +95,15 @@ class ConversationModel: Searcher, ObservableObject {
     //MARK: -Creating Conversations
     func addConvo(title: String, handler: @escaping () -> Void) {
         
-        guard let profile = GIDSignIn.sharedInstance().currentUser.profile else {
+        guard let profile = Auth.auth().currentUser else {
             print("something wrong with profile")
             
             return
         }
-        let sender = "\(profile.givenName!) \(profile.familyName!)"
+        
+        
+        
+        let sender = profile.displayName!
         let currentID = Auth.auth().currentUser?.uid
         db.collection("rooms").addDocument(data:
                                             ["users":[currentID],
@@ -125,7 +127,8 @@ class ConversationModel: Searcher, ObservableObject {
     //MARK: -Misc.
     func signOut() {
         
-        GIDSignIn.sharedInstance()?.signOut()
+        authModel.logOut()
+        
     }
     
     //MARK: -Helper Functions
