@@ -21,16 +21,28 @@ class MessagesModel: Searcher, ObservableObject, Identifiable {
     
     var mc = ColorStrings()
     
-    init(room: Conversation) {
-        
-        self.convo = room
+    init(room: Conversation?) {
         
         let settings = FirestoreSettings()
         Firestore.firestore().settings = settings
         
         let db = Firestore.firestore()
+        
+        
+        if let convo = room {
+            self.convo = convo
+            
+        } else {
+            self.convo = Conversation(id: "", messagesPath: db.collection("users"), name: "", people: [ChiUser](), nameSummary: "", lastReadDates: ["":0], lastMessage: 0, unreadMessages: 0, previewMessage: "", lastSenderColor: .white)
+        }
+        
         super.init(db: db)
-        listen()
+        
+        if room != nil {
+            
+            listen()
+            
+        }
         
     }
     

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AppKit
+
 
 struct UserView: View {
     
@@ -23,7 +23,7 @@ struct UserView: View {
                 Text("@" + result.userName)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundColor(Color(NSColor.tertiaryLabelColor))
+                    .foregroundColor(self.tertiaryLabelColor())
             }
             
             Spacer()

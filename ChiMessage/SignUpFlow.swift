@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+//TODO: if this is the users first time in the app, they won't have any conversations. this means that they will get an eternal placeholder. Fix this.
 struct NameStepView: View {
     
     @State var firstName = ""

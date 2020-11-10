@@ -12,6 +12,9 @@
 		C611A8C1253B639000E417F2 /* ConversationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611A8C0253B639000E417F2 /* ConversationsView.swift */; };
 		C611A8C9253B747000E417F2 /* MessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C611A8C8253B747000E417F2 /* MessagesModel.swift */; };
 		C61B5D6D253CCC9200FFECEC /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */; };
+		C61B692B2557480F00631C22 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61B692A2557480F00631C22 /* TestView.swift */; };
+		C62BF94C255770D2000339D2 /* MembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62BF94B255770D2000339D2 /* MembersView.swift */; };
+		C62BF9582557721A000339D2 /* MemberRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B51DE2543CBDE00FA9574 /* MemberRow.swift */; };
 		C638A19E2539F6380047F80C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C638A19D2539F6380047F80C /* AppDelegate.swift */; };
 		C638A1A02539F6380047F80C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C638A19F2539F6380047F80C /* SceneDelegate.swift */; };
 		C638A1A22539F6380047F80C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C638A1A12539F6380047F80C /* ContentView.swift */; };
@@ -22,11 +25,11 @@
 		C63B51DF2543CBDE00FA9574 /* MemberRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B51DE2543CBDE00FA9574 /* MemberRow.swift */; };
 		C63B51E42543D49C00FA9574 /* MembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B51E32543D49C00FA9574 /* MembersView.swift */; };
 		C63B51E72543E04E00FA9574 /* ColorDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B51E62543E04E00FA9574 /* ColorDot.swift */; };
+		C63EC3AD25571BC00020423A /* TextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63EC3AC25571BC00020423A /* TextField+Extension.swift */; };
 		C6427C2F253A95A700DC0A81 /* GoogleDelagate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */; };
 		C6594148253A68FA00AF29E5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6594147253A68FA00AF29E5 /* AudioToolbox.framework */; };
 		C659414A253A7B3D00AF29E5 /* MessageRosViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */; };
 		C659414C253A87F300AF29E5 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C659414B253A87F300AF29E5 /* AuthView.swift */; };
-		C65A1001255649FB0063F39B /* View+Extenxion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BE059255614F8005AE166 /* View+Extenxion.swift */; };
 		C65A1009255659510063F39B /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A1008255659510063F39B /* SignUpFlow.swift */; };
 		C65A100C25565A370063F39B /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E3C092540E3E5006187F4 /* UserModel.swift */; };
 		C65A100F25565A3C0063F39B /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66E3E16253A03FE00F580CE /* ConversationModel.swift */; };
@@ -37,7 +40,6 @@
 		C65A101D25565B450063F39B /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */; };
 		C65A102025565BB00063F39B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */; };
 		C65A102325565CDC0063F39B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C638A1A12539F6380047F80C /* ContentView.swift */; };
-		C65A102625565CF50063F39B /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F740D8253BD8280047247E /* View+Extension.swift */; };
 		C65A104025565FAC0063F39B /* ColorDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B51E62543E04E00FA9574 /* ColorDot.swift */; };
 		C65A104625565FD70063F39B /* MessageRosViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */; };
 		C65A105A255662960063F39B /* PlaceholderConversationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65A1059255662960063F39B /* PlaceholderConversationRow.swift */; };
@@ -52,9 +54,11 @@
 		C67BE03B25560C3F005AE166 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03A25560C3F005AE166 /* Assets.xcassets */; };
 		C67BE03E25560C3F005AE166 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03D25560C3F005AE166 /* Preview Assets.xcassets */; };
 		C67BE04125560C3F005AE166 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03F25560C3F005AE166 /* Main.storyboard */; };
-		C67BE05A255614F8005AE166 /* View+Extenxion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BE059255614F8005AE166 /* View+Extenxion.swift */; };
 		C67BE05D25562440005AE166 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C638A1B12539F72E0047F80C /* GoogleService-Info.plist */; };
 		C6834D6E2556FE770078895D /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6834D6D2556FE770078895D /* MessageView.swift */; };
+		C684291E2557116F00C79BBF /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684291D2557116F00C79BBF /* View+Extension.swift */; };
+		C684291F2557116F00C79BBF /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684291D2557116F00C79BBF /* View+Extension.swift */; };
+		C6842925255713AC00C79BBF /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6842924255713AC00C79BBF /* UIView+Extension.swift */; };
 		C68BE468254CB0F5009437C1 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE467254CB0F5009437C1 /* UserView.swift */; };
 		C68BE46B254CB4B3009437C1 /* Searcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68BE46A254CB4B3009437C1 /* Searcher.swift */; };
 		C68E3C0A2540E3E5006187F4 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E3C092540E3E5006187F4 /* UserModel.swift */; };
@@ -64,7 +68,6 @@
 		C6D2539C2544AC0A0044EDA5 /* SignUpFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D2539B2544AC090044EDA5 /* SignUpFlow.swift */; };
 		C6F2D90B253EAF7D00B909D7 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */; };
 		C6F740CD253B81190047247E /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F740CC253B81190047247E /* MessageView.swift */; };
-		C6F740D9253BD8280047247E /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F740D8253BD8280047247E /* View+Extension.swift */; };
 		C6F740DC253BE16D0047247E /* NewRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F740DB253BE16D0047247E /* NewRoomView.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +80,8 @@
 		C611A8C0253B639000E417F2 /* ConversationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsView.swift; sourceTree = "<group>"; };
 		C611A8C8253B747000E417F2 /* MessagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessagesModel.swift; path = ChiMessage/MessagesModel.swift; sourceTree = "<group>"; };
 		C61B5D6C253CCC9200FFECEC /* NavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavigationModel.swift; path = ChiMessage/NavigationModel.swift; sourceTree = "<group>"; };
+		C61B692A2557480F00631C22 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		C62BF94B255770D2000339D2 /* MembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersView.swift; sourceTree = "<group>"; };
 		C638A19A2539F6380047F80C /* ChiMessage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChiMessage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C638A19D2539F6380047F80C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C638A19F2539F6380047F80C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,9 +91,10 @@
 		C638A1A92539F63A0047F80C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C638A1AB2539F63B0047F80C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C638A1B12539F72E0047F80C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C63B51DE2543CBDE00FA9574 /* MemberRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberRow.swift; sourceTree = "<group>"; };
+		C63B51DE2543CBDE00FA9574 /* MemberRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemberRow.swift; path = ChiMessage/MemberRow.swift; sourceTree = "<group>"; };
 		C63B51E32543D49C00FA9574 /* MembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersView.swift; sourceTree = "<group>"; };
 		C63B51E62543E04E00FA9574 /* ColorDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ColorDot.swift; path = ChiMessage/ColorDot.swift; sourceTree = "<group>"; };
+		C63EC3AC25571BC00020423A /* TextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extension.swift"; sourceTree = "<group>"; };
 		C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoogleDelagate.swift; path = ChiMessage/GoogleDelagate.swift; sourceTree = "<group>"; };
 		C6594146253A68FA00AF29E5 /* ChiMessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChiMessage.entitlements; sourceTree = "<group>"; };
 		C6594147253A68FA00AF29E5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -108,8 +114,9 @@
 		C67BE04025560C3F005AE166 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C67BE04225560C3F005AE166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C67BE04325560C3F005AE166 /* ChiMessage_for_Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChiMessage_for_Mac.entitlements; sourceTree = "<group>"; };
-		C67BE059255614F8005AE166 /* View+Extenxion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extenxion.swift"; sourceTree = "<group>"; };
 		C6834D6D2556FE770078895D /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		C684291D2557116F00C79BBF /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		C6842924255713AC00C79BBF /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		C68BE467254CB0F5009437C1 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserView.swift; path = ChiMessage/UserView.swift; sourceTree = "<group>"; };
 		C68BE46A254CB4B3009437C1 /* Searcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Searcher.swift; path = ChiMessage/Searcher.swift; sourceTree = "<group>"; };
 		C68E3C092540E3E5006187F4 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserModel.swift; path = ChiMessage/UserModel.swift; sourceTree = "<group>"; };
@@ -118,7 +125,6 @@
 		C6D2539B2544AC090044EDA5 /* SignUpFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlow.swift; sourceTree = "<group>"; };
 		C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+Extension.swift"; path = "ChiMessage/String+Extension.swift"; sourceTree = "<group>"; };
 		C6F740CC253B81190047247E /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
-		C6F740D8253BD8280047247E /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C6F740DB253BE16D0047247E /* NewRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRoomView.swift; sourceTree = "<group>"; };
 		E8181EA3D9715A468FDCB9FA /* Pods-ChiMessage for Mac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChiMessage for Mac.debug.xcconfig"; path = "Target Support Files/Pods-ChiMessage for Mac/Pods-ChiMessage for Mac.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,7 +177,6 @@
 		C611A8C6253B73F800E417F2 /* Sub Views */ = {
 			isa = PBXGroup;
 			children = (
-				C63B51DE2543CBDE00FA9574 /* MemberRow.swift */,
 			);
 			name = "Sub Views";
 			sourceTree = "<group>";
@@ -236,7 +241,7 @@
 		C63B51DD2543CB6700FA9574 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C6F740D8253BD8280047247E /* View+Extension.swift */,
+				C6842924255713AC00C79BBF /* UIView+Extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				C65A1059255662960063F39B /* PlaceholderConversationRow.swift */,
 				C6BCFFCD253FF227008842B3 /* ConversationRows.swift */,
 				C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */,
+				C63B51DE2543CBDE00FA9574 /* MemberRow.swift */,
 				C63B51E62543E04E00FA9574 /* ColorDot.swift */,
 				C68BE467254CB0F5009437C1 /* UserView.swift */,
 			);
@@ -258,6 +264,7 @@
 			children = (
 				C6F2D90A253EAF7D00B909D7 /* String+Extension.swift */,
 				C65A101525565A790063F39B /* Colors.swift */,
+				C684291D2557116F00C79BBF /* View+Extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -287,7 +294,9 @@
 				C65A1008255659510063F39B /* SignUpFlow.swift */,
 				C65A109325566B3E0063F39B /* ConversationsView.swift */,
 				C6834D6D2556FE770078895D /* MessageView.swift */,
+				C62BF94B255770D2000339D2 /* MembersView.swift */,
 				C65A1086255667F60063F39B /* EditContactView.swift */,
+				C61B692A2557480F00631C22 /* TestView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -308,7 +317,7 @@
 		C6C2FE0F25563ED5004CD434 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C67BE059255614F8005AE166 /* View+Extenxion.swift */,
+				C63EC3AC25571BC00020423A /* TextField+Extension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -554,10 +563,11 @@
 				C6D2539C2544AC0A0044EDA5 /* SignUpFlow.swift in Sources */,
 				C6F740CD253B81190047247E /* MessageView.swift in Sources */,
 				C611A8C9253B747000E417F2 /* MessagesModel.swift in Sources */,
+				C684291E2557116F00C79BBF /* View+Extension.swift in Sources */,
 				C638A19E2539F6380047F80C /* AppDelegate.swift in Sources */,
-				C6F740D9253BD8280047247E /* View+Extension.swift in Sources */,
 				C6F2D90B253EAF7D00B909D7 /* String+Extension.swift in Sources */,
 				C63B51E72543E04E00FA9574 /* ColorDot.swift in Sources */,
+				C6842925255713AC00C79BBF /* UIView+Extension.swift in Sources */,
 				C638A1A02539F6380047F80C /* SceneDelegate.swift in Sources */,
 				C68BE468254CB0F5009437C1 /* UserView.swift in Sources */,
 				C68E3C0A2540E3E5006187F4 /* UserModel.swift in Sources */,
@@ -569,7 +579,6 @@
 				C6BCFFCE253FF227008842B3 /* ConversationRows.swift in Sources */,
 				C611A8C1253B639000E417F2 /* ConversationsView.swift in Sources */,
 				C65A105A255662960063F39B /* PlaceholderConversationRow.swift in Sources */,
-				C65A1001255649FB0063F39B /* View+Extenxion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,15 +597,18 @@
 				C67BE03925560C3E005AE166 /* AuthView.swift in Sources */,
 				C65A104625565FD70063F39B /* MessageRosViews.swift in Sources */,
 				C65A105E255663100063F39B /* UserView.swift in Sources */,
+				C61B692B2557480F00631C22 /* TestView.swift in Sources */,
 				C67BE03725560C3E005AE166 /* AppDelegate.swift in Sources */,
 				C65A10612556637A0063F39B /* ConversationRows.swift in Sources */,
+				C62BF94C255770D2000339D2 /* MembersView.swift in Sources */,
+				C62BF9582557721A000339D2 /* MemberRow.swift in Sources */,
 				C65A1087255667F60063F39B /* EditContactView.swift in Sources */,
 				C65A101D25565B450063F39B /* NavigationModel.swift in Sources */,
-				C67BE05A255614F8005AE166 /* View+Extenxion.swift in Sources */,
+				C63EC3AD25571BC00020423A /* TextField+Extension.swift in Sources */,
 				C65A100C25565A370063F39B /* UserModel.swift in Sources */,
 				C65A102325565CDC0063F39B /* ContentView.swift in Sources */,
 				C6C2FE14255641DD004CD434 /* AuthModel.swift in Sources */,
-				C65A102625565CF50063F39B /* View+Extension.swift in Sources */,
+				C684291F2557116F00C79BBF /* View+Extension.swift in Sources */,
 				C65A101225565A3F0063F39B /* MessagesModel.swift in Sources */,
 				C65A104025565FAC0063F39B /* ColorDot.swift in Sources */,
 			);
@@ -806,7 +818,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kendalleasterly.ChiMessage-for-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -832,7 +844,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kendalleasterly.ChiMessage-for-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

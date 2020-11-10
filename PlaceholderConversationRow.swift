@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AppKit
 
 struct PlaceholderConversationRow: View {
     
@@ -25,7 +24,7 @@ struct PlaceholderConversationRow: View {
                     .foregroundColor(self.cf().black)
                 
                 RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(Color(.white).opacity(opacity))
+                    .foregroundColor(Color(red: 1, green: 1, blue: 1).opacity(opacity))
                     .frame(width: 21, height: 21)
                 
             }
@@ -34,7 +33,7 @@ struct PlaceholderConversationRow: View {
             VStack {
                 HStack {
                     RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(Color(.white).opacity(opacity))
+                        .foregroundColor(Color(red: 1, green: 1, blue: 1).opacity(opacity))
                         .frame(width: proxy.size.width * 0.65, height: 33)
                     
                     Spacer()
@@ -42,7 +41,7 @@ struct PlaceholderConversationRow: View {
                 }
                 HStack {
                     RoundedRectangle(cornerRadius: 5)
-                        .foregroundColor(Color(NSColor.secondaryLabelColor).opacity(opacity))
+                        .foregroundColor(self.secondaryLabelColor().opacity(opacity))
                         .frame(width: proxy.size.width * 0.7, height: 20)
                     
                     //TODO: add line limits to all texts where needed (eg. conversation names in all places)

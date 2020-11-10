@@ -20,7 +20,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         FirebaseApp.configure()
         let authModel = AuthModel()
         let navModel = NavigationModel()
-        let contentView = AuthView(navModel: navModel).environmentObject(authModel)
+//        let contentView = AuthView(navModel: navModel).environmentObject(authModel)
+        let contentView = AuthView()
+            .environmentObject(authModel)
+            .environmentObject(navModel)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
         // Create the window and set the content view.
         window = NSWindow(
@@ -32,7 +36,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)
         window.makeKeyAndOrderFront(nil)
-        
+        window.titlebarAppearsTransparent = true
+        window.backgroundColor = NSColor(red: 12 / 255, green: 12 / 255, blue: 14 / 255, alpha: 1)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

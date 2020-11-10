@@ -9,214 +9,177 @@ import SwiftUI
 
 struct MessageView: View {
     
-    @EnvironmentObject var convoModel: ConversationModel
+    
+    @EnvironmentObject var navModel: NavigationModel
     @Environment (\.self.presentationMode) var presentationMode
+    @ObservedObject var convoModel: ConversationModel
+    @ObservedObject var model: MessagesModel
     @State var message = ""
     @State var isShowingUsersView = false
-    @ObservedObject var model: MessagesModel
     
-    init(convo: Conversation) {
+    
+    init(convo: Conversation?, convoModel: ConversationModel) {
         
-        let model = MessagesModel(room: convo)
-        self.model = model
+        let dummyModel = MessagesModel(room: nil)
         
+        if let conversation = convo {
+            if let model = convoModel.mesModels[conversation.id] {
+                self.model = model
+            } else {
+                self.model = dummyModel
+            }
+        } else {
+            self.model = dummyModel
+        }
+        
+        self.convoModel = convoModel
     }
     
     //TODO: make an option how to sort. Right now its automatically by the last message, but I've also creted a property in each room that tells when it was created.
     var body: some View {
-        ScrollView{
-            VStack{
+        if model.convo.name != "" {
+            ZStack {
                 
-                Text(model.convo.name)
-                    .centered()
+                //Bottom section with messages
                 
-                ForEach(model.messages) { message in
+                VStack(spacing: 0){
                     
-                    if message.array.first!.isUsers {
-                        
-                        UserMessageRow(message: message)
-                        
-                    } else {
-                        RecipientMessageRow(message: message)
+                    ScrollView{
+                        ScrollViewReader {proxy in
+                            
+                            Rectangle()
+                                .frame(height: 75)
+                                .foregroundColor(Color(red: 12 / 255, green: 12 / 255, blue: 14 / 255))
+                            
+                            ForEach(model.messages) { message in
+                                
+                                if message.array.first!.isUsers {
+                                    
+                                    UserMessageRow(message: message)
+                                    
+                                } else {
+                                    RecipientMessageRow(message: message)
+                                }
+                            }.padding(.horizontal)
+                            .padding(.vertical)
+                            .onReceive(model.$messages) { (value) in
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                                    withAnimation {
+                                        if let lastMessage = model.messages.last {
+                                            proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                                        }
+//                                    }
+                                }
+                            }
+                        }
                     }
-                }.padding()
+                    
+                    //Entire Bottom bar with send and textfield
+                    
+                    HStack {
+                        //actual text entry place
+                        TextField("chimessage", text: $message) { (changing) in } onCommit: {
+                            model.addMessage(message: message)
+                            message = ""
+                            
+                        }.foregroundColor((Color(NSColor(red: 237 / 255, green: 241 / 255, blue: 241 / 255, alpha: 1.0))))
+                        .textFieldStyle(PlainTextFieldStyle())
+                        
+                        Spacer()
+                        
+                        //send button
+                        Button {
+                            
+                            
+                            
+                            model.addMessage(message: message)
+                            self.message = ""
+                            self.isShowingUsersView = true
+                        } label: {
+                            
+                            if message != "" {
+                                withAnimation {
+                                    Text("􀁷")
+                                        .font(.system(size: 25.0, weight: .bold))
+                                }
+                            } else {
+                                withAnimation {
+                                    Text("􀁶")
+                                        .font(.system(size: 25.0, weight: .bold))
+                                    
+                                }
+                            }
+                            
+                        }.foregroundColor(getUserColorFromUser(user: model.getMyChiUser()))
+                        .buttonStyle(PlainButtonStyle())
+                    }.padding(.vertical, 5)
+                    .padding(.horizontal)
+                    .background(RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(self.cf().black))
+                    .padding([.horizontal, .bottom])
+                    
+                    
+                    
+                }.edgesIgnoringSafeArea(.top)
+                
+                //Top section with descrition and send button
+                
+                ZStack(alignment: .bottom) {
+                    
+                    RoundedRectangleWithoutTop()
+                        .frame(height: 75)
+                        .foregroundColor(Color(red: 26 / 255, green: 26 / 255, blue: 30 / 255))
+                        
+                    
+                    HStack {
+                        
+                        ZStack {
+                            
+                            Circle()
+                                .frame(width: self.contactSize(), height: self.contactSize())
+                                .foregroundColor(self.cf().black)
+                            
+                            Text("TD")
+                            
+                        }
+                        
+                        Text(model.convo.name)
+                            .title()
+                        
+                        
+                        Spacer()
+                        
+                        Text(model.convo.nameSummary)
+                            .foregroundColor(self.secondaryLabelColor())
+                        
+                        Button {
+                            
+                        } label: {
+                            Text("")
+                        }.buttonStyle(InfoButton())
+
+                        
+                    }.padding([.horizontal, .bottom])
+                    
+//                    .edgesIgnoringSafeArea(.top)
+                    
+                }
+                .top()
+                .edgesIgnoringSafeArea([.top, .trailing])
             }
+            .onAppear {
+                
+                model.updateReadStatus()
+                
+            }
+            .sheet(isPresented: $isShowingUsersView) {
+                MembersView(model: model)
+            }
+        } else {
+            Text("")
+                
         }
-        
-        //        ZStack {
-        //            //Main VStack for messages and sending content
-        //            VStack(spacing: 0) {
-        //
-        //                ScrollView{
-        //                    //put these two in a vstack
-        //
-        //                    Rectangle()
-        //                        .frame(width: reader.size.width / 2, height: 70)
-        //                        .foregroundColor(Color(NSColor.windowBackgroundColor))
-        //
-        //                    ForEach(model.messages) {thread in
-        //
-        //                        if thread.array[0].isUsers {
-        //                            UserMessageRow(message: thread)
-        //                                .padding(.bottom)
-        //                        } else {
-        //                            RecipientMessageRow(message: thread)
-        //                                .padding(.bottom)
-        //                        }
-        //                    }
-        //
-        //                }.onChange(of: model.messages) { (value) in
-        //                    if !model.messages.isEmpty {
-        //                        withAnimation(Animation.easeIn(duration: 0.15)) {
-        //                            proxy.scrollTo(model.messages.last!.id, anchor: .bottom)
-        //
-        //
-        //                        }
-        //                    } else {
-        //                        print("messages were empty, so I didn't scroll")
-        //                    }
-        //                }.padding(.top)
-        //
-        //                HStack {
-        //                    TextField("chimessage", text: $message) { (changing) in } onCommit: {
-        //                        model.addMessage(message: message)
-        //                        message = ""
-        //
-        //                    }.accentColor((Color(NSColor(red: 237 / 255, green: 241 / 255, blue: 241 / 255, alpha: 1.0))))
-        //                    Spacer()
-        //
-        //                    Button {
-        //
-        //                        model.addMessage(message: message)
-        //                        self.message = ""
-        //
-        //                    } label: {
-        //
-        //                        if message != "" {
-        //                            withAnimation {
-        //                                Text("􀁷")
-        //                                    .font(.system(size: 25.0, weight: .bold))
-        //                            }
-        //                        } else {
-        //                            withAnimation {
-        //                                Text("􀁶")
-        //                                .font(.system(size: 25.0, weight: .bold))
-        //
-        //                            }
-        //                        }
-        //
-        //                    }.accentColor(getUserColorFromUser(user: model.getMyChiUser()))
-        //                }
-        //                .padding(.vertical, 10)
-        //                .padding(.horizontal)
-        //                .background(RoundedRectangle(cornerRadius: 15).foregroundColor(self.cf().black))
-        //                .gesture(DragGesture().onEnded({ (value) in
-        //                    self.hideKeyboard()
-        //                }))
-        //
-        //                .padding(.bottom)
-        //
-        //            }//end of bottommost vstack for all sending content
-        //            .padding(.horizontal)
-        //
-        //
-        //            //Top Bar, vstack for spacing
-        //            VStack {
-        //
-        //                //Stack so all the top bar content can be in the right place
-        //                ZStack {
-        //                    VStack{
-        //                        //Background bar
-        //                        Rectangle()
-        //                            .foregroundColor(self.cf().background)
-        //                            .background(Blur())
-        //                            .frame(width: reader.size.width, height: 140)
-        //                            .clipShape(RoundedRectangle(cornerRadius: 30))
-        //                            .edgesIgnoringSafeArea(.top)
-        //
-        //                        Spacer()
-        //
-        //                    }
-        //
-        //                    //for the name and then people at bottom
-        //                    VStack {
-        //                        //The back button is at the top, its there so it doesn't interefere with the positioning of the content
-        //                        ZStack{
-        //                            //Name and card
-        //                            HStack {
-        //
-        //                                //Card
-        //                                ZStack {
-        //                                    //Background
-        //                                    Circle()
-        //                                        .foregroundColor(self.cf().black)
-        //                                        .frame(width: 40, height: 40)
-        //
-        //                                    //Content
-        //
-        //                                    Text(getInitials())
-        //                                        .font(.callout)
-        //                                        .fontWeight(.semibold)
-        //
-        //
-        //                                }
-        //
-        //                                //Name
-        //                                Text(model.convo.name)
-        //                                    .font(.system(size: 28, weight: .bold))
-        //                                    .multilineTextAlignment(.center)
-        //                                    .lineLimit(1)
-        //
-        //
-        //                            }//end of name and card hstack
-        //
-        //                            //back button
-        //                            HStack {
-        //
-        //                                Button {
-        //                                    presentationMode.wrappedValue.dismiss()
-        //                                } label: {
-        //                                    Image(systemName: "chevron.left")
-        //                                        .font(.system(size: 15, weight: .light))
-        //                                        .frame(width: 15, height: 15)
-        //                                        .foregroundColor(.white)
-        //                                }
-        //
-        //
-        //                                Spacer()
-        //                            }.padding(.leading)
-        //
-        //                        }
-        //                        //People
-        //
-        //                        Text(model.convo.nameSummary)
-        //
-        //                        Spacer()
-        //                    }//end of vstack for all the content in top bar
-        //                    .padding(.top, 5)
-        //                    .onTapGesture {
-        //
-        //                        self.isShowingUsersView = true
-        //                    }
-        //
-        //                }//End of topmost ZStack for the top bar
-        //                NavigationLink(destination: UIMembersView(model: model), isActive: $isShowingUsersView) {
-        //                    EmptyView()
-        //                }
-        //                Spacer()
-        //            }//end of topmost Vstack, for the top bar
-        //
-        //        }
-        //        //end of main so you didn't have to be there I will finish my show face Zstack
-        //                .onAppear {
-        //
-        //                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //                        model.updateReadStatus()
-        //                    }
-        //
-        //                }
-        
-        
+        //Containter for whole view
         
         
     }//End of main body
@@ -257,7 +220,14 @@ struct MessageView: View {
         return initials.uppercased()
         
     }
+}
+
+struct InfoButton: ButtonStyle {
     
-    
+    func makeBody(configuration: Configuration) -> some View {
+        
+        Text("􀅴")
+        
+    }
     
 }

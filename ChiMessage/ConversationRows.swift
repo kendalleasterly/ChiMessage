@@ -7,7 +7,6 @@
 
 import SwiftUI
 import FirebaseAuth
-import AppKit
 
 struct ConversationRows: View {
     
@@ -22,12 +21,11 @@ struct ConversationRows: View {
             ZStack {
                 
                 Circle()
-                    .frame(width: 40, height: 40)
+                    .frame(width: self.contactSize(), height: self.contactSize())
                     .foregroundColor(self.cf().black)
                 
                 Text(getInitials())
-                    .font(.callout)
-                    .fontWeight(.semibold)
+                    .contactText()
                     .foregroundColor(decideColor()[0].opacity(0.8))
                 
                 
@@ -36,25 +34,28 @@ struct ConversationRows: View {
             
             //Name and last message
             VStack {
-                HStack {
-                    Text(convo.name)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                    
-                    Spacer()
-                    
-                }
-                HStack {
-                    Text(convo.previewMessage)
-                        .font(.body)
-                        .foregroundColor(Color(NSColor.secondaryLabelColor))
-                        .lineLimit(1)
-                    //TODO: add line limits to all texts where needed (eg. conversation names in all places)
-                    //TODO: figure out what happens when a user logs in and what happens with the contacts. I think auth's user id might be outdatated, and might not be recognizing the fact that a user just
-                    Spacer()
-                    
-                }
+                
+                Text(convo.name)
+                    .title()
+                    .foregroundColor(.white)
+                    .leading()
+                
+                //
+                
+                
+                
+                
+                
+                Text(convo.previewMessage)
+                    .font(.body)
+                    .foregroundColor(self.secondaryLabelColor())
+                    .lineLimit(1)
+                    .leading()
+                //TODO: add line limits to all texts where needed (eg. conversation names in all places)
+                //TODO: figure out what happens when a user logs in and what happens with the contacts. I think auth's user id might be outdatated, and might not be recognizing the fact that a user just
+                
+                
+                
             }
             //amount of unread memssages
             

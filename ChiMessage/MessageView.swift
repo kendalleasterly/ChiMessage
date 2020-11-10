@@ -52,11 +52,14 @@ struct MessageView: View {
                             
                         }.onChange(of: model.messages) { (value) in
                             if !model.messages.isEmpty {
-                                withAnimation(Animation.easeIn(duration: 0.15)) {
-                                    proxy.scrollTo(model.messages.last!.id, anchor: .bottom)
-                                    
-                                    
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    withAnimation(Animation.easeIn(duration: 0.15)) {
+                                        proxy.scrollTo(model.messages.last!.id, anchor: .bottom)
+                                        
+                                        
+                                    }
                                 }
+                                
                             } else {
                                 print("messages were empty, so I didn't scroll")
                             }
@@ -64,7 +67,12 @@ struct MessageView: View {
                         
                         HStack {
                             TextField("chimessage", text: $message) { (changing) in
-                                withAnimation {proxy.scrollTo(model.messages.last!.id, anchor: .bottom) }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                withAnimation {
+                                    proxy.scrollTo(model.messages.last!.id, anchor: .bottom)
+                                    
+                                }
+                                }
                             } onCommit: {
                                 model.addMessage(message: message)
                                 message = ""
@@ -186,7 +194,7 @@ struct MessageView: View {
                             }
                             
                         }//End of topmost ZStack for the top bar
-                        NavigationLink(destination: UIMembersView(model: model), isActive: $isShowingUsersView) {
+                        NavigationLink(destination: MembersView(model: model), isActive: $isShowingUsersView) {
                             EmptyView()
                         }
                         Spacer()

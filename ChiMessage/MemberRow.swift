@@ -22,7 +22,7 @@ struct MemberRow: View {
                 self.isShowingEditContact = true
                 
             } label: {
-                Image(systemName: "pencil.tip.crop.circle")
+                Text("􀉥")
                     .foregroundColor(user.getColorFrom(color: getUserColorFromUser()))
             }
             
@@ -36,7 +36,7 @@ struct MemberRow: View {
                 model.removeUser(user: user)
                 
             } label: {
-                Image(systemName: "person.badge.minus")
+                Text("􀜗")
                     .foregroundColor(user.getColorFrom(color: getUserColorFromUser()))
             }
             

@@ -20,18 +20,16 @@ struct RecipientMessageRow: View {
                 
                 ZStack {
                     Circle()
-                        .frame(width: 40, height: 40)
+                        .frame(width: self.contactSize(), height: self.contactSize())
                         .foregroundColor(self.cf().black)
                     
                     Text(getInitials())
-                        .font(.callout)
-                        .fontWeight(.semibold)
+                        .contactText()
                         .foregroundColor(message.array.first!.color.opacity(0.8))
                     
                 }
                 
                 Text(message.array.first!.name.split(separator: " ").first!.description)
-                    .font(.body)
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -48,7 +46,7 @@ struct RecipientMessageRow: View {
                         .padding(.horizontal, messageLessThanTen(message: item) ? 15 : 10)
                         .background(RoundedRectangle(cornerRadius: 15)
                                         .foregroundColor(message.array.first!.color))
-                        .padding(.leading, 50)
+                        .padding(.leading, self.contactSize() + 10)
                     Spacer()
                     
                 }

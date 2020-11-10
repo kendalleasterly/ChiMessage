@@ -30,7 +30,7 @@ class AuthModel: ObservableObject {
         Auth.auth().addStateDidChangeListener({ (authResult, user) in
             
             
-            if let funcUser = user {
+            if user != nil {
                 if let profile = Auth.auth().currentUser {
                     
                     print(profile.uid)

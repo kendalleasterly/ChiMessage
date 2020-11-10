@@ -15,6 +15,10 @@ class ConversationModel: Searcher, ObservableObject {
     @Published var conversations = [Conversation]()
     @EnvironmentObject var authModel: AuthModel
     
+    #if os(macOS)
+    @Published var mesModels = [String : MessagesModel]()
+    #endif
+    
     var mc = ColorStrings()
     
     init(userModel: UserModel) {
@@ -50,6 +54,7 @@ class ConversationModel: Searcher, ObservableObject {
                     }
 
                     var conversationArray = [Conversation]()
+                    
 
                     for document in conversatons.documents {
 
@@ -69,6 +74,21 @@ class ConversationModel: Searcher, ObservableObject {
                         self.conversations = conversationArray
                     }
 
+                    #if os(macOS)
+                    
+                    var modelsDictionary = [String : MessagesModel]()
+                    
+                    for convo in conversationArray {
+                        
+                        modelsDictionary[convo.id] = MessagesModel(room: convo)
+                        
+                        
+                    }
+                    
+                    self.mesModels = modelsDictionary
+                    
+                    #endif
+                    
                     print("gave conversation array new value")
 
                 }
@@ -292,7 +312,13 @@ class ConversationModel: Searcher, ObservableObject {
         }
     }
 }
-
+#if os(macOS)
+extension ConversationModel {
+    
+    
+    
+}
+#endif
 class Conversation: Identifiable, Equatable, ObservableObject {
     static func == (lhs: Conversation, rhs: Conversation) -> Bool {
         
@@ -448,3 +474,5 @@ struct ChiUser: Identifiable, Hashable {
         }
     }
 }
+
+

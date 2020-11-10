@@ -119,7 +119,7 @@ struct MembersView: View {
                                         model.addUser(userID: result.id, name: result.name)
                                         self.newUser = ""
                                     } label: {
-                                        UIUserView(result: result)
+                                        UserView(result: result)
                                     }
                                 }
                                 
