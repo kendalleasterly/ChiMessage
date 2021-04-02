@@ -1,0 +1,6 @@
+framework module Pods_ChiMessage_for_Mac {
+  umbrella header "Pods-ChiMessage for Mac-umbrella.h"
+
+  export *
+  module * { export * }
+}
