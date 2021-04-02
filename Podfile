@@ -10,6 +10,7 @@ target 'ChiMessage' do
   pod 'FirebaseFirestore'
   pod 'FirebaseFirestoreSwift'
   pod 'FirebaseUI'
+  pod 'Firebase/Storage'
   
 end
 

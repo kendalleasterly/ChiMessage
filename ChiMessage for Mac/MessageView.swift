@@ -38,13 +38,14 @@ struct MessageView: View {
     //TODO: make an option how to sort. Right now its automatically by the last message, but I've also creted a property in each room that tells when it was created.
     var body: some View {
         if model.convo.name != "" {
+            HStack(spacing: 0) {
             ZStack {
                 
                 //Bottom section with messages
                 
                 VStack(spacing: 0){
                     
-                    ScrollView{
+                    ScrollView(showsIndicators: false) {
                         ScrollViewReader {proxy in
                             
                             Rectangle()
@@ -153,7 +154,9 @@ struct MessageView: View {
                             .foregroundColor(self.secondaryLabelColor())
                         
                         Button {
-                            
+                            withAnimation {
+                                self.isShowingUsersView = true
+                            }
                         } label: {
                             Text("")
                         }.buttonStyle(InfoButton())
@@ -161,22 +164,30 @@ struct MessageView: View {
                         
                     }.padding([.horizontal, .bottom])
                     
-//                    .edgesIgnoringSafeArea(.top)
-                    
                 }
                 .top()
-                .edgesIgnoringSafeArea([.top, .trailing])
+                .edgesIgnoringSafeArea(.top)
+            }
+                
+                
+                if self.isShowingUsersView {
+                    
+                    RoundedRectangleWithoutTop()
+                        .frame(width: 350)
+                    
+                }
+                
             }
             .onAppear {
                 
                 model.updateReadStatus()
                 
             }
-            .sheet(isPresented: $isShowingUsersView) {
-                MembersView(model: model)
-            }
+            
         } else {
+            
             Text("")
+                .leading()
                 
         }
         //Containter for whole view

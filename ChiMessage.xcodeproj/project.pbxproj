@@ -27,6 +27,7 @@
 		C63B51E72543E04E00FA9574 /* ColorDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B51E62543E04E00FA9574 /* ColorDot.swift */; };
 		C63EC3AD25571BC00020423A /* TextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63EC3AC25571BC00020423A /* TextField+Extension.swift */; };
 		C6427C2F253A95A700DC0A81 /* GoogleDelagate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */; };
+		C648C79B255F889D00B9E79C /* StorageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C648C79A255F889D00B9E79C /* StorageModel.swift */; };
 		C6594148253A68FA00AF29E5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6594147253A68FA00AF29E5 /* AudioToolbox.framework */; };
 		C659414A253A7B3D00AF29E5 /* MessageRosViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */; };
 		C659414C253A87F300AF29E5 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C659414B253A87F300AF29E5 /* AuthView.swift */; };
@@ -55,6 +56,7 @@
 		C67BE03E25560C3F005AE166 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03D25560C3F005AE166 /* Preview Assets.xcassets */; };
 		C67BE04125560C3F005AE166 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C67BE03F25560C3F005AE166 /* Main.storyboard */; };
 		C67BE05D25562440005AE166 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C638A1B12539F72E0047F80C /* GoogleService-Info.plist */; };
+		C6818358255F86ED0005F527 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6818357255F86ED0005F527 /* PhotoView.swift */; };
 		C6834D6E2556FE770078895D /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6834D6D2556FE770078895D /* MessageView.swift */; };
 		C684291E2557116F00C79BBF /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684291D2557116F00C79BBF /* View+Extension.swift */; };
 		C684291F2557116F00C79BBF /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684291D2557116F00C79BBF /* View+Extension.swift */; };
@@ -96,6 +98,7 @@
 		C63B51E62543E04E00FA9574 /* ColorDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ColorDot.swift; path = ChiMessage/ColorDot.swift; sourceTree = "<group>"; };
 		C63EC3AC25571BC00020423A /* TextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extension.swift"; sourceTree = "<group>"; };
 		C6427C2E253A95A700DC0A81 /* GoogleDelagate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GoogleDelagate.swift; path = ChiMessage/GoogleDelagate.swift; sourceTree = "<group>"; };
+		C648C79A255F889D00B9E79C /* StorageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageModel.swift; sourceTree = "<group>"; };
 		C6594146253A68FA00AF29E5 /* ChiMessage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChiMessage.entitlements; sourceTree = "<group>"; };
 		C6594147253A68FA00AF29E5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C6594149253A7B3D00AF29E5 /* MessageRosViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageRosViews.swift; path = ChiMessage/MessageRosViews.swift; sourceTree = "<group>"; };
@@ -114,6 +117,7 @@
 		C67BE04025560C3F005AE166 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C67BE04225560C3F005AE166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C67BE04325560C3F005AE166 /* ChiMessage_for_Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChiMessage_for_Mac.entitlements; sourceTree = "<group>"; };
+		C6818357255F86ED0005F527 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		C6834D6D2556FE770078895D /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		C684291D2557116F00C79BBF /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		C6842924255713AC00C79BBF /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 		C638A1912539F6380047F80C = {
 			isa = PBXGroup;
 			children = (
+				C6818356255F86D20005F527 /* Photos Toutorial */,
 				C65A103925565EED0063F39B /* SubViews */,
 				C6C2FE112556405F004CD434 /* Models */,
 				C65A109225566AAF0063F39B /* Extensions */,
@@ -285,6 +290,15 @@
 				C67BE03D25560C3F005AE166 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C6818356255F86D20005F527 /* Photos Toutorial */ = {
+			isa = PBXGroup;
+			children = (
+				C6818357255F86ED0005F527 /* PhotoView.swift */,
+				C648C79A255F889D00B9E79C /* StorageModel.swift */,
+			);
+			name = "Photos Toutorial";
 			sourceTree = "<group>";
 		};
 		C6C2FE0C25563E92004CD434 /* Views */ = {
@@ -574,7 +588,9 @@
 				C638A1A22539F6380047F80C /* ContentView.swift in Sources */,
 				C61B5D6D253CCC9200FFECEC /* NavigationModel.swift in Sources */,
 				C63B51E42543D49C00FA9574 /* MembersView.swift in Sources */,
+				C6818358255F86ED0005F527 /* PhotoView.swift in Sources */,
 				C6F740DC253BE16D0047247E /* NewRoomView.swift in Sources */,
+				C648C79B255F889D00B9E79C /* StorageModel.swift in Sources */,
 				C6C2FE13255641DD004CD434 /* AuthModel.swift in Sources */,
 				C6BCFFCE253FF227008842B3 /* ConversationRows.swift in Sources */,
 				C611A8C1253B639000E417F2 /* ConversationsView.swift in Sources */,

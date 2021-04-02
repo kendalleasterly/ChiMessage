@@ -123,7 +123,7 @@ struct ConversationsView: View {
             
             MessageView(convo: selectedConversation, convoModel: self.model)
                 .frame(minWidth: 500)
-            Spacer()
+
         }
     }
     
